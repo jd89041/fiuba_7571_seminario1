@@ -4,7 +4,7 @@ class MiembroEquipo {
 
     String email
     String password
-    boolean esAdmin
+    Rol rol
 
     static belongsTo = [organizacion: Organizacion]
 
@@ -15,9 +15,14 @@ class MiembroEquipo {
     static constraints = {
         email blank: false
         password blank: false
+        rol nullable: false
     }
 
-    def tipoPermiso() {
-        esAdmin ? "Administrador" : "Agente"
+    def describirRol() {
+        rol.getDescripcion()
+    }
+
+    def tienePermiso(permiso) {
+        rol.tienePermiso(permiso)
     }
 }

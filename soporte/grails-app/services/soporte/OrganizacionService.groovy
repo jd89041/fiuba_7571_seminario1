@@ -13,11 +13,10 @@ class OrganizacionService {
         Organizacion.findByNombre(nombre)
     }
 
-    /*
-    def borrar(nombre) {
-        Organizacion.findByNombre(nombre).delete()
+    def obtenerMiembros(nombre) {
+        Organizacion organizacion = obtener(nombre)
+        organizacion ? organizacion.miembros : []
     }
-    */
 
     def crear(nombre) {
         Organizacion organizacion = new Organizacion()

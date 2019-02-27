@@ -4,7 +4,7 @@ class CrearOrganizacionController {
 
     def organizacionService
     def confirmacionAltaOrganizacionService
-    def crearOrganizacionService
+    def adminOrganizacionService
 
     def index() {}
 
@@ -59,7 +59,7 @@ class CrearOrganizacionController {
     }
 
     def finalizar() {
-        crearOrganizacionService.crearOrganizacionConAdmin(params.organizacion, params.email, params.password)
+        adminOrganizacionService.crearOrganizacionConAdmin(params.organizacion, params.email, params.password)
         mostrarMensaje("La organización ${params.organizacion} se creó exitosamente")
     }
 

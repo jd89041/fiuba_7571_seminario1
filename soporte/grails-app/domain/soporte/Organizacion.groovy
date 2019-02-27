@@ -4,9 +4,8 @@ class Organizacion {
 
     String nombre
     //int codigoPlan
-    //long fechaModificacion
 
-    static hasMany = [miembrosEquipo: MiembroEquipo]
+    static hasMany = [miembros: MiembroEquipo]
 
     static mapping = {
         id generator: 'assigned', name: 'nombre'

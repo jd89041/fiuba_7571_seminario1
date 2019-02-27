@@ -8,11 +8,14 @@
 	    <h1>Perfil</h1>
 	    Email: ${miembro.email}
 	    <br>
-	    Tipo de permiso: ${miembro.tipoPermiso()}
+	    Rol: ${miembro.describirRol()}
 	    <br>
         <a href="${createLink(controller: 'index')}">Pedidos de soporte</a><br>
-        <g:if test="${miembro.esAdmin}">
-            <a href="${createLink(controller: 'configuracionOrganizacion')}">Configuración Organización</a><br>
+        <g:if test="${miembro.tienePermiso('Total')}">
+            <g:form>
+                <g:hiddenField name="organizacion" value="${miembro.organizacion.nombre}"/>
+                <g:actionSubmit value="Administración Organización" action="irAdministrarOrganizacion"/>
+            </g:form>
         </g:if>
 	</body>
 </html>

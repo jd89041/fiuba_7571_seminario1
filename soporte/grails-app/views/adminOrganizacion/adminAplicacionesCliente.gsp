@@ -5,6 +5,6 @@
 		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-	    <h1>Inicio</h1>
+	    <h1>Administración de aplicaciones cliente</h1>
 	</body>
 </html>
