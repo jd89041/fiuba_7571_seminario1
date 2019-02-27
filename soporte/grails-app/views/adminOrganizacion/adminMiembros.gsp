@@ -6,7 +6,6 @@
 	</head>
 	<body>
 	    <h1>Administración de miembros</h1>
-	    <br>
 	    <g:form>
             <g:hiddenField name="organizacion" value="${params.organizacion}"/>
             <g:actionSubmit value="Invitar" action="invitarMiembro"/><br>

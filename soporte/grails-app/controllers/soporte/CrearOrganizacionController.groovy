@@ -60,7 +60,7 @@ class CrearOrganizacionController {
 
     def finalizar() {
         adminOrganizacionService.crearOrganizacionConAdmin(params.organizacion, params.email, params.password)
-        mostrarMensaje("La organización ${params.organizacion} se creó exitosamente")
+        redirect(controller: "adminOrganizacion", action: "adminPlanes", params: [organizacion: params.organizacion])
     }
 
     def mostrarMensaje(contenido) {

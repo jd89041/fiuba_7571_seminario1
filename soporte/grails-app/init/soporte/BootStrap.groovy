@@ -5,6 +5,7 @@ class BootStrap {
     def init = { servletContext ->
         crearPermisos()
         crearRoles()
+        crearPlanes()
     }
 
     def destroy = {
@@ -33,6 +34,25 @@ class BootStrap {
             rol.nombre = nombre
             rol.permisos = permisos
             rol.save(failOnError: true, insert: true, flush: true)
+        }
+    }
+
+    def crearPlanes() {
+        crearPlan("A", 2, 1, 50)
+        crearPlan("B", 3, 2, 100)
+        crearPlan("C", 5, 3, 150)
+        crearPlan("D", 10, 5, 300)
+    }
+
+    def crearPlan(nombre, cantidadMiembros, cantidadAplicaciones, costo) {
+        Plan plan = Plan.findByNombre(nombre)
+        if (!plan) {
+            plan = new Plan()
+            plan.nombre = nombre
+            plan.cantidadMiembros = cantidadMiembros
+            plan.cantidadAplicaciones = cantidadAplicaciones
+            plan.costo = costo
+            plan.save(failOnError: true, insert: true, flush: true)
         }
     }
 }

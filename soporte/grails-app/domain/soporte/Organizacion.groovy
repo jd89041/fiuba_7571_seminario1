@@ -3,7 +3,7 @@ package soporte
 class Organizacion {
 
     String nombre
-    //int codigoPlan
+    Plan plan
 
     static hasMany = [miembros: MiembroEquipo]
 
@@ -14,5 +14,19 @@ class Organizacion {
 
     static constraints = {
         nombre blank: false
+        plan nullable: true
+    }
+
+    def obtenerPlanesDisponibles() {
+        if (plan)
+            Plan.findAll() {
+                cantidadMiembros > plan.cantidadMiembros
+            }
+        else
+            Plan.list()
+    }
+
+    def puedeInvitarMiembros() {
+        plan && plan.cantidadMiembros > miembros.size()
     }
 }

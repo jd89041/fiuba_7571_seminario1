@@ -23,4 +23,11 @@ class OrganizacionService {
         organizacion.nombre = nombre
         organizacion.save(failOnError: true, insert: true, flush: true)
     }
+
+    def actualizarPlan(nombre, nombrePlan) {
+        def plan = Plan.findByNombre(nombrePlan)
+        Organizacion organizacion = obtener(nombre)
+        organizacion.plan = plan
+        organizacion.save(failOnError: true, insert: true, flush: true)
+    }
 }

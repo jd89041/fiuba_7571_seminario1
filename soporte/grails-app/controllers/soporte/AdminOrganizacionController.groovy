@@ -15,7 +15,10 @@ class AdminOrganizacionController {
     }
 
     def invitarMiembro() {
-        [roles: rolService.listar()]
+        if (organizacionService.obtener(params.organizacion).puedeInvitarMiembros())
+            [roles: rolService.listar()]
+        else
+            mostrarMensaje("El plan actual no admite más miembros!! Por favor, actualícelo a uno superior")
     }
 
     def enviarInvitacion() {
@@ -53,7 +56,23 @@ class AdminOrganizacionController {
     }
 
     def adminPlanes() {
+        Organizacion organizacion = organizacionService.obtener(params.organizacion)
+        def planActual = organizacion.plan
+        [
+            organizacion: organizacion,
+            planActual: planActual,
+            planes: organizacion.obtenerPlanesDisponibles()
+        ]
+    }
 
+    def comprarPlan() {
+        def plan = Plan.findByNombre(params.plan)
+        render(view: "confirmarCompraPlan", model: [organizacion: params.organizacion, plan: plan])
+    }
+
+    def confirmarCompraPlan() {
+        organizacionService.actualizarPlan(params.organizacion, params.plan)
+        mostrarMensaje("El plan fue actualizado correctamente")
     }
 
     def adminAplicacionesCliente() {
