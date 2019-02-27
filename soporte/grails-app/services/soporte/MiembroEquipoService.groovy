@@ -18,6 +18,10 @@ class MiembroEquipoService {
         MiembroEquipo.findByEmail(email)
     }
 
+    def perteneceAOrganizacion(miembro, organizacion) {
+        miembro.organizacion.nombre == organizacion
+    }
+
     def credencialesValidas(miembro, password) {
         miembro.password == password
     }

@@ -1,5 +1,5 @@
 package soporte
 
 class IndexController {
-    def index() { }
+    def index() {}
 }

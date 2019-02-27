@@ -1,6 +1,7 @@
 package soporte
 
 class IngresarController {
+
     static final int CREDENCIALES_OK = 0
     static final int CREDENCIALES_ERROR = 1
     static final int CREDENCIALES_INEXISTENTES = 2
@@ -18,17 +19,35 @@ class IngresarController {
     }
 
     def verificarCredenciales() {
-        def res = ingresarService.verificarCredenciales(params)
+        def organizacion = params.organizacion
+        def email = params.email
+        def password = params.password
+        def res = ingresarService.verificarCredenciales(organizacion, email, password)
         switch (res) {
             case CREDENCIALES_OK:
-                render (view: "/mensajes", model: [mensaje: "Login correcto: ${params.email} -> ${params.password }"])
+                redirect(controller: "perfil", params: [email: email])
                 break
             case CREDENCIALES_ERROR:
-                render (view: "/mensajes", model: [mensaje: "Las credenciales no son válidas"])
+                render (view: "credencialesError", model: [
+                        mensaje: "Las credenciales son inválidas",
+                        organizacion: organizacion,
+                        email: email,
+                        reenviar: true
+                ])
                 break
             case CREDENCIALES_INEXISTENTES:
-                render (view: "/mensajes", model: [mensaje: "El usuario no existe en la organización ${params.organizacion}, solicite el acceso a su administrador"])
+                render (view: "credencialesError", model: [
+                        mensaje: "No existe un miembro del equipo de soporte cuyo email sea ${email}",
+                        organizacion: organizacion,
+                        email: email
+                ])
                 break
         }
+    }
+
+    def reenviarPassword() {
+        def email = params.email
+        ingresarService.reenviarPassword(email)
+        render (view: "/mensajes", model: [mensaje: "Su password fue enviado a su email"])
     }
 }

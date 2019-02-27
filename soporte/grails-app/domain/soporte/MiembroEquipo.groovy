@@ -16,4 +16,8 @@ class MiembroEquipo {
         email blank: false
         password blank: false
     }
+
+    def tipoPermiso() {
+        esAdmin ? "Administrador" : "Agente"
+    }
 }
