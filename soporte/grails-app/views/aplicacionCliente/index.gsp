@@ -13,7 +13,7 @@
                 <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>
                 <g:hiddenField type="text"  name="nombre" value="${it.nombre}"/>
                 <g:actionSubmit value="Pedidos de Soporte" action="verPedidosSoporte"/>
-                <g:actionSubmit value="Preguntas Frecuentes" action="verPreguntasFrecuentes"/>
+                <g:actionSubmit value="Ver Temas" action="verTemas"/>
             </g:form>
         </g:each>
         <br>

@@ -10,6 +10,10 @@ class AplicacionClienteService {
         AplicacionCliente.findByNombre(nombre)
     }
 
+    def obtener(nombre) {
+        AplicacionCliente.findByNombre(nombre)
+    }
+
     def crear(organizacion, nombre, herramientaBots) {
         AplicacionCliente aplicacionCliente = new AplicacionCliente()
         aplicacionCliente.nombre = nombre

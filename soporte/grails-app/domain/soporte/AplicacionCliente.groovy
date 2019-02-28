@@ -6,6 +6,8 @@ class AplicacionCliente {
 
     static belongsTo = [organizacion: Organizacion]
 
+    static hasMany = [temas: Tema]
+
     static mapping = {
         id generator: 'assigned', name: 'nombre'
     }

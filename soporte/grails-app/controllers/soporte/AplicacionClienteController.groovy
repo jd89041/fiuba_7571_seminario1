@@ -4,6 +4,7 @@ class AplicacionClienteController {
 
     def organizacionService
     def aplicacionClienteService
+    def testerService
 
     def index() {
         Organizacion organizacion = organizacionService.obtener(params.organizacion)
@@ -31,8 +32,14 @@ class AplicacionClienteController {
         mostrarMensaje("TODO: Pedidos soporte de ${params.nombre}")
     }
 
-    def verPreguntasFrecuentes() {
-        mostrarMensaje("TODO: Ver preguntas frecuentes de ${params.nombre}")
+    def crearTemasTest() {
+        testerService.crearTemas(params.aplicacionCliente)
+        mostrarMensaje("Se crearon temas de prueba para la aplicacion cliente")
+    }
+
+    def verTemas() {
+        AplicacionCliente aplicacionCliente = aplicacionClienteService.obtener(params.nombre)
+        [organizacion: organizacionService.obtener(params.organizacion), aplicacionCliente: aplicacionCliente]
     }
 
     def mostrarMensaje(contenido) {
