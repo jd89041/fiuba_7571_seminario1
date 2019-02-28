@@ -12,7 +12,7 @@
 	    <g:else>
 	        <h1>Plan actual: ${planActual.nombre}</h1>
 	        <h1>Cantidad de miembros: ${organizacion.miembros.size()}/${planActual.cantidadMiembros}</h1>
-	        <h1>Cantidad de aplicaciones: ${planActual.cantidadAplicaciones}</h1>
+	        <h1>Cantidad de aplicaciones: ${organizacion.aplicacionesCliente.size()}/${planActual.cantidadAplicaciones}</h1>
 	    </g:else>
 	    <br>
 	    <g:each in="${planes}">

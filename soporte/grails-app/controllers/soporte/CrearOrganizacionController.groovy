@@ -64,6 +64,6 @@ class CrearOrganizacionController {
     }
 
     def mostrarMensaje(contenido) {
-        render (view: "/mensajes", model: [mensaje: contenido])
+        redirect (controller: "index", action: "mensajes", params: [mensaje: contenido])
     }
 }

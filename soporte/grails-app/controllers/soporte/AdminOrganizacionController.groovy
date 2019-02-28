@@ -18,7 +18,7 @@ class AdminOrganizacionController {
         if (organizacionService.obtener(params.organizacion).puedeInvitarMiembros())
             [roles: rolService.listar()]
         else
-            mostrarMensaje("El plan actual no admite más miembros!! Por favor, actualícelo a uno superior")
+            mostrarMensaje("El plan actual no admite más miembros!! Mejore su plan")
     }
 
     def enviarInvitacion() {
@@ -76,10 +76,10 @@ class AdminOrganizacionController {
     }
 
     def adminAplicacionesCliente() {
-
+        redirect (controller: "aplicacionCliente", params: [organizacion: params.organizacion])
     }
 
     def mostrarMensaje(contenido) {
-        render (view: "/mensajes", model: [mensaje: contenido])
+        redirect (controller: "index", action: "mensajes", params: [mensaje: contenido])
     }
 }

@@ -10,7 +10,6 @@
 	    <br>
 	    Rol: ${miembro.describirRol()}
 	    <br>
-        <a href="${createLink(controller: 'index')}">Pedidos de soporte</a><br>
         <g:if test="${miembro.tienePermiso('Total')}">
             <g:form>
                 <g:hiddenField name="organizacion" value="${miembro.organizacion.nombre}"/>

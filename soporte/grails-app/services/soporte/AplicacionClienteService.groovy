@@ -1,0 +1,21 @@
+package soporte
+
+import grails.gorm.transactions.Transactional
+
+@Transactional
+class AplicacionClienteService {
+    def organizacionService
+
+    def existe(nombre) {
+        AplicacionCliente.findByNombre(nombre)
+    }
+
+    def crear(organizacion, nombre, herramientaBots) {
+        AplicacionCliente aplicacionCliente = new AplicacionCliente()
+        aplicacionCliente.nombre = nombre
+        aplicacionCliente.herramientaBots = herramientaBots != null
+        aplicacionCliente.organizacion = organizacionService.obtener(organizacion)
+        aplicacionCliente.save(failOnError: true, insert: true, flush: true)
+    }
+
+}
