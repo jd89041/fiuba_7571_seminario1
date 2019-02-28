@@ -2,6 +2,10 @@ package soporte
 
 class MiembroEquipo {
 
+    static final int CREDENCIALES_OK = 0
+    static final int CREDENCIALES_ERROR = 1
+    static final int CREDENCIALES_INEXISTENTES = 2
+
     String email
     String password
     Rol rol
@@ -24,5 +28,9 @@ class MiembroEquipo {
 
     def tienePermiso(permiso) {
         rol.tienePermiso(permiso)
+    }
+
+    def credencialesValidas(password) {
+        this.password == password
     }
 }

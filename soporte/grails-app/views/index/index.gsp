@@ -6,7 +6,11 @@
 	</head>
 	<body>
 	    <h1>Inicio</h1>
-		<a href="${createLink(controller: 'ingresar')}">Ingresar</a><br>
-		<a href="${createLink(controller: 'crearOrganizacion')}">Crear Organización</a>
+	    <g:form controller="ingresar">
+            <g:actionSubmit value="Ingresar" action="index"/>
+        </g:form>
+        <g:form controller="crearOrganizacion">
+            <g:actionSubmit value="Crear Organización" action="index"/>
+        </g:form>
 	</body>
 </html>

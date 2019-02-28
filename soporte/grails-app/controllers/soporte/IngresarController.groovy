@@ -1,21 +1,18 @@
 package soporte
 
 class IngresarController {
-
-    static final int CREDENCIALES_OK = 0
-    static final int CREDENCIALES_ERROR = 1
-    static final int CREDENCIALES_INEXISTENTES = 2
-
     def ingresarService
+    def organizacionService
 
     def index() {}
 
     def verificarOrganizacion() {
-        def nombre = params.organizacion
-        if (ingresarService.existeOrganizacion(nombre))
-            render (view: "credenciales", model: [organizacion: nombre])
+        def nombreOrganizacion = params.organizacion
+        def organizacion = organizacionService.obtener(nombreOrganizacion)
+        if (organizacion)
+            render (view: "credenciales", model: [organizacion: organizacion])
         else
-            render (view: "noOrganizacion", model: [organizacion: nombre])
+            render (view: "noOrganizacion", model: [organizacion: nombreOrganizacion])
     }
 
     def verificarCredenciales() {
@@ -24,10 +21,10 @@ class IngresarController {
         def password = params.password
         def res = ingresarService.verificarCredenciales(organizacion, email, password)
         switch (res) {
-            case CREDENCIALES_OK:
+            case MiembroEquipo.CREDENCIALES_OK:
                 redirect(controller: "perfil", params: [email: email])
                 break
-            case CREDENCIALES_ERROR:
+            case MiembroEquipo.CREDENCIALES_ERROR:
                 render (view: "credencialesError", model: [
                         mensaje: "Las credenciales son inválidas",
                         organizacion: organizacion,
@@ -35,7 +32,7 @@ class IngresarController {
                         reenviar: true
                 ])
                 break
-            case CREDENCIALES_INEXISTENTES:
+            case MiembroEquipo.CREDENCIALES_INEXISTENTES:
                 render (view: "credencialesError", model: [
                         mensaje: "No existe un miembro del equipo de soporte cuyo email sea ${email}",
                         organizacion: organizacion,
@@ -48,6 +45,6 @@ class IngresarController {
     def reenviarPassword() {
         def email = params.email
         ingresarService.reenviarPassword(email)
-        render (view: "/mensajes", model: [mensaje: "Su password fue enviado a su email"])
+        redirect (controller: "index", action: "mensajes", params: [mensaje: "Su password fue enviado a su email"])
     }
 }

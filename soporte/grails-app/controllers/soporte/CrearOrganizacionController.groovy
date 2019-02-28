@@ -6,18 +6,20 @@ class CrearOrganizacionController {
     def confirmacionAltaOrganizacionService
     def adminOrganizacionService
 
-    def index() {}
+    def index() {
+        [organizacion: params.organizacion]
+    }
 
     def validarOrganizacion() {
-        def organizacion = params.organizacion
-        if (organizacionService.existe(organizacion))
-            mostrarMensaje("La organización ${organizacion} ya existe, pruebe con otra")
+        def nombreOrganizacion = params.organizacion
+        if (organizacionService.existe(nombreOrganizacion))
+            mostrarMensaje("La organización ${nombreOrganizacion} ya existe, pruebe con otra")
         else {
-            ConfirmacionAltaOrganizacion confirmacionAlta = confirmacionAltaOrganizacionService.obtener(organizacion)
+            ConfirmacionAltaOrganizacion confirmacionAlta = confirmacionAltaOrganizacionService.obtener(nombreOrganizacion)
             if (confirmacionAlta)
-                render(view: "confirmacionEnviada", model: [organizacion: organizacion, email: confirmacionAlta.email])
+                render(view: "confirmacionEnviada", model: [organizacion: nombreOrganizacion, email: confirmacionAlta.email])
             else
-                render(view: "ingresarEmail", model: [organizacion: organizacion])
+                render(view: "ingresarEmail", model: [organizacion: nombreOrganizacion])
         }
     }
 

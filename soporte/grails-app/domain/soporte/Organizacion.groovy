@@ -33,4 +33,10 @@ class Organizacion {
     def puedeAgregarAplicacionesCliente() {
         plan && plan.cantidadAplicaciones > aplicacionesCliente.size()
     }
+
+    def tieneMiembro(miembro) {
+        miembro && miembros.any {
+            it.email == miembro.email
+        }
+    }
 }

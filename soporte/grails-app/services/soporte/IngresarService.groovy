@@ -4,25 +4,20 @@ import grails.gorm.transactions.Transactional
 
 @Transactional
 class IngresarService {
-
     def organizacionService
     def miembroEquipoService
     def mensajeroService
 
-    def existeOrganizacion(nombre) {
-        organizacionService.existe(nombre)
-    }
-
-    def verificarCredenciales(organizacion, email, password) {
-        int res = IngresarController.CREDENCIALES_INEXISTENTES
+    def verificarCredenciales(nombreOrganizacion, email, password) {
         MiembroEquipo miembroEquipo = miembroEquipoService.obtener(email)
-        if (miembroEquipo && miembroEquipoService.perteneceAOrganizacion(miembroEquipo, organizacion)) {
-            if (miembroEquipoService.credencialesValidas(miembroEquipo, password))
-                res = IngresarController.CREDENCIALES_OK
+        Organizacion organizacion = organizacionService.obtener(nombreOrganizacion)
+        if (organizacion.tieneMiembro(miembroEquipo)) {
+            if (miembroEquipo.credencialesValidas(password))
+                MiembroEquipo.CREDENCIALES_OK
             else
-                res = IngresarController.CREDENCIALES_ERROR
-        }
-        res
+                MiembroEquipo.CREDENCIALES_ERROR
+        } else
+            MiembroEquipo.CREDENCIALES_INEXISTENTES
     }
 
     def reenviarPassword(email) {

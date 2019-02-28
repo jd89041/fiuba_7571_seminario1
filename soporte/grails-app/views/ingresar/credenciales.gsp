@@ -9,7 +9,7 @@
 	    <g:form>
 	        <g:field type="string" name="email" required=""/> Email<br/>
 	        <g:field type="password" name="password" required=""/> Password<br/>
-	        <g:hiddenField name="organizacion" value="${organizacion}"/>
+	        <g:hiddenField name="organizacion" value="${organizacion.nombre}"/>
       		<g:actionSubmit value="OK" action="verificarCredenciales"/>
 	    </g:form>
 	</body>
