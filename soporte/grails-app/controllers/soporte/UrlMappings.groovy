@@ -13,5 +13,6 @@ class UrlMappings {
         "/"(controller:"index")
         "500"(view:'/error')
         "404"(view:'/notFound')
+        "/tests"(controller:"envioPedidoSoporteTester")
     }
 }
