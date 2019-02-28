@@ -5,11 +5,10 @@
 		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-        <h1>Confirmación de compra de plan</h1>
-        <h1>${organizacion}</h1>
-        <p>Nombre: ${plan.nombre}</p>
-        <p>Cantidad de miembros: ${plan.cantidadMiembros}</p>
-        <p>Cantidad de aplicaciones: ${plan.cantidadAplicaciones}</p>
+        <h1>Confirmación de compra de plan ${plan.nombre}</h1>
+        <p>Descripción</p>
+        <p>Máxima cantidad de miembros: ${plan.cantidadMiembros}</p>
+        <p>Máxmima cantidad de aplicaciones cliente: ${plan.cantidadAplicaciones}</p>
         <p>Costo: ${plan.costo}</p>
         <g:form>
             <g:hiddenField type="text"  name="organizacion" value="${organizacion}"/>

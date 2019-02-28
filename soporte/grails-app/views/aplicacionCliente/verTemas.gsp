@@ -5,8 +5,10 @@
 		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-	    <h1>Ver temas</h1>
-	    <h1>${aplicacionCliente.nombre}</h1>
+	    <h1>Ver temas de ${aplicacionCliente.nombre}</h1>
+        <g:if test="${aplicacionCliente.temas.size() == 0}">
+            <h1>No hay temas</h1>
+        </g:if>
         <g:each in="${aplicacionCliente.temas}">
             <p>Tema: ${it.nombre}</p>
             <p>Palabras clave: ${it.palabrasClave}</p>
@@ -17,7 +19,6 @@
             </g:each>
             <br>
         </g:each>
-        <br>
         <g:form>
             <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>
             <g:hiddenField type="text"  name="aplicacionCliente" value="${aplicacionCliente.nombre}"/>

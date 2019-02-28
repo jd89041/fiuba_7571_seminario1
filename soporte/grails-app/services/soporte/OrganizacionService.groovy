@@ -13,11 +13,6 @@ class OrganizacionService {
         Organizacion.findByNombre(nombre)
     }
 
-    def obtenerMiembros(nombre) {
-        Organizacion organizacion = obtener(nombre)
-        organizacion ? organizacion.miembros : []
-    }
-
     def crear(nombre) {
         Organizacion organizacion = new Organizacion()
         organizacion.nombre = nombre

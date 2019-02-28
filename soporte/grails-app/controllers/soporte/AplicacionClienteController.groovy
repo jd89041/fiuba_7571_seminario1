@@ -1,7 +1,6 @@
 package soporte
 
 class AplicacionClienteController {
-
     def organizacionService
     def aplicacionClienteService
     def testerService
@@ -20,7 +19,7 @@ class AplicacionClienteController {
     }
 
     def confirmarAgregar() {
-        if (aplicacionClienteService.existe(params.nombre))
+        if (aplicacionClienteService.obtener(params.nombre))
             mostrarMensaje("Ya existe la aplicación")
         else {
             aplicacionClienteService.crear(params.organizacion, params.nombre, params.botsHabilitados)

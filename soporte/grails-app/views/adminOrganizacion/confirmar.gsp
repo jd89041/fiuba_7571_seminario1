@@ -2,14 +2,13 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title><g:message code="crear.organizacion.titulo"/></title>
+		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-	    <h1><g:message code="crear.organizacion.msg.finalizando"/></h1>
+	    <h1><g:message code="admin.organizacion.confirmar.invitacion.msg"/></h1>
         <h1>Resumen</h1>
-        <h1>Invitado</h1>
         <b>Nombre de la organización:</b> ${organizacion}<br>
-        <b>Email del solicitante:</b> ${email}<br>
+        <b>Email del miembro:</b> ${email}<br>
         <b>Rol asignado:</b> ${rol.nombre}<br>
         <g:form>
             <g:hiddenField type="text"  name="organizacion" value="${organizacion}"/>

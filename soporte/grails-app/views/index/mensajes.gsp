@@ -2,11 +2,10 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>Soporte</title>
+		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
 	    <h1>Soporte</h1>
 	    ${mensaje}
-	    <br>
 	</body>
 </html>

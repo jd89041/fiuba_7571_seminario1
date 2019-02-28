@@ -11,7 +11,8 @@ class AdminOrganizacionController {
     }
 
     def adminMiembros() {
-        [miembros: organizacionService.obtenerMiembros(params.organizacion)]
+        Organizacion organizacion = organizacionService.obtener(params.organizacion)
+        [miembros: organizacion.miembros]
     }
 
     def invitarMiembro() {

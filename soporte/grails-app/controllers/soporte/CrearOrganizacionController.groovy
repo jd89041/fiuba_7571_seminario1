@@ -24,7 +24,7 @@ class CrearOrganizacionController {
     }
 
     def modificarEmail() {
-        render(view: "ingresarEmail", model: [organizacion: params.organizacion, modificar: true])
+        render(view: "ingresarEmail", model: [organizacion: params.organizacion])
     }
 
     def verificarEmail() {

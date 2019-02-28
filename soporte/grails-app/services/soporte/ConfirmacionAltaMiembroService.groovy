@@ -40,6 +40,7 @@ class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
     }
 
     def borrar(nombreOrganizacion) {
-        ConfirmacionAltaMiembro.findByNombreOrganizacion(nombreOrganizacion).delete()
+        if (existe(nombreOrganizacion))
+            ConfirmacionAltaMiembro.findByNombreOrganizacion(nombreOrganizacion).delete()
     }
 }

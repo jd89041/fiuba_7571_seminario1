@@ -6,10 +6,6 @@ import grails.gorm.transactions.Transactional
 class AplicacionClienteService {
     def organizacionService
 
-    def existe(nombre) {
-        AplicacionCliente.findByNombre(nombre)
-    }
-
     def obtener(nombre) {
         AplicacionCliente.findByNombre(nombre)
     }

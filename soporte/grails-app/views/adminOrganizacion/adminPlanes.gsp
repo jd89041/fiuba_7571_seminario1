@@ -14,7 +14,11 @@
 	        <h1>Cantidad de miembros: ${organizacion.miembros.size()}/${planActual.cantidadMiembros}</h1>
 	        <h1>Cantidad de aplicaciones: ${organizacion.aplicacionesCliente.size()}/${planActual.cantidadAplicaciones}</h1>
 	    </g:else>
-	    <br>
+	    <g:if test="${planes.size() > 0}">
+	        <br>
+            <h1>Planes disponibles</h1>
+            <br>
+        </g:if>
 	    <g:each in="${planes}">
             <p>Nombre: ${it.nombre}</p>
             <p>Cantidad de miembros: ${it.cantidadMiembros}</p>

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title><g:message code="ingresar.titulo"/></title>
+    	<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
 	    <h1><g:message code="ingresar.error.organizacion.no.existe"/></h1>

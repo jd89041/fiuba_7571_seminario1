@@ -16,7 +16,6 @@
                 <g:actionSubmit value="Ver Temas" action="verTemas"/>
             </g:form>
         </g:each>
-        <br>
         <g:form>
             <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>
             <g:actionSubmit value="Agregar" action="agregarAplicacionCliente"/>

@@ -5,8 +5,7 @@
 		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-	    <h1>Organización</h1>
-	    Nombre: ${params.organizacion}<br>
+	    <h1>Administración de ${params.organizacion}</h1>
 	    <g:form>
             <g:hiddenField name="organizacion" value="${params.organizacion}"/>
             <g:actionSubmit value="Administrar Miembros" action="adminMiembros"/><br>
