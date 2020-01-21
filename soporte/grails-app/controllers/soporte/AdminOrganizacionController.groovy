@@ -67,12 +67,13 @@ class AdminOrganizacionController {
     }
 
     def comprarPlan() {
-        def plan = Plan.findByNombre(params.plan)
-        render(view: "confirmarCompraPlan", model: [organizacion: params.organizacion, plan: plan])
+        def planOferta = PlanOferta.findByNombre(params.plan)
+        render(view: "confirmarCompraPlan", model: [organizacion: params.organizacion, planOferta: planOferta])
     }
 
     def confirmarCompraPlan() {
-        organizacionService.actualizarPlan(params.organizacion, params.plan)
+        // agregar gestor de transacciones acá
+        organizacionService.actualizarPlan(params.organizacion, params.planOferta)
         mostrarMensaje("El plan fue actualizado correctamente")
     }
 

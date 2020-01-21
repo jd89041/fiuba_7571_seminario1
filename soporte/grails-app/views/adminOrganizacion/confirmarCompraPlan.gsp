@@ -5,14 +5,14 @@
 		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-        <h1>Confirmación de compra de plan ${plan.nombre}</h1>
+        <h1>Confirmación de compra de plan ${planOferta.nombre}</h1>
         <p>Descripción</p>
-        <p>Máxima cantidad de miembros: ${plan.cantidadMiembros}</p>
-        <p>Máxmima cantidad de aplicaciones cliente: ${plan.cantidadAplicaciones}</p>
-        <p>Costo: ${plan.costo}</p>
+        <p>Máxima cantidad de miembros: ${planOferta.cantidadMaxMiembros}</p>
+        <p>Máxmima cantidad de aplicaciones cliente: ${planOferta.cantidadMaxAplicaciones}</p>
+        <p>Precio: ${planOferta.precio}</p>
         <g:form>
             <g:hiddenField type="text"  name="organizacion" value="${organizacion}"/>
-            <g:hiddenField type="text"  name="plan" value="${plan.nombre}"/>
+            <g:hiddenField type="text"  name="planOferta" value="${planOferta.nombre}"/>
             <g:actionSubmit value="Confirmar" action="confirmarCompraPlan"/>
         </g:form>
 	</body>

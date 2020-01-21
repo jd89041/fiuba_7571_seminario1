@@ -14,15 +14,14 @@ class OrganizacionService {
     }
 
     def crear(nombre) {
-        Organizacion organizacion = new Organizacion()
-        organizacion.nombre = nombre
-        organizacion.save(failOnError: true, insert: true, flush: true)
+        Organizacion organizacion = new Organizacion(nombre)
     }
 
-    def actualizarPlan(nombre, nombrePlan) {
-        def plan = Plan.findByNombre(nombrePlan)
+    def actualizarPlan(nombre, nombrePlanOferta) {
+        def planOferta = PlanOferta.findByNombre(nombrePlanOferta)
         Organizacion organizacion = obtener(nombre)
-        organizacion.plan = plan
-        organizacion.save(failOnError: true, insert: true, flush: true)
+        organizacion.adquirirPlan(planOferta)
+        //organizacion.save(failOnError: true, insert: true, flush: true)
+        //organizacion.save(failOnError: true, flush: true)
     }
 }

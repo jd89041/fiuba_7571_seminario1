@@ -7,7 +7,7 @@ class AplicacionClienteController {
 
     def index() {
         Organizacion organizacion = organizacionService.obtener(params.organizacion)
-        [organizacion: organizacion, aplicaciones: organizacion.aplicacionesCliente]
+        [organizacion: organizacion, aplicaciones: organizacion.aplicaciones]
     }
 
     def agregarAplicacionCliente() {

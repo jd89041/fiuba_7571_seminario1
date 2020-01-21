@@ -1,11 +1,14 @@
 package soporte
 
+import soporte.PlanOferta
+import soporte.Plan
+
 class Organizacion {
 
     String nombre
-    Plan plan
 
-    static hasMany = [miembros: MiembroEquipo, aplicacionesCliente: AplicacionCliente]
+    static hasOne = [plan: Plan]
+    static hasMany = [miembros: MiembroEquipo, aplicaciones: AplicacionCliente]
 
     static mapping = {
         id generator: 'assigned', name: 'nombre'
@@ -14,29 +17,43 @@ class Organizacion {
 
     static constraints = {
         nombre blank: false
-        plan nullable: true
+    }
+
+    def Organizacion(String nombre) {
+        setNombre(nombre)
+        setPlan(new Plan())
+        save()
     }
 
     def obtenerPlanesDisponibles() {
-        if (plan)
-            Plan.findAll() {
-                cantidadMiembros > plan.cantidadMiembros
+        if (plan.asignado())
+            PlanOferta.list().findAll() {
+                it.puedeAdquirirse(plan.nombre, aplicaciones.size(), miembros.size())
             }
         else
-            Plan.list()
+            PlanOferta.list()
     }
 
     def puedeInvitarMiembros() {
-        plan && plan.cantidadMiembros > miembros.size()
+        plan.puedeAgregarMiembros(miembros.size())
     }
 
     def puedeAgregarAplicacionesCliente() {
-        plan && plan.cantidadAplicaciones > aplicacionesCliente.size()
+        plan.puedeAgregarAplicaciones(aplicaciones.size())
     }
 
     def tieneMiembro(miembro) {
         miembro && miembros.any {
             it.email == miembro.email
         }
+    }
+
+    def soportaPlanOferta(PlanOferta planOferta) {
+        planOferta.puedeAdquirirse(aplicaciones.size(), miembros.size())
+    }
+
+    def adquirirPlan(PlanOferta planOferta) {
+        plan.activar(planOferta)
+        save()
     }
 }
