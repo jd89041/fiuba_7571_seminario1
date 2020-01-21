@@ -14,7 +14,7 @@ class AplicacionClienteService {
         AplicacionCliente aplicacionCliente = new AplicacionCliente()
         aplicacionCliente.nombre = nombre
         aplicacionCliente.herramientaBots = herramientaBots != null
-        aplicacionCliente.organizacion = organizacionService.obtener(organizacion)
+        aplicacionCliente.organizacion = Organizacion.findByNombre(organizacion)
         aplicacionCliente.save(failOnError: true, insert: true, flush: true)
     }
 

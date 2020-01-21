@@ -6,12 +6,12 @@ class AplicacionClienteController {
     def testerService
 
     def index() {
-        Organizacion organizacion = organizacionService.obtener(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
         [organizacion: organizacion, aplicaciones: organizacion.aplicaciones]
     }
 
     def agregarAplicacionCliente() {
-        Organizacion organizacion = organizacionService.obtener(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
         if (organizacion.puedeAgregarAplicacionesCliente())
             [organizacion: organizacion]
         else
@@ -38,7 +38,7 @@ class AplicacionClienteController {
 
     def verTemas() {
         AplicacionCliente aplicacionCliente = aplicacionClienteService.obtener(params.nombre)
-        [organizacion: organizacionService.obtener(params.organizacion), aplicacionCliente: aplicacionCliente]
+        [organizacion: Organizacion.findByNombre(params.organizacion), aplicacionCliente: aplicacionCliente]
     }
 
     def mostrarMensaje(contenido) {

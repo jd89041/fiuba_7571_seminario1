@@ -11,8 +11,9 @@ class CrearOrganizacionController {
     }
 
     def validarOrganizacion() {
+
         def nombreOrganizacion = params.organizacion
-        if (organizacionService.existe(nombreOrganizacion))
+        if (Organizacion.exists(nombreOrganizacion))
             mostrarMensaje("La organización ${nombreOrganizacion} ya existe, pruebe con otra")
         else {
             ConfirmacionAltaOrganizacion confirmacionAlta = confirmacionAltaOrganizacionService.obtener(nombreOrganizacion)
@@ -52,7 +53,7 @@ class CrearOrganizacionController {
 
     def confirmar() {
         def nombre = params.organizacion
-        if (organizacionService.existe(nombre) || !confirmacionAltaOrganizacionService.esValida(nombre, params.ticket))
+        if (Organizacion.exists(nombre) || !confirmacionAltaOrganizacionService.esValida(nombre, params.ticket))
             mostrarMensaje("Error: El link con la solicitud para crear la organización caducó")
         else {
             ConfirmacionAltaOrganizacion confirmacion = confirmacionAltaOrganizacionService.obtener(nombre)

@@ -11,13 +11,13 @@ class AdminOrganizacionController {
     }
 
     def adminMiembros() {
-        Organizacion organizacion = organizacionService.obtener(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
         [miembros: organizacion.miembros]
     }
 
     def invitarMiembro() {
-        if (organizacionService.obtener(params.organizacion).puedeInvitarMiembros())
-            [roles: rolService.listar()]
+        if (Organizacion.findByNombre(params.organizacion).puedeInvitarMiembros())
+            [roles: Rol.list()]
         else
             mostrarMensaje("El plan actual no admite más miembros!! Mejore su plan")
     }
@@ -40,24 +40,25 @@ class AdminOrganizacionController {
     }
 
     def confirmarInvitacion() {
-        def organizacion = params.organizacion
+        def nombreOrganizacion = params.organizacion
         def email = params.email
         def ticket = params.ticket
-        if (!organizacionService.existe(organizacion) || !confirmacionAltaMiembroService.esValida(organizacion, email, ticket))
+        if (!Organizacion.exists(nombreOrganizacion) || !confirmacionAltaMiembroService.esValida(nombreOrganizacion, email, ticket))
             mostrarMensaje("Error: El link con la invitación para unirse a la organización caducó")
         else {
-            ConfirmacionAltaMiembro confirmacion = confirmacionAltaMiembroService.obtener(organizacion, email)
-            render(view: "confirmar", model: [organizacion: organizacion, email: confirmacion.email, rol: confirmacion.rol])
+            ConfirmacionAltaMiembro confirmacion = confirmacionAltaMiembroService.obtener(nombreOrganizacion, email)
+            render(view: "confirmar", model: [organizacion: nombreOrganizacion, email: confirmacion.email, rol: confirmacion.rol])
         }
     }
 
     def finalizar() {
-        adminOrganizacionService.agregarMiembroEquipo(params.organizacion, params.email, params.password, params.rol)
+        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        adminOrganizacionService.agregarMiembroEquipo(organizacion, params.email, params.password, params.rol)
         mostrarMensaje("Se agregó el miembro exitosamente")
     }
 
     def adminPlanes() {
-        Organizacion organizacion = organizacionService.obtener(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
         def planActual = organizacion.plan
         [
             organizacion: organizacion,

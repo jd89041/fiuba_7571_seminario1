@@ -16,6 +16,10 @@ class Rol {
         nombre blank: false
     }
 
+    def Rol(String rol) {
+        nombre = rol ? rol : AGENTE
+    }
+
     def getDescripcion() {
         nombre
     }

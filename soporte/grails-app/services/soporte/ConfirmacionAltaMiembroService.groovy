@@ -9,7 +9,7 @@ class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
             confirmacion = new ConfirmacionAltaMiembro()
             confirmacion.nombreOrganizacion = nombreOrganizacion
             confirmacion.email = email
-            confirmacion.rol = rolService.obtener(rol)
+            confirmacion.rol = Rol.findByNombre(rol)
             confirmacion.save(failOnError: true, insert: true, flush: true)
         }
         super.enviar(confirmacion, email)

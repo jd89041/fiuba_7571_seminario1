@@ -9,7 +9,7 @@ class ReceptorPedidosService {
     def aplicacionClienteService
 
     def manejarPedido(nombreOrganizacion, nombreAplicacionCliente, mensaje) {
-        Organizacion organizacion = organizacionService.obtener(nombreOrganizacion)
+        Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
         if (!organizacion)
             return [1, "No existe la organizacion"]
         AplicacionCliente aplicacionCliente = aplicacionClienteService.obtener(nombreAplicacionCliente)

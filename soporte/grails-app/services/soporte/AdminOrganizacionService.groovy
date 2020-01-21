@@ -1,24 +1,28 @@
 package soporte
 
 import grails.gorm.transactions.Transactional
+import soporte.Organizacion
 
 @Transactional
 class AdminOrganizacionService {
-    def organizacionService
-    def miembroEquipoService
     def confirmacionAltaOrganizacionService
     def confirmacionAltaMiembroService
-    def rolService
 
     def agregarMiembroEquipo(organizacion, email, password, rol) {
-        miembroEquipoService.crear(organizacionService.obtener(organizacion), email, password, rolService.obtener(rol))
-        confirmacionAltaMiembroService.borrar(organizacion)
+        MiembroEquipo miembroEquipo = new MiembroEquipo()
+        miembroEquipo.organizacion = organizacion
+        miembroEquipo.email = email
+        miembroEquipo.password = password
+        miembroEquipo.rol = Rol.findByNombre(rol)
+        organizacion.agregarMiembro(miembroEquipo)
+        organizacion.save(failOnError: true)
+        confirmacionAltaMiembroService.borrar(organizacion.nombre)
     }
 
-    def crearOrganizacionConAdmin(organizacion, emailAdmin, passwordAdmin) {
-        organizacionService.crear(organizacion)
+    def crearOrganizacionConAdmin(nombreOrganizacion, emailAdmin, passwordAdmin) {
+        Organizacion organizacion = new Organizacion(nombreOrganizacion)
         agregarMiembroEquipo(organizacion, emailAdmin, passwordAdmin, Rol.ADMINISTRADOR)
-        //miembroEquipoService.crear(organizacionService.obtener(nombre), emailAdmin, passwordAdmin, rolService.obtener(Rol.ADMINISTRADOR))
-        confirmacionAltaOrganizacionService.borrar(organizacion)
+        organizacion.save(failOnError: true)
+        confirmacionAltaOrganizacionService.borrar(organizacion.nombre)
     }
 }

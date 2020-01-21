@@ -22,7 +22,6 @@ class Organizacion {
     def Organizacion(String nombre) {
         setNombre(nombre)
         setPlan(new Plan())
-        save()
     }
 
     def obtenerPlanesDisponibles() {
@@ -54,6 +53,11 @@ class Organizacion {
 
     def adquirirPlan(PlanOferta planOferta) {
         plan.activar(planOferta)
-        save()
+    }
+
+    def agregarMiembro(MiembroEquipo miembro) {
+        if (!miembros)
+            miembros = []
+        miembros.add(miembro)
     }
 }

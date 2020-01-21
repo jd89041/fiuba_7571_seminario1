@@ -8,7 +8,7 @@ class IngresarController {
 
     def verificarOrganizacion() {
         def nombreOrganizacion = params.organizacion
-        def organizacion = organizacionService.obtener(nombreOrganizacion)
+        def organizacion = Organizacion.findByNombre(nombreOrganizacion)
         if (organizacion)
             render (view: "credenciales", model: [organizacion: organizacion])
         else
