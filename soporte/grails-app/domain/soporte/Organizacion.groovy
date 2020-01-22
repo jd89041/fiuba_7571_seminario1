@@ -55,6 +55,12 @@ class Organizacion {
         plan.activar(planOferta)
     }
 
+    def agregarAplicacion(AplicacionCliente aplicacion) {
+        if (!aplicaciones)
+            aplicaciones = []
+        aplicaciones.add(aplicacion)
+    }
+
     def agregarMiembro(MiembroEquipo miembro) {
         if (!miembros)
             miembros = []

@@ -8,7 +8,6 @@ import grails.web.mapping.LinkGenerator
 abstract class ConfirmacionAltaService {
 
     def mensajeroService
-    def miembroEquipoService
 
     LinkGenerator grailsLinkGenerator
 
@@ -29,12 +28,16 @@ abstract class ConfirmacionAltaService {
         confirmacionAlta && confirmacionAlta.ticket == ticket
     }
 
+    def emailUtilizado(email) {
+        MiembroEquipo.findByEmail(email)
+    }
+
     def obtenerOperacion(nombreOrganizacion, email) {
         int resultado = ConfirmacionAltaOrganizacion.OPERACION_ENVIAR
         def confirmacion = obtener(nombreOrganizacion, email)
         if (confirmacion && confirmacion.email == email)
             resultado = ConfirmacionAltaOrganizacion.OPERACION_REENVIAR
-        else if (miembroEquipoService.emailUtilizado(email))
+        else if (emailUtilizado(email))
             resultado = ConfirmacionAltaOrganizacion.OPERACION_NO_DISPONIBLE
         resultado
     }

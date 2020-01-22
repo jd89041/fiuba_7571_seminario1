@@ -4,7 +4,6 @@ import grails.gorm.transactions.Transactional
 
 @Transactional
 class IngresarService {
-    def organizacionService
     def mensajeroService
 
     def verificarCredenciales(nombreOrganizacion, email, password) {

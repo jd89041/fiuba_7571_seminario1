@@ -4,15 +4,11 @@ import grails.gorm.transactions.Transactional
 
 @Transactional
 class ReceptorPedidosService {
-
-    def organizacionService
-    def aplicacionClienteService
-
     def manejarPedido(nombreOrganizacion, nombreAplicacionCliente, mensaje) {
         Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
         if (!organizacion)
             return [1, "No existe la organizacion"]
-        AplicacionCliente aplicacionCliente = aplicacionClienteService.obtener(nombreAplicacionCliente)
+        AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(nombreAplicacionCliente)
         if (!aplicacionCliente)
             return [2, "No existe la aplicación"]
         if (!aplicacionCliente.herramientaBots)

@@ -2,10 +2,8 @@ package soporte
 
 class AdminOrganizacionController {
 
-    def organizacionService
     def confirmacionAltaMiembroService
     def adminOrganizacionService
-    def rolService
 
     def index() {
     }
@@ -74,7 +72,7 @@ class AdminOrganizacionController {
 
     def confirmarCompraPlan() {
         // agregar gestor de transacciones acá
-        organizacionService.actualizarPlan(params.organizacion, params.planOferta)
+        adminOrganizacionService.actualizarPlan(params.organizacion, params.planOferta)
         mostrarMensaje("El plan fue actualizado correctamente")
     }
 

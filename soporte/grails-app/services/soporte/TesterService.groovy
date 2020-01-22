@@ -4,10 +4,9 @@ import grails.gorm.transactions.Transactional
 
 @Transactional
 class TesterService {
-    def aplicacionClienteService
 
     def crearTemas(nombreAplicacionCliente) {
-        AplicacionCliente aplicacionCliente = aplicacionClienteService.obtener(nombreAplicacionCliente)
+        AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(nombreAplicacionCliente)
         Tema tema = Tema.findByAplicacionClienteAndNombre(aplicacionCliente, "login")
         if (!tema) {
             tema = new Tema()

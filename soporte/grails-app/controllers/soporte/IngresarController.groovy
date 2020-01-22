@@ -2,7 +2,6 @@ package soporte
 
 class IngresarController {
     def ingresarService
-    def organizacionService
 
     def index() {}
 

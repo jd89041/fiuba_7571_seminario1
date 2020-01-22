@@ -1,9 +1,8 @@
 package soporte
 
 class AplicacionClienteController {
-    def organizacionService
-    def aplicacionClienteService
     def testerService
+    def adminOrganizacionService
 
     def index() {
         Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
@@ -19,10 +18,10 @@ class AplicacionClienteController {
     }
 
     def confirmarAgregar() {
-        if (aplicacionClienteService.obtener(params.nombre))
+        if (AplicacionCliente.findByNombre(params.nombre))
             mostrarMensaje("Ya existe la aplicación")
         else {
-            aplicacionClienteService.crear(params.organizacion, params.nombre, params.botsHabilitados)
+            adminOrganizacionService.agregarAplicacionCliente(params.organizacion, params.nombre, params.botsHabilitados)
             mostrarMensaje("Se creó la aplicacion ${params.nombre}")
         }
     }
@@ -37,7 +36,7 @@ class AplicacionClienteController {
     }
 
     def verTemas() {
-        AplicacionCliente aplicacionCliente = aplicacionClienteService.obtener(params.nombre)
+        AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(params.nombre)
         [organizacion: Organizacion.findByNombre(params.organizacion), aplicacionCliente: aplicacionCliente]
     }
 

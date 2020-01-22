@@ -1,7 +1,8 @@
 package soporte
 
 class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
-    def rolService
+
+    def confirmacionAltaOrganizacionService
 
     def enviar(nombreOrganizacion, email, rol) {
         ConfirmacionAltaMiembro confirmacion = obtener(nombreOrganizacion, email)
@@ -28,7 +29,7 @@ class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
     }
 
     def emailRegistrado(email) {
-        ConfirmacionAltaMiembro.findByEmail(email)
+        super.emailRegistrado(email) || ConfirmacionAltaMiembro.findByEmail(email) || confirmacionAltaOrganizacionService.emailRegistrado(email)
     }
 
     def existe(nombreOrganizacion) {

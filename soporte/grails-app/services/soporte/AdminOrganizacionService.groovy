@@ -8,6 +8,16 @@ class AdminOrganizacionService {
     def confirmacionAltaOrganizacionService
     def confirmacionAltaMiembroService
 
+    def agregarAplicacionCliente(nombreOrganizacion, nombreAplicacion, herramientaBots) {
+        Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = new AplicacionCliente()
+        aplicacionCliente.nombre = nombreAplicacion
+        aplicacionCliente.herramientaBots = herramientaBots != null
+        aplicacionCliente.organizacion = organizacion
+        organizacion.agregarAplicacion(aplicacionCliente)
+        organizacion.save(failOnError: true)
+    }
+
     def agregarMiembroEquipo(organizacion, email, password, rol) {
         MiembroEquipo miembroEquipo = new MiembroEquipo()
         miembroEquipo.organizacion = organizacion
@@ -24,5 +34,12 @@ class AdminOrganizacionService {
         agregarMiembroEquipo(organizacion, emailAdmin, passwordAdmin, Rol.ADMINISTRADOR)
         organizacion.save(failOnError: true)
         confirmacionAltaOrganizacionService.borrar(organizacion.nombre)
+    }
+
+    def actualizarPlan(nombre, nombrePlanOferta) {
+        def planOferta = PlanOferta.findByNombre(nombrePlanOferta)
+        Organizacion organizacion = Organizacion.findByNombre(nombre)
+        organizacion.adquirirPlan(planOferta)
+        organizacion.save(failOnError: true)
     }
 }

@@ -2,7 +2,6 @@ package soporte
 
 class CrearOrganizacionController {
 
-    def organizacionService
     def confirmacionAltaOrganizacionService
     def adminOrganizacionService
 
