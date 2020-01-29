@@ -41,4 +41,22 @@ class TesterService {
         preguntaFrecuente.tema = tema
         preguntaFrecuente.save(failOnError: true, flush: true)
     }
+
+    def crearOrganizacionConAdminYAplicacion(nombreOrganizacion, nombreAplicacion, email, password) {
+        PlanOferta planOferta = PlanOferta.get(1)
+        Plan plan = new Plan()
+        plan.activar(planOferta)
+        Organizacion organizacion = new Organizacion(nombreOrganizacion)
+        organizacion.plan = plan
+        MiembroEquipo miembro = new MiembroEquipo()
+        miembro.email = email
+        miembro.password = password
+        miembro.rol = Rol.findByNombre(Rol.ADMINISTRADOR)
+        organizacion.addToMiembros(miembro)
+        AplicacionCliente aplicacion = new AplicacionCliente()
+        aplicacion.nombre = nombreAplicacion
+        aplicacion.herramientaBots = true
+        organizacion.addToAplicaciones(aplicacion)
+        organizacion.save(failOnError: true)
+    }
 }

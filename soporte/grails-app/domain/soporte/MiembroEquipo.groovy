@@ -9,7 +9,9 @@ class MiembroEquipo {
     String email
     String password
     Rol rol
+    List<String> especialidades
 
+    static hasMany = [pedidosSoporte: PedidoSoporte]
     static belongsTo = [organizacion: Organizacion]
 
     static mapping = {
@@ -32,5 +34,35 @@ class MiembroEquipo {
 
     def credencialesValidas(password) {
         this.password == password
+    }
+
+    def esEspecialista(tema) {
+        tema in especialidades
+    }
+
+    def puedeAsignarPedidos() {
+        // en base a reglas, devolver si puede o no
+    }
+
+    def removerPedidoSoporte(pedidoSoporte) {
+        pedidosSoporte -= pedidoSoporte
+    }
+
+    def agregarPedidoSoporte(pedidoSoporte) {
+        pedidosSoporte.push(pedidoSoporte)
+    }
+
+    def notificar() {
+        // usando el mail notificar al user?
+        // quizás un proceso pueda indicar en pantalla si recibe notificaciones el miembro q esté logeado!
+    }
+
+    def asignar(pedidoSoporte) {
+        if (puedeAsignarPedidos()) {
+            agregarPedidoSoporte(pedidoSoporte)
+            notificar()
+            return true
+        }
+        return false
     }
 }
