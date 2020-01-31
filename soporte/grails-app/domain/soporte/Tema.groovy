@@ -10,4 +10,14 @@ class Tema {
 
     static constraints = {
     }
+
+    def obtenerOcurrencias(mensaje) {
+        int ocurrencias = 0
+        palabrasClave.each { palabraClave ->
+            def palabras = mensaje.split(" ")
+            def encontradas = palabras.findAll { it.replaceAll(/[^a-z]/, "") == palabraClave }
+            ocurrencias += encontradas.size
+        }
+        ocurrencias
+    }
 }

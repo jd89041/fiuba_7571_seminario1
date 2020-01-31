@@ -3,9 +3,11 @@ package soporte
 class PedidoSoporte {
 
     String emailAutor
+    List<String> etiquetas
+    Map<String, Integer> ocurrenciasDeTemas
 
     static hasOne = [miembro: MiembroEquipo, autor: AutorPedidoSoporte]
-    static hasMany = [temas: Tema, mensajes: MensajePedidoSoporte]
+    static hasMany = [mensajes: MensajePedidoSoporte]
 
     static belongsTo = [aplicacion: AplicacionCliente]
 
@@ -20,22 +22,44 @@ class PedidoSoporte {
     def PedidoSoporte(autor) {
         setAutor(autor)
         emailAutor = autor.email
-        temas = []
         mensajes = []
+        etiquetas = []
+        ocurrenciasDeTemas = [:]
     }
 
     def agregarMensaje(pedidoSoporteEntrante) {
-        if (!mensajes)
-            mensajes = []
-        addToMensajes(new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido))
+        // evaluar y luego se puede taggear
+        def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido)
+        procesarMensaje(nuevoMensaje)
+        addToMensajes(nuevoMensaje)
     }
 
-    def taggear(temas) {
-        // evalua cada mensaje preguntando a cada tema si está relacionado
+    // evalua el mensaje en base a los temas de la aplicacion cliente y carga una lista de ponderaciones
+    def procesarMensaje(mensaje) {
+        // if nuevos temas! procesar todos!
+        def ocurrenciasTemas = mensaje.obtenerOcurrenciasDeTemas(aplicacion.temas)
+        ocurrenciasTemas.each { tema, ocurrencias ->
+            if (!ocurrenciasDeTemas[tema])
+                ocurrenciasDeTemas[tema] = 0
+            ocurrenciasDeTemas[tema] += ocurrencias
+        }
+    }
+
+    def etiquetar() {
+        // etiqueta / ocurrencias
+        // 1) identificar si el mensaje es de un agente o de un usuario (filtro solo mensajes de usuario)
+        // 2) se toman los temas definidos en la aplicacion
+        // 3) tomar los nuevos mensajes, si cambiaron los temas, evaluar todos los mensajes
+        // 4) organizacion.temas.each { if mensaje.perteceAlTema(it) --> sumar ocurrencia al tag
+        ocurrenciasDeTemas.each {
+            if (!(it.key in etiquetas)) {
+                addToEtiquetas(it.key)
+            }
+        }
     }
 
     def resolver() {
-        // usa los temas q tiene asignados y devuelve un resultado o indica que no puede hacerlo
+        // usar los temas q tiene asignados y devuelve un resultado o indica que no puede hacerlo
         true
     }
 

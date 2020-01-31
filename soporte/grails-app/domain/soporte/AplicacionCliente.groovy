@@ -5,7 +5,7 @@ class AplicacionCliente {
 
     boolean herramientaBots // a remover!
 
-    boolean autoTaggear = true
+    boolean autoEtiquetar = true
     boolean autoResolver = true
     boolean autoAsignar = true
 
@@ -73,8 +73,8 @@ class AplicacionCliente {
             autor.save(failOnError: true)
         }
         pedidoSoporte.agregarMensaje(mensajeSoporteEntrante)
-        if (autoTaggear)
-            pedidoSoporte.taggear(temas)
+        if (autoEtiquetar)
+            pedidoSoporte.etiquetar()
         boolean resuelto = false
         if (autoResolver)
             resuelto = pedidoSoporte.resolver()

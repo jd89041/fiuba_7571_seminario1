@@ -18,4 +18,14 @@ class MensajePedidoSoporte {
         this.mensaje = mensaje
         fecha = new Instant().getMillis()
     }
+
+    def obtenerOcurrenciasDeTemas(temas) {
+        def ocurrencias = [:]
+        temas.each {
+            def ocurrenciasTema = it.obtenerOcurrencias(mensaje)
+            if (ocurrenciasTema > 0)
+                ocurrencias[it.nombre] = ocurrenciasTema
+        }
+        ocurrencias
+    }
 }
