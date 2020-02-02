@@ -25,7 +25,6 @@ class AdminOrganizacionService {
         miembroEquipo.password = password
         miembroEquipo.rol = Rol.findByNombre(rol)
         organizacion.agregarMiembro(miembroEquipo)
-        organizacion.save(failOnError: true)
         confirmacionAltaMiembroService.borrar(organizacion.nombre)
     }
 
@@ -36,10 +35,9 @@ class AdminOrganizacionService {
         confirmacionAltaOrganizacionService.borrar(organizacion.nombre)
     }
 
-    def actualizarPlan(nombre, nombrePlanOferta) {
+    def actualizarPlan(nombreOrganizacion, nombrePlanOferta) {
         def planOferta = PlanOferta.findByNombre(nombrePlanOferta)
-        Organizacion organizacion = Organizacion.findByNombre(nombre)
+        Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
         organizacion.adquirirPlan(planOferta)
-        organizacion.save(failOnError: true)
     }
 }

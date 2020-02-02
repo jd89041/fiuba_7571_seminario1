@@ -1,5 +1,8 @@
 package soporte
 
+import soporte.notificaciones.NotificacionAltaAplicacion
+import soporte.notificaciones.NotificacionBajaAplicacion
+
 class AplicacionCliente {
     String nombre
 
@@ -22,12 +25,14 @@ class AplicacionCliente {
     }
 
     def agregarMiembro(miembro) {
+        miembro.notificar(new NotificacionAltaAplicacion(nombre))
         addToMiembros(miembro)
         save(failOnError: true)
     }
 
     def removerMiembro(miembro) {
         // remover todas las tareas que tenia asignadas relacionadas con esta app
+        miembro.notificar(new NotificacionBajaAplicacion(nombre))
         removeFromMiembros(miembro)
         save(failOnError: true)
     }

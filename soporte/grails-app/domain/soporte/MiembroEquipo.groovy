@@ -1,5 +1,7 @@
 package soporte
 
+import soporte.notificaciones.Notificacion
+
 class MiembroEquipo {
 
     static final int CREDENCIALES_OK = 0
@@ -11,7 +13,7 @@ class MiembroEquipo {
     Rol rol
     List<String> especialidades
 
-    static hasMany = [pedidosSoporte: PedidoSoporte, aplicaciones: AplicacionCliente]
+    static hasMany = [pedidosSoporte: PedidoSoporte, aplicaciones: AplicacionCliente, notificaciones:Notificacion]
     static belongsTo = [organizacion: Organizacion, aplicaciones: AplicacionCliente]
 
     static mapping = {
@@ -47,19 +49,20 @@ class MiembroEquipo {
 
     def removerPedidoSoporte(pedidoSoporte) {
         removeFromPedidosSoporte(pedidoSoporte)
-        notificar() // msg de pedido removido
+        //notificar() // msg de pedido removido
         save(failOnError: true)
     }
 
     def agregarPedidoSoporte(pedidoSoporte) {
         addToPedidosSoporte(pedidoSoporte)
-        notificar() // msg de pedido agregado
+        //notificar() // msg de pedido agregado
         save(failOnError: true)
     }
 
-    def notificar() {
+    def notificar(notificacion) {
+        addToNotificaciones(notificacion)
+        save(failOnError: true)
         // usando el mail notificar al usuario, si lo tiene disponible
-        // agregar una notificación a la lista de notificaciones q ve el usuario en su view
         // quizás un proceso pueda indicar en pantalla si recibe notificaciones el miembro q esté logeado!
     }
 
@@ -70,5 +73,22 @@ class MiembroEquipo {
             return true
         }
         return false
+    }
+
+    def leerNotificacion(notificacionId) {
+        def notificacion = notificaciones.find { it.id == notificacionId }
+        notificacion.leer()
+    }
+
+    def borrarNotificacion(notificacionId) {
+        def notificacion = notificaciones.find { it.id == notificacionId }
+        removeFromNotificaciones(notificacion)
+        notificacion.borrar()
+    }
+
+    def tieneNotificacionesNoLeidas() {
+        notificaciones.any {
+            !it.leida
+        }
     }
 }

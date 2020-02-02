@@ -5,6 +5,9 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class TesterService {
 
+    def adminOrganizacionService
+    def confirmacionAltaOrganizacionService
+
     def crearTemas(nombreAplicacionCliente) {
         AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(nombreAplicacionCliente)
         Tema tema = Tema.findByAplicacionClienteAndNombre(aplicacionCliente, "login")
@@ -42,21 +45,10 @@ class TesterService {
         preguntaFrecuente.save(failOnError: true, flush: true)
     }
 
-    def crearOrganizacionConAdminYAplicacion(nombreOrganizacion, nombreAplicacion, email, password) {
-        PlanOferta planOferta = PlanOferta.get(4)   // test
-        Plan plan = new Plan()
-        plan.activar(planOferta)
-        Organizacion organizacion = new Organizacion(nombreOrganizacion)
-        organizacion.plan = plan
-        MiembroEquipo miembro = new MiembroEquipo()
-        miembro.email = email
-        miembro.password = password
-        miembro.rol = Rol.findByNombre(Rol.ADMINISTRADOR)
-        organizacion.addToMiembros(miembro)
-        AplicacionCliente aplicacion = new AplicacionCliente()
-        aplicacion.nombre = nombreAplicacion
-        aplicacion.herramientaBots = true
-        organizacion.addToAplicaciones(aplicacion)
-        organizacion.save(failOnError: true)
+    def crearOrganizacionConAdminYAplicacion(nombreOrganizacion, nombreAplicacion, emailAdmin, passwordAdmin) {
+        confirmacionAltaOrganizacionService.enviar(nombreOrganizacion, emailAdmin)
+        adminOrganizacionService.crearOrganizacionConAdmin(nombreOrganizacion, emailAdmin, passwordAdmin)
+        adminOrganizacionService.actualizarPlan(nombreOrganizacion, PlanOferta.get(3).nombre)
+        adminOrganizacionService.agregarAplicacionCliente(nombreOrganizacion, nombreAplicacion, true)   // remover luego la herramienta bots
     }
 }

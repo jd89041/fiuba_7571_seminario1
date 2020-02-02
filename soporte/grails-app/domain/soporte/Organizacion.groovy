@@ -3,6 +3,8 @@ package soporte
 import soporte.PlanOferta
 import soporte.Plan
 
+import soporte.notificaciones.*
+
 class Organizacion {
 
     String nombre
@@ -53,6 +55,14 @@ class Organizacion {
 
     def adquirirPlan(PlanOferta planOferta) {
         plan.activar(planOferta)
+        save(failOnError: true)
+        // notificar a los admin
+        /*
+        miembros.each {
+            if (it.rol == Rol.ADMINISTRADOR)
+                it.notificar(new NotificacionActualizacionPlan(planOferta.nombre))
+        }
+        */
     }
 
     def agregarAplicacion(AplicacionCliente aplicacion) {
@@ -62,8 +72,8 @@ class Organizacion {
     }
 
     def agregarMiembro(MiembroEquipo miembro) {
-        if (!miembros)
-            miembros = []
-        miembros.add(miembro)
+        addToMiembros(miembro)
+        save(failOnError: true)
+        miembro.notificar(new NotificacionBienvenida(nombre))
     }
 }
