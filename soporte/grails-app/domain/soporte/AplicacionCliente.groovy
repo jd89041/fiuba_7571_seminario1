@@ -22,23 +22,23 @@ class AplicacionCliente {
     }
 
     def agregarMiembro(miembro) {
-        if (!miembros)
-            miembros = []
-        miembros.add(miembro)
+        addToMiembros(miembro)
+        save(failOnError: true)
     }
 
     def removerMiembro(miembro) {
-        miembros.remove(miembro)
+        // remover todas las tareas que tenia asignadas relacionadas con esta app
+        removeFromMiembros(miembro)
+        save(failOnError: true)
     }
 
     def agregarTema(tema) {
-        if (!temas)
-            temas = []
-        temas.add(tema)
+        addToTemas(tema)
+        // informar para que se puedan recalcular las etiquetas
     }
 
     def removerTema(tema) {
-        temas.remove(tema)
+        removeFromTemas(tema)
     }
 
     def recuperarPedidoSoporte(email) {
@@ -54,13 +54,10 @@ class AplicacionCliente {
     // - id del usuario con el que se trackea la historia
     // - mensaje nuevo
     def gestionarPedidoSoporteEntrante(mensajeSoporteEntrante) {
-        if (!pedidosSoporte)
-            pedidosSoporte = []
         String emailAutor = mensajeSoporteEntrante.emailAutor
         def pedidoSoporte = recuperarPedidoSoporte(emailAutor)
         if (!pedidoSoporte) {
-            // el autor es global??
-            AutorPedidoSoporte autor = AutorPedidoSoporte.findByEmail(emailAutor)
+            AutorPedidoSoporte autor = pedidosSoporte.find { it.emailAutor == emailAutor }
             if (!autor) {
                 autor = new AutorPedidoSoporte(emailAutor)
                 autor.nombre = mensajeSoporteEntrante.nombreAutor
@@ -75,21 +72,19 @@ class AplicacionCliente {
         pedidoSoporte.agregarMensaje(mensajeSoporteEntrante)
         if (autoEtiquetar)
             pedidoSoporte.etiquetar()
-        boolean resuelto = false
-        if (autoResolver)
-            resuelto = pedidoSoporte.resolver()
-        boolean asignado = false
-        if (autoAsignar && !resuelto) {
-            // filtrar en base a reglas, luego hacer un random y asignar
-            miembros.each {
-                // intentar asignar en base a reglas
-                if (it.asignar(pedidoSoporte))
-                    return
+        if (!pedidoSoporte.estaAsignado()) {
+            boolean resuelto = false
+            if (autoResolver)
+                resuelto = pedidoSoporte.resolver()
+            if (autoAsignar && !resuelto) {
+                // filtrar en base a reglas, luego hacer un random y asignar
+                def miembrosDisponibles = miembros.findAll {
+                    it.puedeAsignarPedidoSoporte(pedidoSoporte)
+                }
+                // determinar a que miembros de los disponibles asignar la tarea
+                if (miembrosDisponibles.size() > 0)
+                    pedidoSoporte.asignar(miembrosDisponibles[0])
             }
-        }
-        if (!asignado)
-        {
-            // informar como nuevo??
         }
         pedidoSoporte.save(failOnError: true)
         this.save(failOnError: true)

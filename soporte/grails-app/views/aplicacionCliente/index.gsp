@@ -14,6 +14,7 @@
                 <g:hiddenField type="text"  name="nombre" value="${it.nombre}"/>
                 <g:actionSubmit value="Pedidos de Soporte" action="verPedidosSoporte"/>
                 <g:actionSubmit value="Ver Temas" action="verTemas"/>
+                <g:actionSubmit value="GestionarMiembros" action="gestionarMiembros"/>
             </g:form>
         </g:each>
         <g:form>

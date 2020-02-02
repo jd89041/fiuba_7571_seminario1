@@ -21,11 +21,11 @@ class ReceptorPedidosService {
         Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
         if (!organizacion)
             return [1, "No existe la organizacion"]
-        AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(nombreAplicacionCliente)
+        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == nombreAplicacionCliente }
         if (!aplicacionCliente)
             return [2, "No existe la aplicación"]
         MensajeSoporteEntrante mensajeEntrante = new MensajeSoporteEntrante(mensaje,
-        nombreAplicacionCliente, emailAutor, nombreAutor)
+                nombreAplicacionCliente, emailAutor, nombreAutor)
         aplicacionCliente.gestionarPedidoSoporteEntrante(mensajeEntrante)
         return [0, "asd"]
     }

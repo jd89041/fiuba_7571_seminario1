@@ -15,14 +15,9 @@ class PedidoSoporte {
         miembro nullable: true
     }
 
-    static mapping = {
-        id generator: 'assigned', name: 'emailAutor'
-    }
-
     def PedidoSoporte(autor) {
         setAutor(autor)
         emailAutor = autor.email
-        mensajes = []
         etiquetas = []
         ocurrenciasDeTemas = [:]
     }
@@ -36,7 +31,7 @@ class PedidoSoporte {
 
     // evalua el mensaje en base a los temas de la aplicacion cliente y carga una lista de ponderaciones
     def procesarMensaje(mensaje) {
-        // if nuevos temas! procesar todos!
+        // if nuevos temas procesar todos!
         def ocurrenciasTemas = mensaje.obtenerOcurrenciasDeTemas(aplicacion.temas)
         ocurrenciasTemas.each { tema, ocurrencias ->
             if (!ocurrenciasDeTemas[tema])
@@ -60,14 +55,18 @@ class PedidoSoporte {
 
     def resolver() {
         // usar los temas q tiene asignados y devuelve un resultado o indica que no puede hacerlo
-        true
+        false
+    }
+
+    def estaAsignado() {
+        miembro != null
     }
 
     def asignar(miembro) {
         // esta operacion deberia hacerse acá y no en el miembro equipo
         if (this.miembro)
             this.miembro.removerPedidoSoporte(this)
-        this.miembro = miembro;
-        this.miembro.agregarPedidoSoporte(this);
+        setMiembro(miembro)
+        this.miembro.agregarPedidoSoporte(this)
     }
 }

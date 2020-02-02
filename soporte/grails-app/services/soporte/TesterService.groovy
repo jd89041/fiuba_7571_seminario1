@@ -43,7 +43,7 @@ class TesterService {
     }
 
     def crearOrganizacionConAdminYAplicacion(nombreOrganizacion, nombreAplicacion, email, password) {
-        PlanOferta planOferta = PlanOferta.get(1)
+        PlanOferta planOferta = PlanOferta.get(4)   // test
         Plan plan = new Plan()
         plan.activar(planOferta)
         Organizacion organizacion = new Organizacion(nombreOrganizacion)

@@ -1,5 +1,7 @@
 package soporte
 
+import grails.gorm.transactions.Transactional
+
 class AplicacionClienteController {
     def testerService
     def adminOrganizacionService
@@ -38,6 +40,29 @@ class AplicacionClienteController {
     def verTemas() {
         AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(params.nombre)
         [organizacion: Organizacion.findByNombre(params.organizacion), aplicacionCliente: aplicacionCliente]
+    }
+
+    def gestionarMiembros() {
+        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == params.nombre }
+        def miembrosInvitables = organizacion.miembros.minus(aplicacionCliente.miembros)
+        [organizacion: organizacion, aplicacionCliente: aplicacionCliente, miembrosInvitables: miembrosInvitables]
+    }
+
+    @Transactional
+    def agregarMiembro() {
+        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == params.nombreAplicacion }
+        MiembroEquipo miembro = organizacion.miembros.find { it.email == params.emailNuevoMiembro }
+        aplicacionCliente.agregarMiembro(miembro)
+    }
+
+    @Transactional
+    def removerMiembro() {
+        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == params.nombreAplicacion }
+        MiembroEquipo miembro = organizacion.miembros.find { it.email == params.emailMiembro }
+        aplicacionCliente.removerMiembro(miembro)
     }
 
     def mostrarMensaje(contenido) {
