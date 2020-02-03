@@ -1,9 +1,9 @@
 package soporte
 
-import soporte.PlanOferta
-import soporte.Plan
 
-import soporte.notificaciones.*
+import soporte.notificaciones.NotificacionBienvenida
+import soporte.notificaciones.aplicacion.NotificacionAltaAplicacion
+import soporte.notificaciones.plan.NotificacionActualizacionPlan
 
 class Organizacion {
 
@@ -57,8 +57,7 @@ class Organizacion {
         plan.activar(planOferta)
         save(failOnError: true)
         miembros.each {
-            if (it.rol.tienePermiso(Permiso.TOTAL))
-                it.notificar(new NotificacionActualizacionPlan(planOferta.nombre))
+            it.notificar(new NotificacionActualizacionPlan(planOferta.nombre))
         }
     }
 
@@ -66,8 +65,7 @@ class Organizacion {
         addToAplicaciones(aplicacion)
         save(failOnError: true)
         miembros.each {
-            if (it.rol.tienePermiso(Permiso.TOTAL))
-                it.notificar(new NotificacionNuevaAplicacion(aplicacion.nombre))
+            it.notificar(new NotificacionAltaAplicacion(aplicacion.nombre))
         }
     }
 

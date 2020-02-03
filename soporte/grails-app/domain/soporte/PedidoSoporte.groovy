@@ -1,6 +1,6 @@
 package soporte
 
-import soporte.notificaciones.NotificacionNuevoMensajeEnPedidoSoporte
+import soporte.notificaciones.pedidos_soporte.NotificacionNuevoMensajeEnPedidoSoporte
 
 class PedidoSoporte {
 

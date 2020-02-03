@@ -1,6 +1,8 @@
 package soporte
 
-import soporte.notificaciones.*
+import soporte.notificaciones.Notificacion
+import soporte.notificaciones.pedidos_soporte.NotificacionAsignacionDePedidoSoporte
+import soporte.notificaciones.plan.NotificacionActualizacionPlan
 
 class MiembroEquipo {
 
@@ -55,13 +57,15 @@ class MiembroEquipo {
 
     def agregarPedidoSoporte(pedidoSoporte) {
         addToPedidosSoporte(pedidoSoporte)
-        notificar(new NotificacionAsignacionPedidoSoporte(pedidoSoporte.aplicacion.nombre))
+        notificar(new NotificacionAsignacionDePedidoSoporte(pedidoSoporte.aplicacion.nombre))
         save(failOnError: true)
     }
 
     def notificar(notificacion) {
-        addToNotificaciones(notificacion)
-        save(failOnError: true)
+        if (notificacion.puedeEnviarseAlRol(rol)) {
+            addToNotificaciones(notificacion)
+            save(failOnError: true)
+        }
         // usando el mail notificar al usuario, si lo tiene disponible
         // quizás un proceso pueda indicar en pantalla si recibe notificaciones el miembro q esté logeado!
     }

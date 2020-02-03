@@ -24,4 +24,8 @@ class Notificacion {
     def borrar() {
         delete()
     }
+
+    def puedeEnviarseAlRol(rol) {
+        true
+    }
 }

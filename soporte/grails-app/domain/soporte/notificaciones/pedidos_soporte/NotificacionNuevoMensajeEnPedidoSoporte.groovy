@@ -1,4 +1,6 @@
-package soporte.notificaciones
+package soporte.notificaciones.pedidos_soporte
+
+import soporte.notificaciones.Notificacion
 
 class NotificacionNuevoMensajeEnPedidoSoporte extends Notificacion {
     def NotificacionNuevoMensajeEnPedidoSoporte(nombreAplicacion) {
