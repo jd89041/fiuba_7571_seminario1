@@ -5,8 +5,6 @@ import soporte.notificaciones.aplicacion.*
 class AplicacionCliente {
     String nombre
 
-    boolean herramientaBots // a remover!
-
     boolean autoEtiquetar = true
     boolean autoResolver = true
     boolean autoAsignar = true
@@ -92,23 +90,5 @@ class AplicacionCliente {
         }
         pedidoSoporte.save(failOnError: true)
         this.save(failOnError: true)
-    }
-
-
-    def obtenerRespuestaPara(mensaje) {
-        def respuesta
-        def mayorCantidadOcurrencias = 0
-        def ocurrencias
-        temas.each {
-            ocurrencias = 0
-            it.palabrasClave.each {
-                ocurrencias += mensaje.count(it)
-            }
-            if (ocurrencias > mayorCantidadOcurrencias){
-                mayorCantidadOcurrencias = ocurrencias
-                respuesta = "${it.preguntasFrecuentes[0].pregunta}\n${it.preguntasFrecuentes[0].respuesta}"
-            }
-        }
-        respuesta
     }
 }

@@ -23,7 +23,7 @@ class AplicacionClienteController {
         if (AplicacionCliente.findByNombre(params.nombre))
             mostrarMensaje("Ya existe la aplicación")
         else {
-            adminOrganizacionService.agregarAplicacionCliente(params.organizacion, params.nombre, params.botsHabilitados)
+            adminOrganizacionService.agregarAplicacionCliente(params)
             mostrarMensaje("Se creó la aplicacion ${params.nombre}")
         }
     }

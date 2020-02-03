@@ -8,7 +8,15 @@
 	    <h1>Administración de Aplicaciones Cliente</h1>
         <g:each in="${aplicaciones}">
             <p>Nombre: ${it.nombre}</p>
-            <p>Bots: ${it.herramientaBots}</p>
+            <p> Auto etiquetado de mensajes
+                <g:checkBox name="" value="${it.autoEtiquetar}" disabled="disabled"/>
+            </p>
+            <p> Auto asignación de mensajes
+                <g:checkBox name="" value="${it.autoAsignar}" disabled="disabled"/>
+            </p>
+            <p> Auto resolver mensajes sin asignacion
+                <g:checkBox name="" value="${it.autoResolver}" disabled="disabled"/>
+            </p>
             <g:form>
                 <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>
                 <g:hiddenField type="text"  name="nombre" value="${it.nombre}"/>

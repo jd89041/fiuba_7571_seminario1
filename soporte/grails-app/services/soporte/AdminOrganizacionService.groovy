@@ -8,12 +8,19 @@ class AdminOrganizacionService {
     def confirmacionAltaOrganizacionService
     def confirmacionAltaMiembroService
 
-    def agregarAplicacionCliente(nombreOrganizacion, nombreAplicacion, herramientaBots) {
+    def agregarAplicacionCliente(params) {
+        def nombreOrganizacion = params.nombreOrganizacion
+        def nombreAplicacion = params.nombreAplicacion
+        def autoEtiquetar = params.autoEtiquetar ? true : false
+        def autoAsignar = params.autoAsignar ? true : false
+        def autoResolver = params.autoResolver ? true : false
+
         Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
         AplicacionCliente aplicacionCliente = new AplicacionCliente()
         aplicacionCliente.nombre = nombreAplicacion
-        aplicacionCliente.herramientaBots = herramientaBots != null
-        aplicacionCliente.organizacion = organizacion
+        aplicacionCliente.autoEtiquetar = autoEtiquetar
+        aplicacionCliente.autoAsignar = autoAsignar
+        aplicacionCliente.autoResolver = autoResolver
         organizacion.agregarAplicacion(aplicacionCliente)
     }
 

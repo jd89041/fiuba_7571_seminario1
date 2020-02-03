@@ -49,6 +49,12 @@ class TesterService {
         confirmacionAltaOrganizacionService.enviar(nombreOrganizacion, emailAdmin)
         adminOrganizacionService.crearOrganizacionConAdmin(nombreOrganizacion, emailAdmin, passwordAdmin)
         adminOrganizacionService.actualizarPlan(nombreOrganizacion, PlanOferta.get(3).nombre)
-        adminOrganizacionService.agregarAplicacionCliente(nombreOrganizacion, nombreAplicacion, true)   // remover luego la herramienta bots
+        adminOrganizacionService.agregarAplicacionCliente([
+            nombreOrganizacion: nombreOrganizacion,
+            nombreAplicacion: nombreAplicacion,
+            autoEtiquetar: true,
+            autoAsignar: true,
+            autoResolver: true
+        ])
     }
 }

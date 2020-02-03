@@ -1,6 +1,5 @@
 package soporte
 
-
 import soporte.notificaciones.NotificacionBienvenida
 import soporte.notificaciones.aplicacion.NotificacionAltaAplicacion
 import soporte.notificaciones.plan.NotificacionActualizacionPlan
