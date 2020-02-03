@@ -1,5 +1,7 @@
 package soporte
 
+import soporte.notificaciones.NotificacionNuevoMensajeEnPedidoSoporte
+
 class PedidoSoporte {
 
     String emailAutor
@@ -27,6 +29,8 @@ class PedidoSoporte {
         def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido)
         procesarMensaje(nuevoMensaje)
         addToMensajes(nuevoMensaje)
+        if (estaAsignado())
+            miembro.notificar(new NotificacionNuevoMensajeEnPedidoSoporte(aplicacion.nombre))
     }
 
     // evalua el mensaje en base a los temas de la aplicacion cliente y carga una lista de ponderaciones

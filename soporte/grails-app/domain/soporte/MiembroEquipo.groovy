@@ -1,6 +1,6 @@
 package soporte
 
-import soporte.notificaciones.Notificacion
+import soporte.notificaciones.*
 
 class MiembroEquipo {
 
@@ -49,13 +49,13 @@ class MiembroEquipo {
 
     def removerPedidoSoporte(pedidoSoporte) {
         removeFromPedidosSoporte(pedidoSoporte)
-        //notificar() // msg de pedido removido
+        notificar(new NotificacionActualizacionPlan(pedidoSoporte.aplicacion.nombre))
         save(failOnError: true)
     }
 
     def agregarPedidoSoporte(pedidoSoporte) {
         addToPedidosSoporte(pedidoSoporte)
-        //notificar() // msg de pedido agregado
+        notificar(new NotificacionAsignacionPedidoSoporte(pedidoSoporte.aplicacion.nombre))
         save(failOnError: true)
     }
 
@@ -84,6 +84,7 @@ class MiembroEquipo {
         def notificacion = notificaciones.find { it.id == notificacionId }
         removeFromNotificaciones(notificacion)
         notificacion.borrar()
+        save(failOnError: true)
     }
 
     def tieneNotificacionesNoLeidas() {

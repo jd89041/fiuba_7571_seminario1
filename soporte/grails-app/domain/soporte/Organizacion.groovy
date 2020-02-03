@@ -56,19 +56,19 @@ class Organizacion {
     def adquirirPlan(PlanOferta planOferta) {
         plan.activar(planOferta)
         save(failOnError: true)
-        // notificar a los admin
-        /*
         miembros.each {
-            if (it.rol == Rol.ADMINISTRADOR)
+            if (it.rol.tienePermiso(Permiso.TOTAL))
                 it.notificar(new NotificacionActualizacionPlan(planOferta.nombre))
         }
-        */
     }
 
     def agregarAplicacion(AplicacionCliente aplicacion) {
-        if (!aplicaciones)
-            aplicaciones = []
-        aplicaciones.add(aplicacion)
+        addToAplicaciones(aplicacion)
+        save(failOnError: true)
+        miembros.each {
+            if (it.rol.tienePermiso(Permiso.TOTAL))
+                it.notificar(new NotificacionNuevaAplicacion(aplicacion.nombre))
+        }
     }
 
     def agregarMiembro(MiembroEquipo miembro) {

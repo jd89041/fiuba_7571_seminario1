@@ -12,7 +12,8 @@ class BootStrap {
     }
 
     def crearPermisos() {
-        [ "Total", "Perfil", "PedidosSoporte"].each {
+        def permisos = [Permiso.TOTAL, Permiso.PERFIL, Permiso.PEDIDOS_SOPORTE]
+        permisos.each {
             Permiso permiso = Permiso.findByNombre(it)
             if (!permiso) {
                 permiso = new Permiso()

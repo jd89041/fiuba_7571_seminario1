@@ -15,7 +15,6 @@ class AdminOrganizacionService {
         aplicacionCliente.herramientaBots = herramientaBots != null
         aplicacionCliente.organizacion = organizacion
         organizacion.agregarAplicacion(aplicacionCliente)
-        organizacion.save(failOnError: true)
     }
 
     def agregarMiembroEquipo(organizacion, email, password, rol) {
