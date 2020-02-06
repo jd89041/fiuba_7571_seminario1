@@ -8,6 +8,9 @@
 	    <h1>Perfil de ${miembro.email}</h1>
 	    <!--  info general -->
 	    Rol: ${miembro.describirRol()} <br>
+	    <g:form>
+            <g:actionSubmit value="Desconectarse" action="desconectar"/>
+        </g:form>
         <g:if test="${miembro.tienePermiso('Total')}">
             <g:form>
                 <g:hiddenField name="organizacion" value="${miembro.organizacion.nombre}"/>

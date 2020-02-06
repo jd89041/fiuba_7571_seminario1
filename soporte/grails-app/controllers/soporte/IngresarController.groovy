@@ -21,6 +21,7 @@ class IngresarController {
         def res = ingresarService.verificarCredenciales(organizacion, email, password)
         switch (res) {
             case MiembroEquipo.CREDENCIALES_OK:
+                session["emailUsuario"] = email
                 redirect(controller: "perfil", params: [email: email])
                 break
             case MiembroEquipo.CREDENCIALES_ERROR:

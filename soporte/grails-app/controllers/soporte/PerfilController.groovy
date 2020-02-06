@@ -16,6 +16,11 @@ class PerfilController {
         redirect(controller: "adminOrganizacion", params:[organizacion: params.organizacion])
     }
 
+    def desconectar() {
+        session.invalidate()
+        redirect(controller: "index")
+    }
+
     @Transactional
     def leerNotificacion() {
         Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
