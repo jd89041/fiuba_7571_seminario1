@@ -54,7 +54,7 @@ class TesterService {
             nombreAplicacion: nombreAplicacion,
             autoEtiquetar: true,
             autoAsignar: true,
-            autoResolver: true
+            autoResponder: true
         ])
     }
 }

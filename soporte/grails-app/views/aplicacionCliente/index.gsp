@@ -14,8 +14,8 @@
             <p> Auto asignación de mensajes
                 <g:checkBox name="" value="${it.autoAsignar}" disabled="disabled"/>
             </p>
-            <p> Auto resolver mensajes sin asignacion
-                <g:checkBox name="" value="${it.autoResolver}" disabled="disabled"/>
+            <p> Auto responder mensajes
+                <g:checkBox name="" value="${it.autoResponder}" disabled="disabled"/>
             </p>
             <g:form>
                 <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>

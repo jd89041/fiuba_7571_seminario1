@@ -6,6 +6,7 @@ class MensajePedidoSoporte {
     String autor
     String mensaje
     long fecha
+    boolean esRespuesta
 
     static belongsTo = [pedidoSoporte: PedidoSoporte]
 
@@ -13,10 +14,15 @@ class MensajePedidoSoporte {
         pedidoSoporte nullable: false
     }
 
-    def MensajePedidoSoporte(autor, mensaje) {
-        this.autor = autor
-        this.mensaje = mensaje
-        fecha = new Instant().getMillis()
+    def MensajePedidoSoporte(nombreAutor, mensaje, esRespuesta) {
+        setAutor(nombreAutor)
+        setMensaje(mensaje)
+        setFecha(new Instant().getMillis())
+        setEsRespuesta(esRespuesta)
+    }
+
+    def perteneceAlTema(tema) {
+        tema.obtenerOcurrencias(mensaje) > 0
     }
 
     def obtenerOcurrenciasDeTemas(temas) {

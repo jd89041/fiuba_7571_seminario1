@@ -96,4 +96,20 @@ class MiembroEquipo {
             !it.leida
         }
     }
+
+    def obtenerPedidosSoporteDeAplicacion(aplicacion) {
+        pedidosSoporte.findAll {
+            it.aplicacion.nombre == aplicacion.nombre
+        }
+    }
+
+    def conoceTemasDelPedidoSoporte(pedidoSoporte) {
+        especialidades.findAll {
+            it in pedidoSoporte.etiquetas
+        }.size() > 0
+    }
+
+    def estaTrabajandoEnPedidoSoporte(pedidoSoporte) {
+        this.pedidoSoporte == pedidoSoporte
+    }
 }

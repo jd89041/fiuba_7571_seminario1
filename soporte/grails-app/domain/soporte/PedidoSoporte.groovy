@@ -26,7 +26,7 @@ class PedidoSoporte {
 
     def agregarMensaje(pedidoSoporteEntrante) {
         // evaluar y luego se puede taggear
-        def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido)
+        def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido, false)
         procesarMensaje(nuevoMensaje)
         addToMensajes(nuevoMensaje)
         if (estaAsignado())
@@ -44,26 +44,50 @@ class PedidoSoporte {
         }
     }
 
-    def etiquetar() {
+    def etiquetar(reglas) {
         // etiqueta / ocurrencias
         // 1) identificar si el mensaje es de un agente o de un usuario (filtro solo mensajes de usuario)
-        // 2) se toman los temas definidos en la aplicacion
-        // 3) tomar los nuevos mensajes, si cambiaron los temas, evaluar todos los mensajes
-        // 4) organizacion.temas.each { if mensaje.perteceAlTema(it) --> sumar ocurrencia al tag
-        ocurrenciasDeTemas.each {
-            if (!(it.key in etiquetas)) {
-                addToEtiquetas(it.key)
+        ocurrenciasDeTemas.each { ocurrencia ->
+            if (reglas.every { regla -> regla.cumple(ocurrencia.key, ocurrencia.value) } && !(ocurrencia.key in etiquetas)) {
+                addToEtiquetas(ocurrencia.key)
             }
         }
     }
 
-    def resolver() {
-        // usar los temas q tiene asignados y devuelve un resultado o indica que no puede hacerlo
-        false
+    def responder(reglas) {
+        def temasRespuesta = []
+        if (aplicacion.temas.size() > 0) {
+            temasRespuesta = aplicacion.temas.collect()  // copia
+            def mensajes = this.mensajes.collect()
+            reglas.each {
+                if (mensajes.size() > 0 && temasRespuesta.size() > 0)
+                    (mensajes, temasRespuesta) = it.aplicar(this, mensajes, temasRespuesta)
+            }
+        }
+        if (temasRespuesta.size() > 0)
+            temasRespuesta.preguntasFrecuentes[0].respuesta // procesar que no se devuelva repetido
+        else
+            null
     }
 
     def estaAsignado() {
         miembro != null
+    }
+
+    def asignarConReglas(reglasAsignacion, reglaOrdenamiento) {
+        def miembrosAsignables = aplicacion.miembros.collect()
+        reglasAsignacion.each { regla ->
+            if (miembrosAsignables.size() > 0)
+                miembrosAsignables = regla.aplicar(this, miembrosAsignables)
+        }
+
+        if (miembrosAsignables.size() > 0) {
+            def ordenados = reglaOrdenamiento.aplicar(this, miembrosAsignables)
+            def miembro = ordenados[0]
+            asignar(miembro)
+            true
+        } else
+            false
     }
 
     def asignar(miembro) {

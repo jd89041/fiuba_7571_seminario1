@@ -1,17 +1,22 @@
 package soporte
 
 import soporte.notificaciones.aplicacion.*
+import soporte.reglas.*
+import soporte.reglas.etiquetado.*
+import soporte.reglas.asignacion.*
+import soporte.reglas.ordenamiento.*
+import soporte.reglas.respuesta.*
 
 class AplicacionCliente {
     String nombre
 
     boolean autoEtiquetar = true
-    boolean autoResolver = true
+    boolean autoResponder = true
     boolean autoAsignar = true
 
     static belongsTo = [organizacion: Organizacion]
 
-    static hasMany = [miembros: MiembroEquipo, pedidosSoporte: PedidoSoporte, temas: Tema]
+    static hasMany = [miembros: MiembroEquipo, pedidosSoporte: PedidoSoporte, temas: Tema, reglas: Regla]
 
     static mapping = {
         id generator: 'assigned', name: 'nombre'
@@ -56,6 +61,33 @@ class AplicacionCliente {
     // - id del usuario con el que se trackea la historia
     // - mensaje nuevo
     def gestionarPedidoSoporteEntrante(mensajeSoporteEntrante) {
+        // -- pruebas
+        if (reglas.size() == 0) {
+            def r1 = new MinimaCantidadOcurrencias()    // taggeo
+            r1.setCantidad(15)
+            addToReglas(r1)
+            r1.save(failOnError: true)
+
+            def r2 = new RestriccionRol() // asignacion
+            def rol = Rol.findByNombre(Rol.ADMINISTRADOR)
+            r2.setNombreRol(Rol.ADMINISTRADOR)
+            addToReglas(r2)
+            r2.save(failOnError: true)
+
+            def r3 = new MenosPedidosTotales()  // ordenamiento
+            addToReglas(r3)
+            r3.save(failOnError: true)
+
+            def r4 = new BandaHoraria() // resolucion
+            r4.setHoraMinima(20)
+            r4.setHoraMaxima(23)
+            addToReglas(r4)
+            r4.save(failOnError: true)
+
+            save(failOnError: true)
+        }
+        // -- pruebas
+
         String emailAutor = mensajeSoporteEntrante.emailAutor
         def pedidoSoporte = recuperarPedidoSoporte(emailAutor)
         if (!pedidoSoporte) {
@@ -73,20 +105,14 @@ class AplicacionCliente {
         }
         pedidoSoporte.agregarMensaje(mensajeSoporteEntrante)
         if (autoEtiquetar)
-            pedidoSoporte.etiquetar()
-        if (!pedidoSoporte.estaAsignado()) {
-            boolean resuelto = false
-            if (autoResolver)
-                resuelto = pedidoSoporte.resolver()
-            if (autoAsignar && !resuelto) {
-                // filtrar en base a reglas, luego hacer un random y asignar
-                def miembrosDisponibles = miembros.findAll {
-                    it.puedeAsignarPedidoSoporte(pedidoSoporte)
-                }
-                // determinar a que miembros de los disponibles asignar la tarea
-                if (miembrosDisponibles.size() > 0)
-                    pedidoSoporte.asignar(miembrosDisponibles[0])
-            }
+            pedidoSoporte.etiquetar(reglas.findAll { it.instanceOf(ReglaEtiquetado) })
+        // if auto responder y regla auto respuesta
+        def respuesta
+        if (autoResponder)
+            respuesta = pedidoSoporte.responder(reglas.findAll { it.instanceOf(ReglaRespuesta) })
+        if (!respuesta && !pedidoSoporte.estaAsignado()) {
+            if (autoAsignar)
+                pedidoSoporte.asignarConReglas(reglas.findAll {it.instanceOf(ReglaAsignacion)}, reglas.find { it.instanceOf(ReglaOrdenamiento) })
         }
         pedidoSoporte.save(failOnError: true)
         this.save(failOnError: true)

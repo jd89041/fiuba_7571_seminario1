@@ -13,14 +13,14 @@ class AdminOrganizacionService {
         def nombreAplicacion = params.nombreAplicacion
         def autoEtiquetar = params.autoEtiquetar ? true : false
         def autoAsignar = params.autoAsignar ? true : false
-        def autoResolver = params.autoResolver ? true : false
+        def autoResponder = params.autoResponder ? true : false
 
         Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
         AplicacionCliente aplicacionCliente = new AplicacionCliente()
         aplicacionCliente.nombre = nombreAplicacion
         aplicacionCliente.autoEtiquetar = autoEtiquetar
         aplicacionCliente.autoAsignar = autoAsignar
-        aplicacionCliente.autoResolver = autoResolver
+        aplicacionCliente.autoResponder = autoResponder
         organizacion.agregarAplicacion(aplicacionCliente)
     }
 
