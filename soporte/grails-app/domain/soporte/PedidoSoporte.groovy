@@ -65,7 +65,7 @@ class PedidoSoporte {
             }
         }
         if (temasRespuesta.size() > 0)
-            temasRespuesta.preguntasFrecuentes[0].respuesta // procesar que no se devuelva repetido
+            temasRespuesta.preguntasFrecuentes[0][0].respuesta // procesar que no se devuelva repetido
         else
             null
     }

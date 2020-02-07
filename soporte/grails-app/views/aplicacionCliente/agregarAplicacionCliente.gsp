@@ -11,7 +11,6 @@
             <g:checkBox name="autoEtiquetar" value="${true}"/> Auto etiquetado de mensajes <br>
             <g:checkBox name="autoAsignar" value="${true}"/> Auto asignación de mensajes <br>
             <g:checkBox name="autoResponder" value="${true}"/> Auto responder mensajes <br>
-            <g:hiddenField type="text" name="nombreOrganizacion" value="${organizacion.nombre}"/>
             <g:actionSubmit value="OK" action="confirmarAgregar"/>
         </g:form>
         <g:if test="${error}">

@@ -9,7 +9,6 @@
 	    <g:form>
             <g:field type="string" name="email" required=""/> Email<br>
             Rol: <g:select name="rol" from="${roles}" optionValue="nombre" optionKey="id"/>
-            <g:hiddenField name="organizacion" value="${params.organizacion}"/>
             <g:actionSubmit value="OK" action="enviarInvitacion"/><br>
         </g:form>
 	</body>

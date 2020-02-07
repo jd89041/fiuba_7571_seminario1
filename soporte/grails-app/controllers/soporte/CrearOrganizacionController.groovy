@@ -62,7 +62,9 @@ class CrearOrganizacionController {
 
     def finalizar() {
         adminOrganizacionService.crearOrganizacionConAdmin(params.organizacion, params.email, params.password)
-        redirect(controller: "adminOrganizacion", action: "adminPlanes", params: [organizacion: params.organizacion])
+        session.emailMiembro = params.email
+        session.nombreOrganizacion = params.organizacion
+        redirect(controller: "adminOrganizacion", action: "adminPlanes")
     }
 
     def mostrarMensaje(contenido) {

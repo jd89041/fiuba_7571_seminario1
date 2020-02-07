@@ -6,26 +6,28 @@ class AdminOrganizacionController {
     def adminOrganizacionService
 
     def index() {
+        [nombreOrganizacion: session.nombreOrganizacion]
     }
 
     def adminMiembros() {
-        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        def organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         [miembros: organizacion.miembros]
     }
 
     def invitarMiembro() {
-        if (Organizacion.findByNombre(params.organizacion).puedeInvitarMiembros())
+        if (Organizacion.findByNombre(session.nombreOrganizacion).puedeInvitarMiembros())
             [roles: Rol.list()]
         else
             mostrarMensaje("El plan actual no admite más miembros!! Mejore su plan")
     }
 
     def enviarInvitacion() {
-        def organizacion = params.organizacion
+        def nombreOrganizacion = session.nombreOrganizacion
+        def organizacion = Organizacion.findByNombre(nombreOrganizacion)
         def email = params.email
         switch (confirmacionAltaMiembroService.obtenerOperacion(organizacion, email)) {
             case ConfirmacionAltaOrganizacion.OPERACION_ENVIAR:
-                confirmacionAltaMiembroService.enviar(organizacion, email, params.rol)
+                confirmacionAltaMiembroService.enviar(nombreOrganizacion, email, params.rol)
                 mostrarMensaje("Se envió el mail de registro")
                 break
             case ConfirmacionAltaOrganizacion.OPERACION_REENVIAR:
@@ -38,9 +40,9 @@ class AdminOrganizacionController {
     }
 
     def confirmarInvitacion() {
-        def nombreOrganizacion = params.organizacion
         def email = params.email
         def ticket = params.ticket
+        def nombreOrganizacion = session.nombreOrganizacion
         if (!Organizacion.exists(nombreOrganizacion) || !confirmacionAltaMiembroService.esValida(nombreOrganizacion, email, ticket))
             mostrarMensaje("Error: El link con la invitación para unirse a la organización caducó")
         else {
@@ -50,13 +52,13 @@ class AdminOrganizacionController {
     }
 
     def finalizar() {
-        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         adminOrganizacionService.agregarMiembroEquipo(organizacion, params.email, params.password, params.rol)
         mostrarMensaje("Se agregó el miembro exitosamente")
     }
 
     def adminPlanes() {
-        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         def planActual = organizacion.plan
         [
             organizacion: organizacion,
@@ -67,17 +69,17 @@ class AdminOrganizacionController {
 
     def comprarPlan() {
         def planOferta = PlanOferta.findByNombre(params.plan)
-        render(view: "confirmarCompraPlan", model: [organizacion: params.organizacion, planOferta: planOferta])
+        render(view: "confirmarCompraPlan", model: [organizacion: session.nombreOrganizacion, planOferta: planOferta])
     }
 
     def confirmarCompraPlan() {
         // agregar gestor de transacciones acá
-        adminOrganizacionService.actualizarPlan(params.organizacion, params.planOferta)
+        adminOrganizacionService.actualizarPlan(session.nombreOrganizacion, params.planOferta)
         mostrarMensaje("El plan fue actualizado correctamente")
     }
 
     def adminAplicacionesCliente() {
-        redirect (controller: "aplicacionCliente", params: [organizacion: params.organizacion])
+        redirect (controller: "aplicacionCliente")
     }
 
     def mostrarMensaje(contenido) {

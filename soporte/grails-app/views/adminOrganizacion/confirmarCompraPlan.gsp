@@ -11,7 +11,6 @@
         <p>Máxmima cantidad de aplicaciones cliente: ${planOferta.cantidadMaxAplicaciones}</p>
         <p>Precio: ${planOferta.precio}</p>
         <g:form>
-            <g:hiddenField type="text"  name="organizacion" value="${organizacion}"/>
             <g:hiddenField type="text"  name="planOferta" value="${planOferta.nombre}"/>
             <g:actionSubmit value="Confirmar" action="confirmarCompraPlan"/>
         </g:form>

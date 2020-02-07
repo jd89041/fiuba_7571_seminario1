@@ -8,12 +8,13 @@ import soporte.notificaciones.Notificacion
 class PerfilController {
 
     def index() {
-        MiembroEquipo miembro = MiembroEquipo.findByEmail(params.email)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        MiembroEquipo miembro = organizacion.obtenerMiembro(session.emailMiembro)
         render(view: "index", model: [miembro: miembro])
     }
 
     def irAdministrarOrganizacion() {
-        redirect(controller: "adminOrganizacion", params:[organizacion: params.organizacion])
+        redirect(controller: "adminOrganizacion")
     }
 
     def desconectar() {
@@ -23,16 +24,16 @@ class PerfilController {
 
     @Transactional
     def leerNotificacion() {
-        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
-        MiembroEquipo miembro = organizacion.miembros.find { it.email == params.emailMiembro }
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        MiembroEquipo miembro = organizacion.obtenerMiembro(session.emailMiembro)
         miembro.leerNotificacion(params.notificacionId as int)
         render(view: "index", model: [miembro: miembro])
     }
 
     @Transactional
     def borrarNotificacion() {
-        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
-        MiembroEquipo miembro = organizacion.miembros.find { it.email == params.emailMiembro }
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        MiembroEquipo miembro = organizacion.obtenerMiembro(session.emailMiembro)
         miembro.borrarNotificacion(params.notificacionId as int)
         render(view: "index", model: [miembro: miembro])
     }

@@ -7,12 +7,12 @@ class AplicacionClienteController {
     def adminOrganizacionService
 
     def index() {
-        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         [organizacion: organizacion, aplicaciones: organizacion.aplicaciones]
     }
 
     def agregarAplicacionCliente() {
-        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         if (organizacion.puedeAgregarAplicacionesCliente())
             [organizacion: organizacion]
         else
@@ -20,49 +20,49 @@ class AplicacionClienteController {
     }
 
     def confirmarAgregar() {
-        if (AplicacionCliente.findByNombre(params.nombre))
+        if (AplicacionCliente.findByNombre(params.nombreAplicacion))
             mostrarMensaje("Ya existe la aplicación")
         else {
+            params.nombreOrganizacion = session.nombreOrganizacion
             adminOrganizacionService.agregarAplicacionCliente(params)
-            mostrarMensaje("Se creó la aplicacion ${params.nombre}")
+            mostrarMensaje("Se creó la aplicacion ${params.nombreAplicacion}")
         }
     }
 
     def verPedidosSoporte() {
-        mostrarMensaje("TODO: Pedidos soporte de ${params.nombre}")
+        mostrarMensaje("TODO: Pedidos soporte de ${params.nombreAplicacion}")
     }
 
     def crearTemasTest() {
-        testerService.crearTemas(params.aplicacionCliente)
+        testerService.crearTemas(params.nombreAplicacion)
         mostrarMensaje("Se crearon temas de prueba para la aplicacion cliente")
     }
 
     def verTemas() {
-        AplicacionCliente aplicacionCliente = AplicacionCliente.findByNombre(params.nombre)
-        [organizacion: Organizacion.findByNombre(params.organizacion), aplicacionCliente: aplicacionCliente]
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
+        [organizacion: organizacion, aplicacionCliente: aplicacionCliente]
     }
 
     def gestionarMiembros() {
-        Organizacion organizacion = Organizacion.findByNombre(params.organizacion)
-        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == params.nombre }
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         def miembrosInvitables = organizacion.miembros.minus(aplicacionCliente.miembros)
         [organizacion: organizacion, aplicacionCliente: aplicacionCliente, miembrosInvitables: miembrosInvitables]
     }
 
     @Transactional
     def agregarMiembro() {
-        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
-        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == params.nombreAplicacion }
-        MiembroEquipo miembro = organizacion.miembros.find { it.email == params.emailNuevoMiembro }
-        aplicacionCliente.agregarMiembro(miembro)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
+        aplicacionCliente.agregarMiembroConEmail(params.emailNuevoMiembro)
     }
 
     @Transactional
     def removerMiembro() {
-        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
-        AplicacionCliente aplicacionCliente = organizacion.aplicaciones.find { it.nombre == params.nombreAplicacion }
-        MiembroEquipo miembro = organizacion.miembros.find { it.email == params.emailMiembro }
-        aplicacionCliente.removerMiembro(miembro)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
+        aplicacionCliente.removerMiembroConEmail(params.emailMiembro)
     }
 
     def mostrarMensaje(contenido) {

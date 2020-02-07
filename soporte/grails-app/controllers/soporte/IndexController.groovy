@@ -2,9 +2,9 @@ package soporte
 
 class IndexController {
     def index() {
-        def emailUsuario = session["emailUsuario"]
-        if (emailUsuario)
-            redirect(controller: "perfil", params: [email: emailUsuario])
+        def emailMiembro = session.emailMiembro
+        if (emailMiembro)
+            redirect(controller: "perfil", params: [email: emailMiembro])
     }
 
     def mensajes() {

@@ -26,14 +26,18 @@ class AplicacionCliente {
         nombre blank: false
     }
 
-    def agregarMiembro(miembro) {
+    def agregarMiembroConEmail(emailNuevoMiembro) {
+        def miembro = organizacion.obtenerMiembro(emailNuevoMiembro)
         miembro.notificar(new NotificacionAltaDeMiembroEnAplicacion(nombre))
         addToMiembros(miembro)
         save(failOnError: true)
     }
 
-    def removerMiembro(miembro) {
+    def removerMiembroConEmail(email) {
         // remover todas las tareas que tenia asignadas relacionadas con esta app
+        def miembro = miembros.find {
+            it.email = email
+        }
         miembro.notificar(new NotificacionBajaDeMiembroDeAplicacion(nombre))
         removeFromMiembros(miembro)
         save(failOnError: true)

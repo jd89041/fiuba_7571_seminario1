@@ -25,7 +25,6 @@
             <p>Cantidad de aplicaciones: ${it.cantidadMaxAplicaciones}</p>
             <p>Precio: ${it.precio}</p>
             <g:form>
-                <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>
                 <g:hiddenField type="text"  name="plan" value="${it.nombre}"/>
                 <g:actionSubmit value="Comprar" action="comprarPlan"/>
             </g:form>

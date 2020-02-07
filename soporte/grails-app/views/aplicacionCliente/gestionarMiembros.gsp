@@ -14,7 +14,6 @@
             <p>Password: ${it.password}</p>
             <p>Rol: ${it.describirRol()}</p>
             <g:form>
-                <g:hiddenField type="text" name="nombreOrganizacion" value="${organizacion.nombre}"/>
                 <g:hiddenField type="text" name="nombreAplicacion" value="${aplicacionCliente.nombre}"/>
                 <g:hiddenField type="text" name="emailMiembro" value="${it.email}"/>
                 <g:actionSubmit value="Remover" action="removerMiembro"/>
@@ -22,7 +21,6 @@
         </g:each>
         <g:if test="${miembrosInvitables.size() > 0}">
             <g:form>
-                <g:hiddenField type="text" name="nombreOrganizacion" value="${organizacion.nombre}"/>
                 <g:hiddenField type="text" name="nombreAplicacion" value="${aplicacionCliente.nombre}"/>
                 <g:select name="emailNuevoMiembro" from="${miembrosInvitables.email}" />
                 <g:actionSubmit value="Agregar" action="agregarMiembro"/>

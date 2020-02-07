@@ -20,8 +20,7 @@
             <br>
         </g:each>
         <g:form>
-            <g:hiddenField type="text"  name="organizacion" value="${organizacion.nombre}"/>
-            <g:hiddenField type="text"  name="aplicacionCliente" value="${aplicacionCliente.nombre}"/>
+            <g:hiddenField type="text"  name="nombreAplicacion" value="${aplicacionCliente.nombre}"/>
             <g:actionSubmit value="Agregar Tests" action="crearTemasTest"/>
         </g:form>
 	</body>

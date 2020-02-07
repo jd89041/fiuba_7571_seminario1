@@ -25,6 +25,18 @@ class Organizacion {
         setPlan(new Plan())
     }
 
+    def obtenerAplicacion(nombreAplicacion) {
+        aplicaciones.find {
+            it.nombre == nombreAplicacion
+        }
+    }
+
+    def obtenerMiembro(email) {
+        miembros.find {
+            it.email == email
+        }
+    }
+
     def obtenerPlanesDisponibles() {
         if (plan.asignado())
             PlanOferta.list().findAll() {
