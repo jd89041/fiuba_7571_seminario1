@@ -43,7 +43,7 @@ class IngresarController {
     def reenviarPassword() {
         def email = params.email
         ingresarService.reenviarPassword(email)
-        redirect (controller: "index", action: "mensajes", params: [mensaje: "Su password fue enviado a su email"])
+        redirect (controller: "ingresar", action: "mensajes", params: [mensaje: "Su password fue enviado a su email"])
     }
 
     def mensajes() {

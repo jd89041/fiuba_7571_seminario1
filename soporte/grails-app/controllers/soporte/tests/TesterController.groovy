@@ -11,6 +11,6 @@ class TesterController {
 
     def crearOrganizacion() {
         testerService.crearOrganizacionConAdminYAplicacion(params.organizacion, params.aplicacionCliente, params.email, params.password)
-        redirect (controller: "index")
+        redirect (controller: "ingresar")
     }
 }
