@@ -10,7 +10,7 @@ class UrlMappings {
         }
 
         //"/"(view:"/index")    // sets the homepage of the project with grails default view
-        "/"(controller:"index")
+        "/"(controller:"ingresar")
         "500"(view:"/error")
         "404"(view:"/notFound")
         "/tests"(view: "/tester/index")

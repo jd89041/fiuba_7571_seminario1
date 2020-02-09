@@ -19,7 +19,7 @@ class PerfilController {
 
     def desconectar() {
         session.invalidate()
-        redirect(controller: "index")
+        redirect(controller: "ingresar")
     }
 
     @Transactional

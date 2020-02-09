@@ -83,6 +83,6 @@ class AdminOrganizacionController {
     }
 
     def mostrarMensaje(contenido) {
-        redirect (controller: "index", action: "mensajes", params: [mensaje: contenido])
+        redirect (controller: "ingresar", action: "mensajes", params: [mensaje: contenido])
     }
 }

@@ -2,14 +2,27 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
-	    <h1><g:message code="ingresar.nombre.organizacion"/></h1>
-	    <g:form>
-	        <g:field type="string" name="organizacion" required=""/>
-      		<g:actionSubmit value="OK" action="verificarOrganizacion"/>
-	    </g:form>
-	    <meta name="layout" content="main"/>
+        <div class="container tamano-padre">
+            <div class="row justify-content-center tamano-padre">
+                <div class="centrado align-self-center">
+                    <h2>Bienvenido</h2>
+                    <p>
+                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseIngresar" aria-expanded="false" aria-controls="collapseIngresar">
+                        Ingresar
+                      </button>
+                    </p>
+                    <div class="collapse" id="collapseIngresar">
+                        <div class="card card-body">
+                            <g:render template="ingresarTemplate" />
+                        </div>
+                    </div>
+                    <g:form controller="crearOrganizacion">
+                        <g:actionSubmit value="Crear Organización" action="index"/>
+                    </g:form>
+                </div>
+            </div>
+        </div>
 	</body>
 </html>

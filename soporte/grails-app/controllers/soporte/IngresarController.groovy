@@ -1,21 +1,27 @@
 package soporte
 
 class IngresarController {
+    static responseFormats = ['json']
+
     def ingresarService
 
-    def index() {}
+    def index() {
+        def emailMiembro = session.emailMiembro
+        if (emailMiembro)
+            redirect(controller: "perfil", params: [email: emailMiembro])
+    }
 
     def verificarOrganizacion() {
-        def nombreOrganizacion = params.organizacion
+        def nombreOrganizacion = params.nombreOrganizacion
         def organizacion = Organizacion.findByNombre(nombreOrganizacion)
         if (organizacion)
-            render (view: "credenciales", model: [organizacion: organizacion])
+            response << 0
         else
-            render (view: "noOrganizacion", model: [organizacion: nombreOrganizacion])
+            response << 1
     }
 
     def verificarCredenciales() {
-        def organizacion = params.organizacion
+        def organizacion = params.nombreOrganizacion
         def email = params.email
         def password = params.password
         def res = ingresarService.verificarCredenciales(organizacion, email, password)
@@ -23,22 +29,13 @@ class IngresarController {
             case MiembroEquipo.CREDENCIALES_OK:
                 session.emailMiembro = email
                 session.nombreOrganizacion = organizacion
-                redirect(controller: "perfil")
+                respond ([credencial: "ok", redirect: 'perfil/index' ], status: 200)
                 break
             case MiembroEquipo.CREDENCIALES_ERROR:
-                render (view: "credencialesError", model: [
-                        mensaje: "Las credenciales son inválidas",
-                        organizacion: organizacion,
-                        email: email,
-                        reenviar: true
-                ])
+                respond ([credencial: "invalida"], status: 200)
                 break
             case MiembroEquipo.CREDENCIALES_INEXISTENTES:
-                render (view: "credencialesError", model: [
-                        mensaje: "No existe un miembro del equipo de soporte cuyo email sea ${email}",
-                        organizacion: organizacion,
-                        email: email
-                ])
+                respond ([credencial: "inexistente"], status: 200)
                 break
         }
     }
@@ -47,5 +44,9 @@ class IngresarController {
         def email = params.email
         ingresarService.reenviarPassword(email)
         redirect (controller: "index", action: "mensajes", params: [mensaje: "Su password fue enviado a su email"])
+    }
+
+    def mensajes() {
+        [mensaje: params.mensaje]
     }
 }

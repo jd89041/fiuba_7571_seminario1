@@ -13,3 +13,23 @@
 *= require mobile
 *= require_self
 */
+
+.fondo-freyja {
+    background-image: url(../img/fondo/freyja_quesito.jpg);
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-color: black;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0.9;
+}
+
+.tamano-padre {
+    height: inherit;
+    width: inherit;
+}
+
+.centrado {
+    background-color: aliceblue;
+}
