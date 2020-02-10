@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
 	    <h1>Ver temas de ${aplicacionCliente.nombre}</h1>

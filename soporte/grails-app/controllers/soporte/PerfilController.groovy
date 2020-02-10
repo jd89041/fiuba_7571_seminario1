@@ -21,20 +21,4 @@ class PerfilController {
         session.invalidate()
         redirect(controller: "ingresar")
     }
-
-    @Transactional
-    def leerNotificacion() {
-        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
-        MiembroEquipo miembro = organizacion.obtenerMiembro(session.emailMiembro)
-        miembro.leerNotificacion(params.notificacionId as int)
-        render(view: "index", model: [miembro: miembro])
-    }
-
-    @Transactional
-    def borrarNotificacion() {
-        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
-        MiembroEquipo miembro = organizacion.obtenerMiembro(session.emailMiembro)
-        miembro.borrarNotificacion(params.notificacionId as int)
-        render(view: "index", model: [miembro: miembro])
-    }
 }

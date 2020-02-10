@@ -91,8 +91,8 @@ class MiembroEquipo {
         save(failOnError: true)
     }
 
-    def tieneNotificacionesNoLeidas() {
-        notificaciones.any {
+    def obtenerNotificacionesNoLeidas() {
+        notificaciones.findAll {
             !it.leida
         }
     }

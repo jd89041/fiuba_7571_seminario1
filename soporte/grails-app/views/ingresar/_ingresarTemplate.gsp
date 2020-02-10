@@ -55,8 +55,8 @@
                         nombreOrganizacion: nombreOrganizacion
                     }
                 })
-                .success(function( resultado, txtStatus, jqXHR ) {
-                    if (resultado == 0) {
+                .success(function(respuesta) {
+                    if (respuesta == 0) {
                         $("#nombreOrganizacion").prop("disabled", true);
                         $("#collapseCredenciales").collapse();
                     } else {
@@ -76,10 +76,10 @@
                         password: $("#password").val()
                     }
                 })
-                .success(function( resultado, txtStatus, jqXHR ) {
-                    switch(resultado.credencial) {
+                .success(function(respuesta) {
+                    switch(respuesta.credencial) {
                         case "ok":
-                            window.location.href = resultado.redirect;
+                            window.location.href = respuesta.redirect;
                         break;
                         case "invalida":
                             alert("La contraseña es inválida!");

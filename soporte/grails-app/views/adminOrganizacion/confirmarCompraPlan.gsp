@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title><g:message code="aplicacion.titulo"/></title>
 	</head>
 	<body>
         <h1>Confirmación de compra de plan ${planOferta.nombre}</h1>
