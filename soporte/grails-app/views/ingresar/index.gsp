@@ -1,28 +1,22 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="layout" content="main"/>
-	</head>
-	<body>
-        <div class="container tamano-padre">
-            <div class="row justify-content-center tamano-padre">
-                <div class="centrado align-self-center">
-                    <h2>Bienvenido</h2>
-                    <p>
-                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseIngresar" aria-expanded="false" aria-controls="collapseIngresar">
+<g:applyLayout name="paneles">
+    <content tag="panelCentral">
+        <div class="row justify-content-center tamano-padre">
+            <div class="centrado align-self-center">
+                <h2>Bienvenido</h2>
+                <p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseIngresar" aria-expanded="false" aria-controls="collapseIngresar">
                         Ingresar
-                      </button>
-                    </p>
-                    <div class="collapse" id="collapseIngresar">
-                        <div class="card card-body">
-                            <g:render template="ingresarTemplate" />
-                        </div>
+                    </button>
+                </p>
+                <div class="collapse" id="collapseIngresar">
+                    <div class="card card-body">
+                        <g:render template="ingresarTemplate" />
                     </div>
-                    <g:form controller="crearOrganizacion">
-                        <g:actionSubmit value="Crear Organización" action="index"/>
-                    </g:form>
                 </div>
+                <g:form controller="crearOrganizacion">
+                    <g:actionSubmit value="Crear Organización" action="index"/>
+                </g:form>
             </div>
         </div>
-	</body>
-</html>
+    </content>
+</g:applyLayout>
