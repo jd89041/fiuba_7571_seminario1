@@ -22,10 +22,10 @@
         <g:layoutHead/>
     </head>
     <body>
+        <g:if test="${session.emailMiembro}">
+            <g:render template="/templates/compartidos/menuSuperiorTemplate"/>
+        </g:if>
         <div class="fondo-freyja">
-            <g:if test="${session.emailMiembro}">
-                <g:render template="/templates/compartidos/menuSuperiorTemplate"/>
-            </g:if>
             <g:layoutBody/>
         </div>
     </body>

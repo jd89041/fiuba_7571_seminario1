@@ -8,7 +8,7 @@ class IngresarController {
     def index() {
         def emailMiembro = session.emailMiembro
         if (emailMiembro)
-            redirect(controller: "perfil", params: [email: emailMiembro])
+            redirect(controller: "PantallaTareas")
     }
 
     def verificarOrganizacion() {
@@ -29,7 +29,7 @@ class IngresarController {
             case MiembroEquipo.CREDENCIALES_OK:
                 session.emailMiembro = email
                 session.nombreOrganizacion = organizacion
-                respond ([credencial: "ok", redirect: 'perfil/index' ], status: 200)
+                respond ([credencial: "ok", redirect: 'PantallaTareas' ], status: 200)
                 break
             case MiembroEquipo.CREDENCIALES_ERROR:
                 respond ([credencial: "invalida"], status: 200)

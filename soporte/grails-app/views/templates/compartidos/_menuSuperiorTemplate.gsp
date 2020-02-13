@@ -19,6 +19,9 @@
                    Menú
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuSup">
+                    <g:form controller="pantallaTareas">
+                        <g:actionSubmit class="dropdown-item" value="Tareas" action="index"/>
+                    </g:form>
                     <g:form controller="perfil">
                         <g:actionSubmit class="dropdown-item" value="Perfil" action="index"/>
                     </g:form>

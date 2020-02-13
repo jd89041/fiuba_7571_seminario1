@@ -24,12 +24,12 @@ class PedidoSoporte {
         ocurrenciasDeTemas = [:]
     }
 
-    def agregarMensaje(pedidoSoporteEntrante) {
+    def agregarMensaje(pedidoSoporteEntrante, esRespuesta) {
         // evaluar y luego se puede taggear
-        def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido, false)
+        def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido, esRespuesta)
         procesarMensaje(nuevoMensaje)
         addToMensajes(nuevoMensaje)
-        if (estaAsignado())
+        if (estaAsignado() && !esRespuesta)
             miembro.notificar(new NotificacionNuevoMensajeEnPedidoSoporte(aplicacion.nombre))
     }
 

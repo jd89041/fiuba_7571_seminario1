@@ -112,4 +112,10 @@ class MiembroEquipo {
     def estaTrabajandoEnPedidoSoporte(pedidoSoporte) {
         this.pedidoSoporte == pedidoSoporte
     }
+
+    def obtenerPedidoSoporteConId(id) {
+        pedidosSoporte.find {
+            it.id == id
+        }
+    }
 }

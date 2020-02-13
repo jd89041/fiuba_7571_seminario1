@@ -107,7 +107,7 @@ class AplicacionCliente {
             addToPedidosSoporte(pedidoSoporte)
             autor.save(failOnError: true)
         }
-        pedidoSoporte.agregarMensaje(mensajeSoporteEntrante)
+        pedidoSoporte.agregarMensaje(mensajeSoporteEntrante, false)
         if (autoEtiquetar)
             pedidoSoporte.etiquetar(reglas.findAll { it.instanceOf(ReglaEtiquetado) })
         // if auto responder y regla auto respuesta
