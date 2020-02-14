@@ -29,7 +29,7 @@
                         <g:actionSubmit class="dropdown-item" value="Preguntas Frecuentes" action="index"/>
                     </g:form>
                     <g:form controller="AdminOrganizacion">
-                        <g:actionSubmit class="dropdown-item" value="Configuración" action="index"/>
+                        <g:actionSubmit class="dropdown-item" value="Administración" action="index"/>
                     </g:form>
                     <div class="dropdown-divider"></div>
                     <g:form controller="perfil">
