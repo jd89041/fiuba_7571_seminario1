@@ -11,7 +11,7 @@
         <g:javascript>
             function agregarAplicacion() {
                 var nombreAplicacion = prompt("Ingrese un nombre para la nueva aplicación");
-                if(nombreAplicacion != null) {
+                if(nombreAplicacion != null && nombreAplicacion != '') {
                     ejecutarLlamada("validarCreacionDeAplicacion",
                         {
                             nombreAplicacion: nombreAplicacion
