@@ -7,9 +7,9 @@
             <div id="planActual">
                 <g:render template="planes/planActualTemplate" bean="${planActual}"/>
             </div>
-            <div class="row justify-content-center">
+            <div class="justify-content-center text-center">
                 <g:if test="${planes.size() > 0}">
-                    <h1>Planes disponibles</h1>
+                    <h2>Planes disponibles</h2>
                     <div id="listaPlanesOferta">
                         <g:render template="planes/listaPlanesTemplate" bean="${planes}"/>
                     </div>
