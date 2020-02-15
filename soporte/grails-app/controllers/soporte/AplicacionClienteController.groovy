@@ -11,6 +11,7 @@ class AplicacionClienteController {
         [organizacion: organizacion, aplicaciones: organizacion.aplicaciones]
     }
 
+    // borrar
     def agregarAplicacionCliente() {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         if (organizacion.puedeAgregarAplicacionesCliente())
@@ -19,6 +20,7 @@ class AplicacionClienteController {
             mostrarMensaje("No se pueden agregar más aplicaciones cliente. Mejore su plan!")
     }
 
+    // borrar
     def confirmarAgregar() {
         if (AplicacionCliente.findByNombre(params.nombreAplicacion))
             mostrarMensaje("Ya existe la aplicación")
@@ -69,6 +71,26 @@ class AplicacionClienteController {
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         aplicacionCliente.removerMiembroConEmail(params.emailMiembro)
         obtenerMiembros()
+    }
+
+    def validarCreacionDeAplicacion() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        def respuesta = []
+        if (organizacion.puedeAgregarAplicacionesCliente()) {
+            AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
+            respuesta = [existe: aplicacionCliente != null, nombreNuevaAplicacion: params.nombreAplicacion]
+        } else
+            respuesta = [limiteAlcanzado: true]
+        respond(respuesta, status: 200, formats: ['json'])
+    }
+
+    @Transactional
+    def crearAplicacion() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = new AplicacionCliente()
+        aplicacionCliente.nombre = params.nombreAplicacion
+        organizacion.agregarAplicacion(aplicacionCliente)
+        respond([redirect: 'index' ], status: 200, formats: ['json'])
     }
 
     def mostrarMensaje(contenido) {

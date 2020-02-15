@@ -7,10 +7,44 @@
         <g:each in="${aplicaciones}">
             <g:render template="aplicacionTemplate" bean="${it}"/>
         </g:each>
-        <g:form>
-            <g:actionSubmit value="Agregar" action="agregarAplicacionCliente"/>
-        </g:form>
+        <button type="button" class="btn btn-success" onclick="agregarAplicacion()">Agregar</button>
         <g:javascript>
+            function agregarAplicacion() {
+                var nombreAplicacion = prompt("Ingrese un nombre para la nueva aplicación");
+                if(nombreAplicacion != null) {
+                    ejecutarLlamada("validarCreacionDeAplicacion",
+                        {
+                            nombreAplicacion: nombreAplicacion
+                        },
+                        function(respuesta) {
+                            if (respuesta.limiteAlcanzado)
+                                alert("No se pueden agregar más aplicaciones cliente. Mejore su plan!");
+                            else {
+                                if (respuesta.existe)
+                                    alert("Ya existe una aplicación con ese nombre!");
+                                else
+                                {
+                                    ocultarPanelDerecho();
+                                    if (confirm("Desea crear la organizacion " + respuesta.nombreNuevaAplicacion + "?"))
+                                        crearAplicacion(respuesta.nombreNuevaAplicacion);
+                                }
+                            }
+                        }
+                    );
+                }
+            }
+
+            function crearAplicacion(nombreAplicacion) {
+                ejecutarLlamada("crearAplicacion",
+                    {
+                        nombreAplicacion: nombreAplicacion
+                    },
+                    function(respuesta) {
+                        window.location.href = respuesta.redirect;
+                    }
+                );
+            }
+
             function invitarMiembro(nombreAplicacion, emailMiembro) {
                 ejecutarLlamada("agregarMiembro",
                     {
