@@ -62,11 +62,12 @@ class AdminOrganizacionController {
     def adminPlanes() {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         def planActual = organizacion.plan
-        [
+        def model = [
             organizacion: organizacion,
             planActual: planActual,
             planes: organizacion.obtenerPlanesDisponibles()
         ]
+        render(view: "planes/adminPlanes", model: model)
     }
 
     def comprarPlan() {
