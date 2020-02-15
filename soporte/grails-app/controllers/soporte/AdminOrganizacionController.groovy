@@ -1,5 +1,7 @@
 package soporte
 
+import grails.gorm.transactions.Transactional
+
 class AdminOrganizacionController {
 
     def confirmacionAltaMiembroService
@@ -72,10 +74,14 @@ class AdminOrganizacionController {
         render(view: "confirmarCompraPlan", model: [organizacion: session.nombreOrganizacion, planOferta: planOferta])
     }
 
-    def confirmarCompraPlan() {
+    @Transactional
+    def adquirirPlan() {
         // agregar gestor de transacciones acá
-        adminOrganizacionService.actualizarPlan(session.nombreOrganizacion, params.planOferta)
-        mostrarMensaje("El plan fue actualizado correctamente")
+        adminOrganizacionService.actualizarPlan(session.nombreOrganizacion, params.plan)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        def htmlPlanActual = g.render(template: "planes/planActualTemplate", bean: organizacion.plan)
+        def htmlPlanesOferta = g.render(template: "planes/listaPlanesTemplate", bean: organizacion.obtenerPlanesDisponibles())
+        respond ([html: [planActual: htmlPlanActual, planesOferta: htmlPlanesOferta]], status: 200, formats: ['json'])
     }
 
     def adminAplicacionesCliente() {
