@@ -25,6 +25,11 @@
         <g:if test="${session.emailMiembro}">
             <g:render template="/templates/compartidos/menuSuperiorTemplate"/>
         </g:if>
+        <g:else>
+            <g:if test="${request.forwardURI != '/'}">
+                <meta http-equiv="Refresh" content="0; url='/'" />
+            </g:if>
+        </g:else>
         <div class="fondo-freyja">
             <g:layoutBody/>
         </div>
