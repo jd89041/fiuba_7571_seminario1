@@ -1,6 +1,11 @@
 <g:applyLayout name="main">
     <body>
         <div class="container tamano-padre">
+            <div class="row justify-content-center">
+                <h1>
+                    <g:pageProperty name="page.panelEncabezado"/>
+                </h1>
+            </div>
             <div class="row tamano-padre">
                 <div id="pIzquierdo" class="tamano-padre col-auto" style="visibility: hidden;">
                     <g:pageProperty name="page.panelIzquierdo"/>

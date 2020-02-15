@@ -1,30 +1,74 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="layout" content="main"/>
-	</head>
-	<body>
-	    <h1>Administración de Aplicaciones Cliente</h1>
+<g:applyLayout name="paneles">
+    <content tag="panelEncabezado">
+        Administración de aplicaciones
+    </content>
+    <content tag="panelCentral">
+        <h3>Aplicaciones</h3>
         <g:each in="${aplicaciones}">
-            <p>Nombre: ${it.nombre}</p>
-            <p> Auto etiquetado de mensajes
-                <g:checkBox name="" value="${it.autoEtiquetar}" disabled="disabled"/>
-            </p>
-            <p> Auto asignación de mensajes
-                <g:checkBox name="" value="${it.autoAsignar}" disabled="disabled"/>
-            </p>
-            <p> Auto responder mensajes
-                <g:checkBox name="" value="${it.autoResponder}" disabled="disabled"/>
-            </p>
-            <g:form>
-                <g:hiddenField type="text"  name="nombreAplicacion" value="${it.nombre}"/>
-                <g:actionSubmit value="Pedidos de Soporte" action="verPedidosSoporte"/>
-                <g:actionSubmit value="Ver Temas" action="verTemas"/>
-                <g:actionSubmit value="GestionarMiembros" action="gestionarMiembros"/>
-            </g:form>
+            <g:render template="aplicacionTemplate" bean="${it}"/>
         </g:each>
         <g:form>
             <g:actionSubmit value="Agregar" action="agregarAplicacionCliente"/>
         </g:form>
-	</body>
-</html>
+        <g:javascript>
+            function invitarMiembro(nombreAplicacion, emailMiembro) {
+                ejecutarLlamada("agregarMiembro",
+                    {
+                        nombreAplicacion: nombreAplicacion,
+                        emailNuevoMiembro: emailMiembro
+                    },
+                    function(respuesta) {
+                        $("#contenidoPanelDerecho").html(respuesta.html);
+                    }
+                );
+            }
+
+            function removerMiembro(nombreAplicacion, emailMiembro) {
+                ejecutarLlamada("removerMiembro",
+                    {
+                        nombreAplicacion: nombreAplicacion,
+                        emailMiembro: emailMiembro
+                    },
+                    function(respuesta) {
+                        $("#contenidoPanelDerecho").html(respuesta.html);
+                    }
+                );
+            }
+
+            function ejecutarLlamada(url, parametros, callback) {
+                $.ajax(
+                    {
+                        url: url,
+                        data: parametros ? parametros : {}
+                    })
+                    .success(function(respuesta) {
+                        callback(respuesta);
+                    }
+                );
+            }
+
+            function mostrarMiembros(nombreAplicacion) {
+                ejecutarLlamada("obtenerMiembros",
+                    {
+                        nombreAplicacion: nombreAplicacion
+                    },
+                    function(respuesta) {
+                        $("#contenidoPanelDerecho").html(respuesta.html);
+                        mostrarPanelDerecho();
+                    }
+                );
+            }
+
+            function mostrarTemas(nombreAplicacion) {
+                console.log("nombreAplicacion");
+            }
+
+            function mostrarConfiguracion(nombreAplicacion) {
+                console.log("nombreAplicacion");
+            }
+        </g:javascript>
+	</content>
+	<content tag="panelDerecho">
+	    <div id="contenidoPanelDerecho"/>
+	</content>
+</g:applyLayout>

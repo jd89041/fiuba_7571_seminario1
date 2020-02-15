@@ -44,11 +44,15 @@ class AplicacionClienteController {
         [organizacion: organizacion, aplicacionCliente: aplicacionCliente]
     }
 
-    def gestionarMiembros() {
+    def obtenerMiembros() {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         def miembrosInvitables = organizacion.miembros.minus(aplicacionCliente.miembros)
-        [organizacion: organizacion, aplicacionCliente: aplicacionCliente, miembrosInvitables: miembrosInvitables]
+        def htmlMiembros = g.render(template: "/miembros/admin/miembrosAplicacionTemplate", model: [
+                activos: aplicacionCliente.miembros,
+                invitables: miembrosInvitables
+        ])
+        respond ([html: htmlMiembros], status: 200, formats: ['json'])
     }
 
     @Transactional
@@ -56,6 +60,7 @@ class AplicacionClienteController {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         aplicacionCliente.agregarMiembroConEmail(params.emailNuevoMiembro)
+        obtenerMiembros()
     }
 
     @Transactional
@@ -63,6 +68,7 @@ class AplicacionClienteController {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         aplicacionCliente.removerMiembroConEmail(params.emailMiembro)
+        obtenerMiembros()
     }
 
     def mostrarMensaje(contenido) {
