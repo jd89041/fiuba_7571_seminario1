@@ -1,6 +1,10 @@
 package soporte.reglas.respuesta
 
-class UltimosNMensajes extends ReglaRespuesta {
+import soporte.IReglaNumerica
+
+class UltimosNMensajes extends ReglaRespuesta implements IReglaNumerica {
+
+    static final String NOMBRE = "Ultimos N mensajes"
 
     int cantidad
 
@@ -8,9 +12,22 @@ class UltimosNMensajes extends ReglaRespuesta {
         cantidad min: 0
     }
 
+    int obtenerValor() {
+        cantidad
+    }
+
+    void setValor(int valor) {
+        setCantidad(valor)
+    }
+
+    @Override
+    def obtenerTipo() {
+        "numeral"
+    }
+
     @Override
     def obtenerNombre() {
-        "Ultimos N mensajes"
+        NOMBRE
     }
 
     @Override

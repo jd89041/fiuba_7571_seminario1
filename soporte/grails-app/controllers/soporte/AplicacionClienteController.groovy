@@ -1,10 +1,12 @@
 package soporte
 
 import grails.gorm.transactions.Transactional
+import groovy.json.JsonSlurper
 
 class AplicacionClienteController {
     def testerService
     def adminOrganizacionService
+    def reglaService
 
     def index() {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
@@ -91,6 +93,27 @@ class AplicacionClienteController {
         aplicacionCliente.nombre = params.nombreAplicacion
         organizacion.agregarAplicacion(aplicacionCliente)
         respond([redirect: 'index' ], status: 200, formats: ['json'])
+    }
+
+    def obtenerConfiguracion() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
+        def reglas = reglaService.obtenerTodasLasReglas(aplicacionCliente.reglas)
+        def htmlConfiguracion = g.render(template: "configuracion/configuracionTemplate", model: [
+            reglas: reglas,
+            nombreAplicacion: aplicacionCliente.nombre
+        ])
+        respond ([html: htmlConfiguracion], status: 200, formats: ['json'])
+    }
+
+    @Transactional
+    def actualizarConfiguracion() {
+        def jsonSlurper = new JsonSlurper()
+        def configuracion = jsonSlurper.parseText(params.configuracion)
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
+        reglaService.actualizarReglas(aplicacionCliente, configuracion.reglas)
+        obtenerConfiguracion()
     }
 
     def mostrarMensaje(contenido) {

@@ -3,6 +3,9 @@ package soporte.reglas.asignacion
 import soporte.Rol
 
 class RestriccionRol extends ReglaAsignacion {
+
+    static final String NOMBRE = "Restricción de rol"
+
     String nombreRol
 
     static constraints = {
@@ -10,8 +13,13 @@ class RestriccionRol extends ReglaAsignacion {
     }
 
     @Override
+    def obtenerTipo() {
+        "alfabetica"
+    }
+
+    @Override
     def obtenerNombre() {
-        "Restricción de rol"
+        NOMBRE
     }
 
     @Override

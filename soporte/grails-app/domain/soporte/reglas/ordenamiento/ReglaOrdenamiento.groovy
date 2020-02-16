@@ -9,6 +9,11 @@ abstract class ReglaOrdenamiento extends Regla {
         "Ordenamiento"
     }
 
+    @Override
+    def obtenerTipo() {
+        "ninguno"
+    }
+
     // reglas de ordenamiento
     // * preferencia por tema de especialidad
     // * seleccion aleatoria, el q tenga menos pedidos asignados de esta app, el q tenga menos pedidos asignados totales

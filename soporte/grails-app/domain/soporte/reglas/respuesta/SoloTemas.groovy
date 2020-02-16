@@ -4,6 +4,8 @@ import org.joda.time.DateTime
 
 class SoloTemas extends ReglaRespuesta {
 
+    static final String = "Solo temas"
+
     List<String> temas
 
     static constraints = {
@@ -11,8 +13,13 @@ class SoloTemas extends ReglaRespuesta {
     }
 
     @Override
+    def obtenerTipo() {
+        "lista_alfabetica"
+    }
+
+    @Override
     def obtenerNombre() {
-        "Solo temas"
+        NOMBRE
     }
 
     @Override

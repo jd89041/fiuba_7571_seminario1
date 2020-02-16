@@ -1,6 +1,10 @@
 package soporte.reglas.respuesta
 
-class MinimaCantidadOcurrenciasTema extends ReglaRespuesta {
+import soporte.IReglaNumerica
+
+class MinimaCantidadOcurrenciasTema extends ReglaRespuesta implements IReglaNumerica {
+
+    public static String NOMBRE = "Mínima cantidad de ocurrencias de temas"
 
     int ocurrencias
 
@@ -8,9 +12,22 @@ class MinimaCantidadOcurrenciasTema extends ReglaRespuesta {
         ocurrencias min: 0
     }
 
+    int obtenerValor() {
+        ocurrencias
+    }
+
+    void setValor(int valor) {
+        setOcurrencias(valor)
+    }
+
+    @Override
+    def obtenerTipo() {
+        "numeral"
+    }
+
     @Override
     def obtenerNombre() {
-        "Mínima cantidad de ocurrencias de temas"
+        NOMBRE
     }
 
     @Override

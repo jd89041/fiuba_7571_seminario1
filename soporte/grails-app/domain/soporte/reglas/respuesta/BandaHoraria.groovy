@@ -1,8 +1,11 @@
 package soporte.reglas.respuesta
 
 import org.joda.time.DateTime
+import soporte.IReglaRangoNumerico
 
-class BandaHoraria extends ReglaRespuesta {
+class BandaHoraria extends ReglaRespuesta implements IReglaRangoNumerico {
+
+    static final String NOMBRE = "Banda horaria"
 
     int horaMinima
     int horaMaxima
@@ -12,9 +15,30 @@ class BandaHoraria extends ReglaRespuesta {
         horaMaxima min: 0, max: 23
     }
 
+    int obtenerMinimo() {
+        horaMinima
+    }
+
+    int obtenerMaximo() {
+        horaMaxima
+    }
+
+    void setMinimo(int minimo) {
+        setHoraMinima(minimo)
+    }
+
+    void setMaximo(int maximo) {
+        setHoraMaxima(maximo)
+    }
+
+    @Override
+    def obtenerTipo() {
+        "rango_numerico"
+    }
+
     @Override
     def obtenerNombre() {
-        "Banda horaria"
+        NOMBRE
     }
 
     @Override

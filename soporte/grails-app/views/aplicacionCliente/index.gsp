@@ -98,7 +98,37 @@
             }
 
             function mostrarConfiguracion(nombreAplicacion) {
-                console.log("nombreAplicacion");
+                ejecutarLlamada("obtenerConfiguracion",
+                    {
+                        nombreAplicacion: nombreAplicacion
+                    },
+                    function(respuesta) {
+                        $("#contenidoPanelDerecho").html(respuesta.html);
+                        mostrarPanelDerecho();
+                    }
+                );
+            }
+
+            function guardarConfiguracion(nombreAplicacion) {
+                if (confirm("Desea guardar la configuración?"))
+                {
+                    var reglas = [];
+                    agregarReglasNumericas(reglas);
+                    agregarReglasRangoNumerico(reglas);
+                    var configuracion = {
+                        reglas: reglas
+                    }
+                    ejecutarLlamada("actualizarConfiguracion",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            configuracion: JSON.stringify(configuracion)
+                        },
+                        function(respuesta) {
+                            $("#contenidoPanelDerecho").html(respuesta.html);
+                            //mostrarPanelDerecho();
+                        }
+                    );
+                }
             }
         </g:javascript>
 	</content>

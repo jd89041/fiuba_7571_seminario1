@@ -65,33 +65,6 @@ class AplicacionCliente {
     // - id del usuario con el que se trackea la historia
     // - mensaje nuevo
     def gestionarPedidoSoporteEntrante(mensajeSoporteEntrante) {
-        // -- pruebas
-        if (reglas.size() == 0) {
-            def r1 = new MinimaCantidadOcurrencias()    // taggeo
-            r1.setCantidad(15)
-            addToReglas(r1)
-            r1.save(failOnError: true)
-
-            def r2 = new RestriccionRol() // asignacion
-            def rol = Rol.findByNombre(Rol.ADMINISTRADOR)
-            r2.setNombreRol(Rol.ADMINISTRADOR)
-            addToReglas(r2)
-            r2.save(failOnError: true)
-
-            def r3 = new MenosPedidosTotales()  // ordenamiento
-            addToReglas(r3)
-            r3.save(failOnError: true)
-
-            def r4 = new BandaHoraria() // resolucion
-            r4.setHoraMinima(20)
-            r4.setHoraMaxima(23)
-            addToReglas(r4)
-            r4.save(failOnError: true)
-
-            save(failOnError: true)
-        }
-        // -- pruebas
-
         String emailAutor = mensajeSoporteEntrante.emailAutor
         def pedidoSoporte = recuperarPedidoSoporte(emailAutor)
         if (!pedidoSoporte) {
@@ -120,5 +93,16 @@ class AplicacionCliente {
         }
         pedidoSoporte.save(failOnError: true)
         this.save(failOnError: true)
+    }
+
+    def agregarRegla(regla) {
+        addToReglas(regla)
+        regla.save(failOnError: true)
+    }
+
+    def obtenerRegla(nombreRegla) {
+        reglas.find {
+            it.obtenerNombre() == nombreRegla
+        }
     }
 }
