@@ -1,7 +1,7 @@
 <div class="configuracionAplicacion">
     <h2>Configuración</h2>
-    <button type="button" class="btn btn-success" onclick="guardarConfiguracion('${nombreAplicacion}')">Guardar  </button>
-    <h4>Opciones generales</h4>
+    <button type="button" class="btn btn-success" onclick="guardarConfiguracion('${nombreAplicacion}')">Guardar</button>
+    <g:render template="/aplicacionCliente/configuracion/configGeneralTemplate" bean="${configGeneral}"/>
     <g:render template="/reglas/listaReglasTemplate" bean="${reglas}"/>
     <g:javascript>
         function agregarReglasNumericas(reglas) {

@@ -112,11 +112,13 @@
             function guardarConfiguracion(nombreAplicacion) {
                 if (confirm("Desea guardar la configuración?"))
                 {
+                    var configGeneral = obtenerConfigGeneral();
                     var reglas = [];
                     agregarReglasNumericas(reglas);
                     agregarReglasRangoNumerico(reglas);
                     var configuracion = {
-                        reglas: reglas
+                        reglas: reglas,
+                        general: configGeneral
                     }
                     ejecutarLlamada("actualizarConfiguracion",
                         {

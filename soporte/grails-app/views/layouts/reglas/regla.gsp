@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h5 class="card-title">
                     <g:pageProperty name="page.titulo"/>
-                </h5
+                </h5>
                 <p class="card-text" style="width: 100px;">
                     <g:pageProperty name="page.descripcion"/>
                 </p>

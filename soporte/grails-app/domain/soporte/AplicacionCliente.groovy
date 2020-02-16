@@ -10,9 +10,9 @@ import soporte.reglas.respuesta.*
 class AplicacionCliente {
     String nombre
 
-    boolean autoEtiquetar = true
-    boolean autoResponder = true
-    boolean autoAsignar = true
+    boolean autoEtiquetar
+    boolean autoResponder
+    boolean autoAsignar
 
     static belongsTo = [organizacion: Organizacion]
 
@@ -104,5 +104,20 @@ class AplicacionCliente {
         reglas.find {
             it.obtenerNombre() == nombreRegla
         }
+    }
+
+    def obtenerConfigGeneral() {
+        [
+            [nombre: "Auto Etiquetar", id: "autoEtiquetar", activa: autoEtiquetar],
+            [nombre: "Auto Responder", id: "autoResponder", activa: autoResponder],
+            [nombre: "Auto Asignar", id: "autoAsignar", activa: autoAsignar]
+        ]
+    }
+
+    def actualizarConfigGeneral(config) {
+        setAutoEtiquetar(config.autoEtiquetar)
+        setAutoResponder(config.autoResponder)
+        setAutoAsignar(config.autoAsignar)
+        save(failOnError: true)
     }
 }

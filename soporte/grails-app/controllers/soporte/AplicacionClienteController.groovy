@@ -99,8 +99,10 @@ class AplicacionClienteController {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         def reglas = reglaService.obtenerTodasLasReglas(aplicacionCliente.reglas)
+        def configGeneral = aplicacionCliente.obtenerConfigGeneral()
         def htmlConfiguracion = g.render(template: "configuracion/configuracionTemplate", model: [
             reglas: reglas,
+            configGeneral: configGeneral,
             nombreAplicacion: aplicacionCliente.nombre
         ])
         respond ([html: htmlConfiguracion], status: 200, formats: ['json'])
@@ -113,6 +115,7 @@ class AplicacionClienteController {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         reglaService.actualizarReglas(aplicacionCliente, configuracion.reglas)
+        aplicacionCliente.actualizarConfigGeneral(configuracion.general)
         obtenerConfiguracion()
     }
 
