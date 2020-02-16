@@ -70,7 +70,7 @@ class ReglaService {
 
     def crearReglaRangoNumerico(definicionRegla) {
         IReglaRangoNumerico nuevaRegla
-        switch(definicionRegla.obtenerNombre()) {
+        switch(definicionRegla.nombre) {
             case BandaHoraria.NOMBRE:
                 nuevaRegla = new BandaHoraria()
             break;
