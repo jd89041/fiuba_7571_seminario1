@@ -85,4 +85,12 @@ class Organizacion {
         save(failOnError: true)
         miembro.notificar(new NotificacionBienvenida(nombre))
     }
+
+    def removerMiembroConEmail(email) {
+        def miembro = miembros.find {
+            it.email == email
+        }
+        removeFromMiembros(miembro)
+        miembro.delete()
+    }
 }

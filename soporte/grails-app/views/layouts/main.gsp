@@ -25,11 +25,36 @@
         <g:if test="${session.emailMiembro}">
             <g:render template="/templates/compartidos/menuSuperiorTemplate"/>
         </g:if>
+        <!-- Popup -->
+        <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="titulo-popup" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="titulo-popup"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="contenido-popup">
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <g:img dir="images" file="huritos.png" class="card-img"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="footer-popup">
+                        <button type="button" class="btn btn-primary" onclick="popupAceptar()">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%--
         <g:else>
             <g:if test="${request.forwardURI != '/'}">
                 <meta http-equiv="Refresh" content="0; url='/'" />
             </g:if>
         </g:else>
+        --%>
         <div class="fondo-freyja">
             <g:layoutBody/>
         </div>

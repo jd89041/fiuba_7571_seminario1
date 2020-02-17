@@ -27,18 +27,22 @@ class AdminOrganizacionController {
         def nombreOrganizacion = session.nombreOrganizacion
         def organizacion = Organizacion.findByNombre(nombreOrganizacion)
         def email = params.email
+        def ok
+        def mensaje
         switch (confirmacionAltaMiembroService.obtenerOperacion(organizacion, email)) {
             case ConfirmacionAltaOrganizacion.OPERACION_ENVIAR:
                 confirmacionAltaMiembroService.enviar(nombreOrganizacion, email, params.rol)
-                mostrarMensaje("Se envió el mail de registro")
+                ok = true
+                mensaje = "Se envió una invitación al mail indicado"
                 break
             case ConfirmacionAltaOrganizacion.OPERACION_REENVIAR:
-                mostrarMensaje("Ya se envió una invitación de registro a ese email")
+                mensaje = "Ya se envió una invitación de registro a ese email"
                 break
             case ConfirmacionAltaOrganizacion.OPERACION_NO_DISPONIBLE:
-                mostrarMensaje("Ese email no está disponible")
+                mensaje = "Ese email no está disponible"
                 break
         }
+        respond ([ok: ok, mensaje: mensaje], status: 200, formats: ['json'])
     }
 
     def confirmarInvitacion() {
@@ -55,7 +59,7 @@ class AdminOrganizacionController {
 
     def finalizar() {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
-        adminOrganizacionService.agregarMiembroEquipo(organizacion, params.email, params.password, params.rol)
+        adminOrganizacionService.agregarMiembroEquipo(organizacion, params.email, params.password, params.rol, false)
         mostrarMensaje("Se agregó el miembro exitosamente")
     }
 
@@ -83,6 +87,20 @@ class AdminOrganizacionController {
         def htmlPlanActual = g.render(template: "planes/planActualTemplate", bean: organizacion.plan)
         def htmlPlanesOferta = g.render(template: "planes/listaPlanesTemplate", bean: organizacion.obtenerPlanesDisponibles())
         respond ([html: [planActual: htmlPlanActual, planesOferta: htmlPlanesOferta]], status: 200, formats: ['json'])
+    }
+
+    def validarInvitarMiembro() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        def htmlAgregar = g.render(template: "/miembros/formAgregarMiembroTemplate")
+        respond ([ok: organizacion.puedeInvitarMiembros(), html: htmlAgregar], status: 200, formats: ['json'])
+    }
+
+    @Transactional
+    def removerMiembro() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        organizacion.removerMiembroConEmail(params.email)
+        def htmlMiembros = g.render(template: "/miembros/miembrosTemplate", model: ["miembros": organizacion.miembros])
+        respond ([html: htmlMiembros], status: 200, formats: ['json'])
     }
 
     def adminAplicacionesCliente() {

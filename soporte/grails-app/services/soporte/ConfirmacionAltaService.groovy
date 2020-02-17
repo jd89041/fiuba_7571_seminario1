@@ -19,7 +19,7 @@ abstract class ConfirmacionAltaService {
 
     abstract def emailRegistrado(email);
 
-    abstract def borrar(nombreOrganizacion);
+    abstract def borrar(nombreOrganizacion, email);
 
     abstract def generarTitulo();
 

@@ -10,9 +10,9 @@ class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
             confirmacion = new ConfirmacionAltaMiembro()
             confirmacion.nombreOrganizacion = nombreOrganizacion
             confirmacion.email = email
-            confirmacion.rol = Rol.findByNombre(rol)
-            confirmacion.save(failOnError: true, insert: true, flush: true)
         }
+        confirmacion.rol = Rol.findByNombre(rol)
+        confirmacion.save(failOnError: true, insert: true, flush: true)
         super.enviar(confirmacion, email)
     }
 
@@ -33,15 +33,14 @@ class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
     }
 
     def existe(nombreOrganizacion) {
-        ConfirmacionAltaMiembro.exists(nombreOrganizacion)
+        // sin uso
     }
 
     def obtener(nombreOrganizacion, email) {
         ConfirmacionAltaMiembro.findByNombreOrganizacionAndEmail(nombreOrganizacion, email)
     }
 
-    def borrar(nombreOrganizacion) {
-        if (existe(nombreOrganizacion))
-            ConfirmacionAltaMiembro.findByNombreOrganizacion(nombreOrganizacion).delete()
+    def borrar(nombreOrganizacion, email) {
+        ConfirmacionAltaMiembro.findByNombreOrganizacionAndEmail(nombreOrganizacion, email).delete()
     }
 }
