@@ -16,15 +16,15 @@
                     null,
                     function(respuesta) {
                         if (respuesta.ok)
-                            mostrarPopupAgregarMiembro(respuesta.html);
+                            mostrarPopupInvitarMiembro(respuesta.html);
                         else
                             alert("No se pueden agregar más miembros. Mejore su plan!");
                     }
                 );
             }
 
-            function mostrarPopupAgregarMiembro(html) {
-                $('#titulo-popup').html('Agregar miembro');
+            function mostrarPopupInvitarMiembro(html) {
+                $('#titulo-popup').html('InvitarMiembro');
                 $('#contenido-popup').html(html);
                 $('#popup').modal('show');
             }

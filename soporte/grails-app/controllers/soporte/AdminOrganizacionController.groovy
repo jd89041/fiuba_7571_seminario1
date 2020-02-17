@@ -16,13 +16,6 @@ class AdminOrganizacionController {
         [miembros: organizacion.miembros]
     }
 
-    def invitarMiembro() {
-        if (Organizacion.findByNombre(session.nombreOrganizacion).puedeInvitarMiembros())
-            [roles: Rol.list()]
-        else
-            mostrarMensaje("El plan actual no admite más miembros!! Mejore su plan")
-    }
-
     def enviarInvitacion() {
         def nombreOrganizacion = session.nombreOrganizacion
         def organizacion = Organizacion.findByNombre(nombreOrganizacion)
