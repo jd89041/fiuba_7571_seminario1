@@ -26,14 +26,11 @@
             <g:render template="/templates/compartidos/menuSuperiorTemplate"/>
         </g:if>
         <!-- Popup -->
-        <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="titulo-popup" aria-hidden="true">
+        <div class="modal fade" id="popup" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="titulo-popup" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="titulo-popup"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body" id="contenido-popup">
                     </div>
@@ -43,7 +40,8 @@
                         </div>
                     </div>
                     <div class="modal-footer" id="footer-popup">
-                        <button type="button" class="btn btn-primary" onclick="popupAceptar()">Aceptar</button>
+                        <button type="button" class="btn btn-danger" id="botonCancelar" onclick="popupCancelar()">Cancelar</button>
+                        <button type="button" class="btn btn-success" onclick="popupAceptar()">Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -70,6 +68,19 @@
                     }
                 );
             }
+
+            function mostrarPopup() {
+                $('#popup').modal('show');
+            }
+
+            function ocultarBotonCancelar() {
+                $('#botonCancelar').attr('hidden', true);
+            }
+
+            function cerrarPopup() {
+                $('#popup').modal('hide');
+            }
+
         </g:javascript>
     </body>
 </html>

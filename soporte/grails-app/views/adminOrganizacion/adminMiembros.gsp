@@ -26,7 +26,11 @@
             function mostrarPopupInvitarMiembro(html) {
                 $('#titulo-popup').html('Invitar miembro');
                 $('#contenido-popup').html(html);
-                $('#popup').modal('show');
+                mostrarPopup();
+            }
+
+            function popupCancelar() {
+                cerrarPopup();
             }
 
             function popupAceptar() {

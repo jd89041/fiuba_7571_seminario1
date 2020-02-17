@@ -1,12 +1,15 @@
 <g:applyLayout name="paneles">
     <content tag="panelCentral">
         <g:javascript>
-            mostrarInvitacion();
+            $( document ).ready(function() {
+                mostrarInvitacion();
+            });
 
             function mostrarInvitacion() {
                 $('#titulo-popup').html("Bienvenid@ a ${nombreOrganizacion}");
                 $('#contenido-popup').html("${contenidoPopup}");
-                $('#popup').modal('show');
+                ocultarBotonCancelar();
+                mostrarPopup();
             }
 
             function popupAceptar() {
