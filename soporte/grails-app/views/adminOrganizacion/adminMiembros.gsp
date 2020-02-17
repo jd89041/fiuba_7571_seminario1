@@ -24,7 +24,7 @@
             }
 
             function mostrarPopupInvitarMiembro(html) {
-                $('#titulo-popup').html('InvitarMiembro');
+                $('#titulo-popup').html('Invitar miembro');
                 $('#contenido-popup').html(html);
                 $('#popup').modal('show');
             }
@@ -62,18 +62,6 @@
                         }
                     );
                 }
-            }
-
-            function ejecutarLlamada(url, parametros, callback) {
-                $.ajax(
-                    {
-                        url: url,
-                        data: parametros ? parametros : {}
-                    })
-                    .success(function(respuesta) {
-                        callback(respuesta);
-                    }
-                );
             }
         </g:javascript>
 	</content>

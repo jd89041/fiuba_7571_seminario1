@@ -38,22 +38,26 @@ class AdminOrganizacionController {
         respond ([ok: ok, mensaje: mensaje], status: 200, formats: ['json'])
     }
 
-    def confirmarInvitacion() {
+    def mostrarInvitacion() {
         def email = params.email
         def ticket = params.ticket
-        def nombreOrganizacion = session.nombreOrganizacion
+        def nombreOrganizacion = params.organizacion
         if (!Organizacion.exists(nombreOrganizacion) || !confirmacionAltaMiembroService.esValida(nombreOrganizacion, email, ticket))
             mostrarMensaje("Error: El link con la invitación para unirse a la organización caducó")
         else {
             ConfirmacionAltaMiembro confirmacion = confirmacionAltaMiembroService.obtener(nombreOrganizacion, email)
-            render(view: "confirmar", model: [organizacion: nombreOrganizacion, email: confirmacion.email, rol: confirmacion.rol])
+            def contenidoPopup = g.render(template: "/miembros/admin/invitacion/contenidoPopupTemplate", model: [nombreOrganizacion: nombreOrganizacion, email: confirmacion.email, rol: confirmacion.rol])
+            render(view: "/miembros/admin/invitacion/mostrar", model: [contenidoPopup: contenidoPopup,
+                                                                      nombreOrganizacion: nombreOrganizacion,
+                                                                      email: email,
+                                                                      rol: confirmacion.rol.nombre])
         }
     }
 
-    def finalizar() {
-        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+    def confirmarInvitacion() {
+        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
         adminOrganizacionService.agregarMiembroEquipo(organizacion, params.email, params.password, params.rol, false)
-        mostrarMensaje("Se agregó el miembro exitosamente")
+        respond ([ok: true, redirect: "/"], status: 200, formats: ['json'])
     }
 
     def adminPlanes() {

@@ -18,7 +18,7 @@ class ConfirmacionAltaMiembroService extends ConfirmacionAltaService {
 
     def generarContenidoEspecificoParaLink(contenido, confirmacion) {
         contenido.controller = "adminOrganizacion"
-        contenido.action = "confirmarInvitacion"
+        contenido.action = "mostrarInvitacion"
         contenido.params.email = confirmacion.email
         contenido.params.rol = confirmacion.rol.nombre
         contenido

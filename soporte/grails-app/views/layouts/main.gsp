@@ -58,5 +58,18 @@
         <div class="fondo-freyja">
             <g:layoutBody/>
         </div>
+        <g:javascript>
+            function ejecutarLlamada(url, parametros, callback) {
+                $.ajax(
+                    {
+                        url: url,
+                        data: parametros ? parametros : {}
+                    })
+                    .success(function(respuesta) {
+                        callback(respuesta);
+                    }
+                );
+            }
+        </g:javascript>
     </body>
 </html>

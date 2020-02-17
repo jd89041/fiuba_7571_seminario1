@@ -25,7 +25,7 @@
                                 else
                                 {
                                     ocultarPanelDerecho();
-                                    if (confirm("Desea crear la organizacion " + respuesta.nombreNuevaAplicacion + "?"))
+                                    if (confirm("Desea crear la aplicación " + respuesta.nombreNuevaAplicacion + "?"))
                                         crearAplicacion(respuesta.nombreNuevaAplicacion);
                                 }
                             }
@@ -65,18 +65,6 @@
                     },
                     function(respuesta) {
                         $("#contenidoPanelDerecho").html(respuesta.html);
-                    }
-                );
-            }
-
-            function ejecutarLlamada(url, parametros, callback) {
-                $.ajax(
-                    {
-                        url: url,
-                        data: parametros ? parametros : {}
-                    })
-                    .success(function(respuesta) {
-                        callback(respuesta);
                     }
                 );
             }
