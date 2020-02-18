@@ -46,18 +46,27 @@ class AdminOrganizacionController {
             mostrarMensaje("Error: El link con la invitación para unirse a la organización caducó")
         else {
             ConfirmacionAltaMiembro confirmacion = confirmacionAltaMiembroService.obtener(nombreOrganizacion, email)
-            def contenidoPopup = g.render(template: "/miembros/admin/invitacion/contenidoPopupTemplate", model: [nombreOrganizacion: nombreOrganizacion, email: confirmacion.email, rol: confirmacion.rol])
-            render(view: "/miembros/admin/invitacion/mostrar", model: [contenidoPopup: contenidoPopup,
-                                                                      nombreOrganizacion: nombreOrganizacion,
-                                                                      email: email,
-                                                                      rol: confirmacion.rol.nombre])
+            def contenidoPopup = g.render(template: "/miembros/admin/invitacion/contenidoPopupTemplate", model: [nombreOrganizacion: nombreOrganizacion,
+                                                                                                                 email: confirmacion.email,
+                                                                                                                 rol: confirmacion.rol,
+                                                                                                                 mensaje: "Ha sido invitado a la organización con el rol de ${confirmacion.rol.descripcion}."])
+            render(view: "/miembros/admin/invitacion/mostrar", model: [tituloPopup: "Bienvenid@ a ${nombreOrganizacion}",
+                                                                       contenidoPopup: contenidoPopup,
+                                                                       nombreOrganizacion: nombreOrganizacion,
+                                                                       email: email,
+                                                                       rol: confirmacion.rol.nombre,
+                                                                       accion: "confirmarInvitacion"])
         }
     }
 
     def confirmarInvitacion() {
-        Organizacion organizacion = Organizacion.findByNombre(params.nombreOrganizacion)
-        adminOrganizacionService.agregarMiembroEquipo(organizacion, params.email, params.password, params.rol, false)
-        respond ([ok: true, redirect: "/"], status: 200, formats: ['json'])
+        def nombreOrganizacion = params.nombreOrganizacion
+        def email = params.email
+        Organizacion organizacion = Organizacion.findByNombre(nombreOrganizacion)
+        adminOrganizacionService.agregarMiembroEquipo(organizacion, email, params.password, params.rol, false)
+        session.emailMiembro = email
+        session.nombreOrganizacion = nombreOrganizacion
+        respond ([ok: true, mensaje: "Ha sido dado de alta exitosamente en la organización ${nombreOrganizacion}", redirect: "/"], status: 200, formats: ['json'])
     }
 
     def adminPlanes() {

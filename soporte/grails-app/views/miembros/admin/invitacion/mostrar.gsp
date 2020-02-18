@@ -6,7 +6,7 @@
             });
 
             function mostrarInvitacion() {
-                $('#titulo-popup').html("Bienvenid@ a ${nombreOrganizacion}");
+                $('#titulo-popup').html("${tituloPopup}");
                 $('#contenido-popup').html("${contenidoPopup}");
                 ocultarBotonCancelar();
                 mostrarPopup();
@@ -18,7 +18,7 @@
                     alert("Contraseña inválida!");
                 else {
                     var rol = $("#rol").val()
-                    ejecutarLlamada("confirmarInvitacion",
+                    ejecutarLlamada("${accion}",
                         {
                             nombreOrganizacion: "${nombreOrganizacion}",
                             email: "${email}",
@@ -27,7 +27,7 @@
                         },
                         function(respuesta) {
                             if (respuesta.ok) {
-                                alert("Ha sido dado de alta exitosamente en la organización ${nombreOrganizacion}");
+                                alert(respuesta.mensaje);
                                 window.location.href = respuesta.redirect;
                             }
                             else

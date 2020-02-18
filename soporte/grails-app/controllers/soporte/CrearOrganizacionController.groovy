@@ -53,15 +53,25 @@ class CrearOrganizacionController {
             mostrarMensaje("Error: El link con la solicitud para crear la organización caducó")
         else {
             ConfirmacionAltaOrganizacion confirmacion = confirmacionAltaOrganizacionService.obtener(nombre)
-            render(view: "confirmar", model: [organizacion: nombre, email: confirmacion.email])
+            def rol = Rol.findByNombre(Rol.ADMINISTRADOR)
+            def contenidoPopup = g.render(template: "/miembros/admin/invitacion/contenidoPopupTemplate", model: [nombreOrganizacion: nombre,
+                                                                                                                 email: confirmacion.email,
+                                                                                                                 rol: rol,
+                                                                                                                 mensaje: "El proceso de creación de la organización está por finalizar!"])
+            render(view: "/miembros/admin/invitacion/mostrar", model: [tituloPopup: "Creación de ${nombre}",
+                                                                       contenidoPopup: contenidoPopup,
+                                                                       nombreOrganizacion: nombre,
+                                                                       email: confirmacion.email,
+                                                                       rol: rol.nombre,
+                                                                       accion: "finalizar"])
         }
     }
 
     def finalizar() {
-        adminOrganizacionService.crearOrganizacionConAdmin(params.organizacion, params.email, params.password)
+        adminOrganizacionService.crearOrganizacionConAdmin(params.nombreOrganizacion, params.email, params.password)
         session.emailMiembro = params.email
-        session.nombreOrganizacion = params.organizacion
-        redirect(controller: "adminOrganizacion", action: "adminPlanes")
+        session.nombreOrganizacion = params.nombreOrganizacion
+        respond([ok: true, mensaje: "La organización fue creada con éxito!",redirect: "/adminOrganizacion/adminPlanes"], status: 200, formats: ['json'])
     }
 
     def mostrarMensaje(contenido) {
