@@ -27,8 +27,10 @@ class IngresarController {
         def res = ingresarService.verificarCredenciales(organizacion, email, password)
         switch (res) {
             case MiembroEquipo.CREDENCIALES_OK:
+                def miembro = Organizacion.findByNombre(organizacion).obtenerMiembro(email)
                 session.emailMiembro = email
                 session.nombreOrganizacion = organizacion
+                session.rolMiembro = miembro.rol.nombre
                 respond ([credencial: "ok", redirect: 'PantallaTareas' ], status: 200)
                 break
             case MiembroEquipo.CREDENCIALES_ERROR:

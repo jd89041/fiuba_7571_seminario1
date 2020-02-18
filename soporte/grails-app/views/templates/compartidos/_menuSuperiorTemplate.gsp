@@ -25,12 +25,11 @@
                     <g:form controller="perfil">
                         <g:actionSubmit class="dropdown-item" value="Perfil" action="index"/>
                     </g:form>
-                    <g:form controller="perfil">
-                        <g:actionSubmit class="dropdown-item" value="Preguntas Frecuentes" action="index"/>
-                    </g:form>
-                    <g:form controller="AdminOrganizacion">
-                        <g:actionSubmit class="dropdown-item" value="Administración" action="index"/>
-                    </g:form>
+                    <g:if test="${session.rolMiembro == "Administrador"}">
+                        <g:form controller="AdminOrganizacion">
+                            <g:actionSubmit class="dropdown-item" value="Administración" action="index"/>
+                        </g:form>
+                    </g:if>
                     <div class="dropdown-divider"></div>
                     <g:form controller="perfil">
                         <g:actionSubmit class="dropdown-item" value="Desconectarse" action="desconectar"/>

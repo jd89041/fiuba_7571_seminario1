@@ -71,6 +71,7 @@ class CrearOrganizacionController {
         adminOrganizacionService.crearOrganizacionConAdmin(params.nombreOrganizacion, params.email, params.password)
         session.emailMiembro = params.email
         session.nombreOrganizacion = params.nombreOrganizacion
+        session.rolMiembro = Rol.ADMINISTRADOR
         respond([ok: true, mensaje: "La organización fue creada con éxito!",redirect: "/adminOrganizacion/adminPlanes"], status: 200, formats: ['json'])
     }
 

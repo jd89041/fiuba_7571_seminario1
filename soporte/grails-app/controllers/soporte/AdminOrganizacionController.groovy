@@ -66,6 +66,7 @@ class AdminOrganizacionController {
         adminOrganizacionService.agregarMiembroEquipo(organizacion, email, params.password, params.rol, false)
         session.emailMiembro = email
         session.nombreOrganizacion = nombreOrganizacion
+        session.rolMiembro = params.rol
         respond ([ok: true, mensaje: "Ha sido dado de alta exitosamente en la organización ${nombreOrganizacion}", redirect: "/"], status: 200, formats: ['json'])
     }
 
