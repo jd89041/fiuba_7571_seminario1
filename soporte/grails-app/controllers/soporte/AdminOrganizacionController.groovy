@@ -104,6 +104,16 @@ class AdminOrganizacionController {
         redirect (controller: "aplicacionCliente")
     }
 
+    def generarCrearOrganizacionPopup() {
+        def contenidoPopup = g.render(template: "formCrearOrganizacionTemplate")
+        respond ([contenidoPopup: contenidoPopup], status: 200, formats: ['json'])
+    }
+
+    def completarCrearOrganizacionPopup() {
+        def contenidoPopup = g.render(template: "formCrearOrganizacionTemplate", model: [nombreOrganizacion: params.nombreOrganizacion])
+        respond ([contenidoPopup: contenidoPopup], status: 200, formats: ['json'])
+    }
+
     def mostrarMensaje(contenido) {
         redirect (controller: "ingresar", action: "mensajes", params: [mensaje: contenido])
     }

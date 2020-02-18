@@ -35,19 +35,19 @@
                     if (!password)
                         alert("Debe ingresar su contraseña para continuar");
                     else
-                        verificarCredenciales(nombreOrganizacion, email, password);
+                        verificarCredencialesIngreso(nombreOrganizacion, email, password);
                 }
                 else
                 {
                     if ($("#nombreOrganizacion").prop("disabled"))
                         alert("Debe ingresar su email para continuar");
                     else
-                        verificarOrganizacion(nombreOrganizacion, email, password);
+                        verificarOrganizacionIngreso(nombreOrganizacion, email, password);
                 }
             }
         }
 
-        function verificarOrganizacion(nombreOrganizacion, email, password) {
+        function verificarOrganizacionIngreso(nombreOrganizacion, email, password) {
             $.ajax(
                 {
                     url: "ingresar/verificarOrganizacion",
@@ -66,7 +66,7 @@
             );
         }
 
-        function verificarCredenciales(nombreOrganizacion, email, password) {
+        function verificarCredencialesIngreso(nombreOrganizacion, email, password) {
             $.ajax(
                 {
                     url: "ingresar/verificarCredenciales",

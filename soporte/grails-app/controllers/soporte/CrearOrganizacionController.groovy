@@ -10,16 +10,15 @@ class CrearOrganizacionController {
     }
 
     def validarOrganizacion() {
-
-        def nombreOrganizacion = params.organizacion
+        def nombreOrganizacion = params.nombreOrganizacion
         if (Organizacion.exists(nombreOrganizacion))
-            mostrarMensaje("La organización ${nombreOrganizacion} ya existe, pruebe con otra")
+            respond([codigo: 1, mensaje: "La organización ${nombreOrganizacion} ya existe, pruebe con otra"], status: 200, formats: ['json'])
         else {
             ConfirmacionAltaOrganizacion confirmacionAlta = confirmacionAltaOrganizacionService.obtener(nombreOrganizacion)
             if (confirmacionAlta)
-                render(view: "confirmacionEnviada", model: [organizacion: nombreOrganizacion, email: confirmacionAlta.email])
+                respond([codigo: 2, mensaje: "Una solicitud para iniciar la creación de la organizacion ${nombreOrganizacion} fue enviada a ${confirmacionAlta.email}"], status: 200, formats: ['json'])
             else
-                render(view: "ingresarEmail", model: [organizacion: nombreOrganizacion])
+                respond([codigo: 0], status: 200, formats: ['json'])
         }
     }
 
@@ -29,25 +28,23 @@ class CrearOrganizacionController {
 
     def verificarEmail() {
         def email = params.email
-        def organizacion = params.organizacion
-        switch (confirmacionAltaOrganizacionService.obtenerOperacion(organizacion, email)) {
+        def nombreOrganizacion = params.nombreOrganizacion
+        def codigoRespuesta = 1
+        def mensaje = ""
+        switch (confirmacionAltaOrganizacionService.obtenerOperacion(nombreOrganizacion, email)) {
             case ConfirmacionAltaOrganizacion.OPERACION_ENVIAR:
-                enviarEmail()
+                confirmacionAltaOrganizacionService.enviar(nombreOrganizacion, email)
+                codigoRespuesta = 0
+                mensaje = "Se envió una solicitud al mail indicado para crear la organización ${nombreOrganizacion}!"
                 break
             case ConfirmacionAltaOrganizacion.OPERACION_REENVIAR:
-                render(view: "ingresarEmail", model: [organizacion: organizacion, repetido: true])
+                mensaje = "El email ingresado es el mismo. Debe ser distinto!"
                 break
             case ConfirmacionAltaOrganizacion.OPERACION_NO_DISPONIBLE:
-                render(view: "ingresarEmail", model: [organizacion: organizacion, registrado: true])
+                mensaje = "El email ingresado ya se encuentra en uso"
                 break
         }
-    }
-
-    def enviarEmail() {
-        def organizacion = params.organizacion
-        def email = params.email
-        confirmacionAltaOrganizacionService.enviar(organizacion, email)
-        mostrarMensaje("Se envió una solicitud al mail indicado para crear la organización ${organizacion}!")
+        respond([codigo: codigoRespuesta, mensaje: mensaje], status: 200, formats: ['json'])
     }
 
     def confirmar() {
