@@ -1,6 +1,7 @@
 package soporte
 
 import soporte.notificaciones.pedidos_soporte.NotificacionNuevoMensajeEnPedidoSoporte
+import soporte.reglas.ordenamiento.MenosPedidosAplicacion
 
 class PedidoSoporte {
 
@@ -47,21 +48,25 @@ class PedidoSoporte {
     def etiquetar(reglas) {
         // etiqueta / ocurrencias
         // 1) identificar si el mensaje es de un agente o de un usuario (filtro solo mensajes de usuario)
-        ocurrenciasDeTemas.each { ocurrencia ->
-            if (reglas.every { regla -> regla.cumple(ocurrencia.key, ocurrencia.value) } && !(ocurrencia.key in etiquetas)) {
-                addToEtiquetas(ocurrencia.key)
+        if (reglas.size() > 0) {
+            ocurrenciasDeTemas.each { ocurrencia ->
+                if (reglas.every { regla -> regla.cumple(ocurrencia.key, ocurrencia.value) } && !(ocurrencia.key in etiquetas)) {
+                    addToEtiquetas(ocurrencia.key)
+                }
             }
         }
     }
 
     def responder(reglas) {
         def temasRespuesta = []
-        if (aplicacion.temas.size() > 0) {
-            temasRespuesta = aplicacion.temas.collect()  // copia
-            def mensajes = this.mensajes.collect()
-            reglas.each {
-                if (mensajes.size() > 0 && temasRespuesta.size() > 0)
-                    (mensajes, temasRespuesta) = it.aplicar(this, mensajes, temasRespuesta)
+        if (reglas.size() > 0) {
+            if (aplicacion.temas.size() > 0) {
+                temasRespuesta = aplicacion.temas.collect()  // copia
+                def mensajes = this.mensajes.collect()
+                reglas.each {
+                    if (mensajes.size() > 0 && temasRespuesta.size() > 0)
+                        (mensajes, temasRespuesta) = it.aplicar(this, mensajes, temasRespuesta)
+                }
             }
         }
         if (temasRespuesta.size() > 0)
@@ -76,13 +81,15 @@ class PedidoSoporte {
 
     def asignarConReglas(reglasAsignacion, reglaOrdenamiento) {
         def miembrosAsignables = aplicacion.miembros.collect()
-        reglasAsignacion.each { regla ->
-            if (miembrosAsignables.size() > 0)
-                miembrosAsignables = regla.aplicar(this, miembrosAsignables)
+        if (reglasAsignacion.size() > 0) {
+            reglasAsignacion.each { regla ->
+                if (miembrosAsignables.size() > 0)
+                    miembrosAsignables = regla.aplicar(this, miembrosAsignables)
+            }
         }
 
         if (miembrosAsignables.size() > 0) {
-            def ordenados = reglaOrdenamiento.aplicar(this, miembrosAsignables)
+            def ordenados = new MenosPedidosAplicacion().aplicar(this, miembrosAsignables)
             def miembro = ordenados[0]
             asignar(miembro)
             true

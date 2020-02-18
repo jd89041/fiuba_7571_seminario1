@@ -82,14 +82,14 @@ class AplicacionCliente {
         }
         pedidoSoporte.agregarMensaje(mensajeSoporteEntrante, false)
         if (autoEtiquetar)
-            pedidoSoporte.etiquetar(reglas.findAll { it.instanceOf(ReglaEtiquetado) })
+            pedidoSoporte.etiquetar(reglas.findAll { it.instanceOf(ReglaEtiquetado) && activa })
         // if auto responder y regla auto respuesta
         def respuesta
         if (autoResponder)
-            respuesta = pedidoSoporte.responder(reglas.findAll { it.instanceOf(ReglaRespuesta) })
+            respuesta = pedidoSoporte.responder(reglas.findAll { it.instanceOf(ReglaRespuesta) && it.activa })
         if (!respuesta && !pedidoSoporte.estaAsignado()) {
             if (autoAsignar)
-                pedidoSoporte.asignarConReglas(reglas.findAll {it.instanceOf(ReglaAsignacion)}, reglas.find { it.instanceOf(ReglaOrdenamiento) })
+                pedidoSoporte.asignarConReglas(reglas.findAll {it.instanceOf(ReglaAsignacion) && it.activa }, reglas.find { it.instanceOf(ReglaOrdenamiento) })
         }
         pedidoSoporte.save(failOnError: true)
         this.save(failOnError: true)
