@@ -31,7 +31,7 @@
 
             function asignarPedido(nombreAplicacion, idPedido, emailNuevoMiembro) {
                 if (confirm("Desea asignar el pedido actual a " + emailNuevoMiembro)) {
-                    ejecutarLlamada("pantallaTareas/asignarPedidoSoporte",
+                    ejecutarLlamada("asignarPedidoSoporte",
                         {
                             nombreAplicacion: nombreAplicacion,
                             emailMiembro: emailNuevoMiembro,
