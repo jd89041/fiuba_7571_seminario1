@@ -31,7 +31,7 @@ class IngresarController {
                 session.emailMiembro = email
                 session.nombreOrganizacion = organizacion
                 session.rolMiembro = miembro.rol.nombre
-                respond ([credencial: "ok", redirect: 'PantallaTareas' ], status: 200)
+                respond ([credencial: "ok", redirect: 'pantallaTareas/index' ], status: 200)
                 break
             case MiembroEquipo.CREDENCIALES_ERROR:
                 respond ([credencial: "invalida"], status: 200)

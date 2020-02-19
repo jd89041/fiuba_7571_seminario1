@@ -21,7 +21,7 @@
             }
 
             function solicitarTareas() {
-                ejecutarLlamada("pantallaTareas/solicitarTareas",
+                ejecutarLlamada("solicitarTareas",
                     null,
                     function(respuesta) {
                         actualizarTareas(respuesta);
