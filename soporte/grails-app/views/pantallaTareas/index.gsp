@@ -1,28 +1,57 @@
 <g:applyLayout name="paneles">
-    <content tag="panelIzquierdo">
-        <div id="izq">
-        </div>
-    </content>
     <content tag="panelCentral">
-        <div class="container" style="height: inherit;">
-            <h2>Tareas</h2>
-            <div class="col-auto">
-                <!-- contenedor de tareas -->
-                <g:each in="${miembro.pedidosSoporte}">
-                    <g:render template="/pedidoSoporte/pedidoSoporteTemplate" bean="${it}"/>
-                </g:each>
-            </div>
+        <h2>Tareas</h2>
+        <div id="tareasEnCurso">
+        </div>
+        <div id="tareasGenerales">
         </div>
         <g:javascript>
+            $(document).ready(function() {
+                solicitarTareas();
+            });
+
             function cerrarHistorial() {
                 ocultarPanelDerecho();
             }
 
-            function mostrarConversacion(id) {
+            function actualizarTareas(data) {
+                $("#tareasEnCurso").html(data.htmlTareasEnCurso);
+                $("#tareasGenerales").html(data.htmlTareasGenerales);
+                cerrarHistorial();
+            }
+
+            function solicitarTareas() {
+                ejecutarLlamada("pantallaTareas/solicitarTareas",
+                    null,
+                    function(respuesta) {
+                        actualizarTareas(respuesta);
+                    }
+                );
+            }
+
+            function asignarPedido(nombreAplicacion, idPedido, emailNuevoMiembro) {
+                if (confirm("Desea asignar el pedido actual a " + emailNuevoMiembro)) {
+                    ejecutarLlamada("pantallaTareas/asignarPedidoSoporte",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            emailMiembro: emailNuevoMiembro,
+                            idPedido: idPedido
+                        },
+                        function(respuesta) {
+                            actualizarTareas(respuesta);
+                        }
+                    );
+                }
+            }
+
+            function mostrarConversacion(nombreAplicacion, idPedido) {
                 $.ajax(
                     {
                         url: "/pedidoSoporte/obtenerConversacion",
-                        data: { id: id }
+                        data: {
+                            nombreAplicacion: nombreAplicacion,
+                            idPedido: idPedido
+                        }
                     })
                     .success(function(respuesta) {
                         $('#der').html(respuesta.htmlConversacion);
@@ -31,12 +60,13 @@
                 );
             }
 
-            function enviarRespuesta(id, msg) {
+            function enviarRespuesta(nombreAplicacion, idPedido) {
                 $.ajax(
                     {
                         url: "/pedidoSoporte/enviarRespuesta",
                         data: {
-                            id: id,
+                            nombreAplicacion: nombreAplicacion,
+                            idPedido: idPedido,
                             respuesta: $("#respuestaPedidoSoporte").val()
                         }
                     })

@@ -120,4 +120,28 @@ class AplicacionCliente {
         setAutoAsignar(config.autoAsignar)
         save(failOnError: true)
     }
+
+    def obtenerConversacionPedido(idPedido) {
+        def pedido = pedidosSoporte.find {
+            it.id == idPedido
+        }
+        pedido.obtenerConversacion()
+    }
+
+    def obtenerPedidosSoporteMiembro(miembro) {
+        pedidosSoporte.findAll {
+            miembro.estaTrabajandoEnPedidoSoporte(it)
+        }
+    }
+
+    def obtenerPedidoSoporte(idPedido) {
+        pedidosSoporte.find {
+            it.id == idPedido
+        }
+    }
+
+    def asignarPedidoSoporte(idPedidoSoporte, miembro) {
+        PedidoSoporte pedido = obtenerPedidoSoporte(idPedidoSoporte)
+        pedido.asignar(miembro)
+    }
 }

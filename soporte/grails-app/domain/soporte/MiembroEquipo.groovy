@@ -110,12 +110,28 @@ class MiembroEquipo {
     }
 
     def estaTrabajandoEnPedidoSoporte(pedidoSoporte) {
-        this.pedidoSoporte == pedidoSoporte
+        pedidosSoporte.any {
+            it == pedidoSoporte
+        }
+    }
+
+    def estaTrabajandoEnPedidoSoporteConId(pedidoSoporteId) {
+        pedidosSoporte.any {
+            it.id == pedidoSoporteId
+        }
     }
 
     def obtenerPedidoSoporteConId(id) {
         pedidosSoporte.find {
             it.id == id
         }
+    }
+
+    def obtenerPedidosSoporte() {
+        def pedidos = []
+        this.pedidosSoporte.each {
+            pedidos.push([ nombreAplicacion: it.aplicacion.nombre, pedidosAplicacion: it.pedidosSoporte ])
+        }
+        pedidos
     }
 }

@@ -1,7 +1,9 @@
 package soporte
 
+import groovy.transform.Sortable
 import org.joda.time.Instant
 
+@Sortable(includes = ['fecha'])
 class MensajePedidoSoporte {
     String autor
     String mensaje

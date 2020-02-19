@@ -93,4 +93,34 @@ class Organizacion {
         removeFromMiembros(miembro)
         miembro.delete()
     }
+
+    def obtenerPedidosSoporteGenerales() {
+        def pedidosSoporte = []
+        aplicaciones.each {
+            pedidosSoporte.push([ nombreAplicacion: it.nombre, pedidosAplicacion: it.pedidosSoporte ])
+        }
+        pedidosSoporte
+    }
+
+    def obtenerPedidosSoporteMiembro(emailMiembro) {
+        def miembro = obtenerMiembro(emailMiembro)
+        def pedidosSoporte = []
+        aplicaciones.each {
+            def pedidosMiembro = it.obtenerPedidosSoporteMiembro(miembro)
+            if (pedidosMiembro.size() > 0)
+                pedidosSoporte.push([ nombreAplicacion: it.nombre, pedidosAplicacion: it.obtenerPedidosSoporteMiembro(miembro) ])
+        }
+        pedidosSoporte
+    }
+
+    def obtenerConversacionPedidoSoporteDeAplicacion(idPedido, nombreAplicacion) {
+        def aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.obtenerConversacionPedido(idPedido)
+    }
+
+    def asignarPedidoSoporte(nombreAplicacion, idPedidoSoporte, emailMiembro) {
+        MiembroEquipo miembro = obtenerMiembro(emailMiembro)
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.asignarPedidoSoporte(idPedidoSoporte, miembro)
+    }
 }

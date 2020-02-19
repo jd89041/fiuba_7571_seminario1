@@ -1,7 +1,7 @@
 <g:applyLayout name="paneles">
     <content tag="panelCentral">
         <g:javascript>
-            $( document ).ready(function() {
+            $(document).ready(function() {
                 mostrarInvitacion();
             });
 

@@ -98,10 +98,13 @@ class PedidoSoporte {
     }
 
     def asignar(miembro) {
-        // esta operacion deberia hacerse acá y no en el miembro equipo
         if (this.miembro)
             this.miembro.removerPedidoSoporte(this)
         setMiembro(miembro)
         this.miembro.agregarPedidoSoporte(this)
+    }
+
+    def obtenerConversacion() {
+        mensajes.sort()
     }
 }
