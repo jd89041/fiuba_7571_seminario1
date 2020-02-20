@@ -47,11 +47,11 @@ class BandaHoraria extends ReglaRespuesta implements IReglaRangoNumerico {
     }
 
     @Override
-    def procesar(pedidoSoporte, mensajes, temasDeRespuesta) {
+    def aplicar(pedidoSoporte, temasDeRespuesta) {
         def horaActual = new DateTime().getHourOfDay()
         if (horaMinima <= horaActual && horaActual <= horaMaxima)
-            [mensajes, temasDeRespuesta]
+            temasDeRespuesta
         else
-            [[], []]
+            []
     }
 }

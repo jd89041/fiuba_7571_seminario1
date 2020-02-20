@@ -25,13 +25,17 @@ class PedidoSoporte {
         ocurrenciasDeTemas = [:]
     }
 
+    // agrega el nuevo mensaje y lo devuelve
     def agregarMensaje(pedidoSoporteEntrante, esRespuesta) {
         // evaluar y luego se puede taggear
         def nuevoMensaje = new MensajePedidoSoporte(pedidoSoporteEntrante.nombreAutor, pedidoSoporteEntrante.contenido, esRespuesta)
-        procesarMensaje(nuevoMensaje)
         addToMensajes(nuevoMensaje)
-        if (estaAsignado() && !esRespuesta)
-            miembro.notificar(new NotificacionNuevoMensajeEnPedidoSoporte(aplicacion.nombre))
+        if (!esRespuesta) {
+            procesarMensaje(nuevoMensaje)
+            if (estaAsignado())
+                miembro.notificar(new NotificacionNuevoMensajeEnPedidoSoporte(aplicacion.nombre))
+        }
+        nuevoMensaje
     }
 
     // evalua el mensaje en base a los temas de la aplicacion cliente y carga una lista de ponderaciones
@@ -57,21 +61,19 @@ class PedidoSoporte {
         }
     }
 
-    def responder(reglas) {
+    def responder(mensaje, reglas) {
         def temasRespuesta = []
         if (reglas.size() > 0) {
             if (aplicacion.temas.size() > 0) {
                 temasRespuesta = aplicacion.temas.collect()  // copia
-                def mensajes = this.mensajes.collect()
                 reglas.each {
-                    if (mensajes.size() > 0 && temasRespuesta.size() > 0)
-                        (mensajes, temasRespuesta) = it.aplicar(this, mensajes, temasRespuesta)
+                    if (temasRespuesta.size() > 0)
+                        temasRespuesta = it.aplicar(this, temasRespuesta)
                 }
             }
         }
         if (temasRespuesta.size() > 0)
-            temasRespuesta[0].obtenerRespuestaAutomatica(mensajes.last())
-            //temasRespuesta.preguntasFrecuentes[0][0].respuesta // procesar que no se devuelva repetido
+            temasRespuesta[0].obtenerRespuestaAutomatica(mensaje)
         else
             null
     }

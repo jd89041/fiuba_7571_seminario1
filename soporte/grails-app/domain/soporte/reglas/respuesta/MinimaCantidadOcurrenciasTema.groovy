@@ -36,7 +36,7 @@ class MinimaCantidadOcurrenciasTema extends ReglaRespuesta implements IReglaNume
     }
 
     @Override
-    def procesar(pedidoSoporte, mensajes, temasDeRespuesta) {
+    def aplicar(pedidoSoporte, temasDeRespuesta) {
         def temasDisponibles = []
         pedidoSoporte.ocurrenciasDeTemas.each {
             tema, ocurrenciasTema ->
@@ -44,13 +44,12 @@ class MinimaCantidadOcurrenciasTema extends ReglaRespuesta implements IReglaNume
                     temasDisponibles.add(tema)
         }
         if (temasDisponibles == 0)
-            [[], []]
+            []
         else {
-            def nuevosMensajes = obtenerMensajesDeTemas(mensajes, temasDisponibles)
             def nuevosTemas = temasDeRespuesta.findAll {
                 it.nombre in temasDisponibles
             }
-            [nuevosMensajes, nuevosTemas]
+            nuevosTemas
         }
     }
 }

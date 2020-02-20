@@ -71,16 +71,16 @@ class AplicacionCliente {
             addToPedidosSoporte(pedidoSoporte)
             autor.save(failOnError: true)
         }
-        pedidoSoporte.agregarMensaje(mensajeSoporteEntrante, false)
+        def nuevoMensaje = pedidoSoporte.agregarMensaje(mensajeSoporteEntrante, false)
         if (autoEtiquetar)
             pedidoSoporte.etiquetar(reglas.findAll { it.instanceOf(ReglaEtiquetado) && activa })
         // if auto responder y regla auto respuesta
         def respuesta
         if (autoResponder)
-            respuesta = pedidoSoporte.responder(reglas.findAll { it.instanceOf(ReglaRespuesta) && it.activa })
+            respuesta = pedidoSoporte.responder(nuevoMensaje, reglas.findAll { it.instanceOf(ReglaRespuesta) && it.activa })
         if (respuesta) {
-            // generar respuesta y sumarla a la charla!
-            pedidoSoporte.agregarMensaje([nombreAutor: "Automatizado", contenido: respuesta], true)
+            // generar respuesta y sumarla a la conversacion!
+            pedidoSoporte.agregarMensaje([nombreAutor: "Respuesta automatizada", contenido: respuesta], true)
         } else {
             if (!pedidoSoporte.estaAsignado()) {
                 if (autoAsignar)

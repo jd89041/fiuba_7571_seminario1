@@ -15,7 +15,7 @@ class ReceptorPedidosService {
         MensajeSoporteEntrante mensajeEntrante = new MensajeSoporteEntrante(mensaje,
                 nombreAplicacionCliente, emailAutor, nombreAutor)
         aplicacionCliente.gestionarPedidoSoporteEntrante(mensajeEntrante)
-        return [0, "asd"]
+        return [0, "ok"]
     }
 
 }

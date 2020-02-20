@@ -28,11 +28,10 @@ class SoloTemas extends ReglaRespuesta {
     }
 
     @Override
-    def procesar(pedidoSoporte, mensajes, temasDeRespuesta) {
-        def nuevosMensajes = obtenerMensajesDeTemas(mensajes, temasDeRespuesta)
+    def aplicar(pedidoSoporte, temasDeRespuesta) {
         def nuevosTemasRespuesta = temasDeRespuesta.findAll {
             it.nombre in temas
         }
-        [nuevosMensajes, nuevosTemasRespuesta]
+        nuevosTemasRespuesta
     }
 }
