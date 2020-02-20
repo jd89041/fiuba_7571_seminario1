@@ -1,19 +1,34 @@
 <g:applyLayout name="paneles">
     <content tag="panelCentral">
-        <div class="row justify-content-center tamano-padre">
-            <div class="centrado align-self-center">
-                <h2>Bienvenido</h2>
-                <p>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseIngresar" aria-expanded="false" aria-controls="collapseIngresar">
-                        Ingresar
-                    </button>
-                </p>
-                <div class="collapse" id="collapseIngresar">
-                    <div class="card card-body">
-                        <g:render template="ingresarTemplate" />
+        <div style="height: 40vw;">
+            <div class="row align-items-center justify-content-center" style="height: 100%;">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h2>Bienvenid@</h2>
+                        </div>
+                        <div class="card-text">
+                            <div class="row justify-content-center">
+                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseIngresar" aria-expanded="false" aria-controls="collapseIngresar">
+                                    Ingresar
+                                </button>
+                            </div>
+                            <div class="row justify-content-center" style="padding-top: 10px;">
+                                <div class="collapse" id="collapseIngresar">
+                                    <div class="card card-body">
+                                        <g:render template="ingresarTemplate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center" style="padding-top: 10px;">
+                                <button type="button" class="btn btn-success" onclick="mostrarCrearOrganizacionPopup()">Crear Organizacion</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <g:img dir="images" file="huritos.png" class="card-img"/>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success" onclick="mostrarCrearOrganizacionPopup()">Crear Organizacion</button>
             </div>
         </div>
         <g:javascript>
