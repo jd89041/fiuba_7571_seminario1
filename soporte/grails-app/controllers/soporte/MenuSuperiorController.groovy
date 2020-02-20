@@ -14,7 +14,7 @@ class MenuSuperiorController {
     def obtenerNotificaciones() {
         Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
         MiembroEquipo miembro = organizacion.obtenerMiembro(session.emailMiembro)
-        def html = g.render(template: "/perfil/notificacionTemplate", collection: miembro.notificaciones)
+        def html = g.render(template: "/perfil/notificacionTemplate", collection: miembro.obtenerNotificaciones())
         def nroNotificacionesNoLeidas = miembro.obtenerNotificacionesNoLeidas().size()
         respond ([htmlNotificaciones: html, nroNotificacionesNoLeidas: nroNotificacionesNoLeidas], status: 200)
     }

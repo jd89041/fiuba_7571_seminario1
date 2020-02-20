@@ -134,4 +134,8 @@ class MiembroEquipo {
         }
         pedidos
     }
+
+    def obtenerNotificaciones() {
+        notificaciones.sort()
+    }
 }

@@ -1,10 +1,14 @@
 package soporte.notificaciones
 
+import groovy.transform.Sortable
 import soporte.MiembroEquipo
+import org.joda.time.Instant
 
+@Sortable(includes = ['fecha'])
 class Notificacion {
     String mensaje
     boolean leida
+    long fecha
 
     static belongsTo = [miembro: MiembroEquipo]
 
@@ -13,7 +17,8 @@ class Notificacion {
     }
 
     def Notificacion(mensaje) {
-        this.mensaje = mensaje
+        setMensaje(mensaje)
+        setFecha(new Instant().getMillis())
     }
 
     def leer() {
