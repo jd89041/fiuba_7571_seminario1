@@ -23,9 +23,15 @@ class Tema {
 
     def obtenerRespuestaAutomatica(mensaje) {
         def respuestaAutomatica
+        def ocurrenciasDeRespuestaActual = 0
         respuestasAutomaticas.each {
-            if (it.puedeResponderMensaje(mensaje.mensaje))
+            def respuesta = it.puedeResponderMensaje(mensaje.mensaje)
+            def puedeResponder = respuesta[0]
+            def ocurrencias = respuesta[1]
+            if (puedeResponder && ocurrencias >= ocurrenciasDeRespuestaActual) {
+                ocurrenciasDeRespuestaActual = ocurrencias;
                 respuestaAutomatica = it.mensaje
+            }
         }
         respuestaAutomatica
     }

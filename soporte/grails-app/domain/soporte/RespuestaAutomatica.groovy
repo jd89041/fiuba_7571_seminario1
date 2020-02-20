@@ -22,14 +22,17 @@ class RespuestaAutomatica {
     }
 
     def puedeResponderMensaje(mensaje) {
+        def ocurrenciasRespuesta = 0
         def resultado = true
         palabrasClave.each { palabraClave, ocurrencias ->
             def palabras = mensaje.split(" ")
             def encontradas = palabras.findAll { it.replaceAll(/[^a-z]/, "") == palabraClave }
             if (encontradas.size() < ocurrencias)
                 resultado = false
+            else
+                ocurrenciasRespuesta += ocurrencias
         }
-        resultado
+        [resultado, ocurrenciasRespuesta]
     }
 
     def actualizar(mensaje, palabrasClave) {
