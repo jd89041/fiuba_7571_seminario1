@@ -15,7 +15,7 @@ class MenosPedidosAplicacion extends ReglaOrdenamiento {
     @Override
     def aplicar(pedidoSoporte, miembros) {
         miembros.toSorted { a, b ->
-            a.obtenerPedidosSoporteDeAplicacion(aplicacion).size() <=> b.obtenerPedidosSoporteDeAplicacion(aplicacion).size()
+            a.obtenerPedidosSoporteDeAplicacion(pedidoSoporte.aplicacion).size() <=> b.obtenerPedidosSoporteDeAplicacion(pedidoSoporte.aplicacion).size()
         }
     }
 }
