@@ -41,31 +41,34 @@
 </div>
 
 <g:javascript>
-    obtenerNotificaciones();
+    var idTimeoutEnCurso = -1;
+
+    $(document).ready(function() {
+        obtenerNotificaciones();
+    });
 
     function obtenerNotificaciones() {
-        ejecutarLlamada("obtenerNotificaciones");
+        actualizarMenu("obtenerNotificaciones");
     }
 
     function leerNotificacion(id) {
-        ejecutarLlamada("leerNotificacion", id);
+        actualizarMenu("leerNotificacion", { notificacionId: id });
     }
 
     function borrarNotificacion(id) {
-        ejecutarLlamada("borrarNotificacion", id);
+        actualizarMenu("borrarNotificacion", { notificacionId: id });
     }
 
-    function ejecutarLlamada(accion, idNotificacion) {
-        $.ajax(
-            {
-                url: "/menuSuperior/" + accion,
-                data: { notificacionId: idNotificacion }
-            })
-            .success(function(data) {
-                $("#notificaciones").html(data.htmlNotificaciones);
-                var noLeidas = data.nroNotificacionesNoLeidas;
+    function actualizarMenu(accion, params) {
+        if (idTimeoutEnCurso != -1)
+            clearTimeout(idTimeoutEnCurso)
+        ejecutarLlamada("/menuSuperior/" + accion,
+            params,
+            function(respuesta) {
+                $("#notificaciones").html(respuesta.htmlNotificaciones);
+                var noLeidas = respuesta.nroNotificacionesNoLeidas;
                 $("#nroNotificacionesNoLeidas").html(noLeidas ? noLeidas : "");
-                setTimeout(obtenerNotificaciones, 5000);
+                idTimeoutEnCurso = setTimeout(obtenerNotificaciones, 10000);
             }
         );
     }
