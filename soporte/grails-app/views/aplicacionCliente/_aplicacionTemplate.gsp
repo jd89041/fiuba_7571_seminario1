@@ -7,12 +7,9 @@
                 </div>
             </div>
             <div class="col-auto ml-auto">
-                <div class="row row-cols-3 align-items-center" style="height: 100%;">
+                <div class="row row-cols-2 align-items-center" style="height: 100%;">
                     <div class="col">
                         <button type="button" class="btn btn-primary" onclick="mostrarMiembros('${it.nombre}')">Miembros</button>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-primary" onclick="mostrarTemas('${it.nombre}')">Temas</button>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-primary" onclick="mostrarConfiguracion('${it.nombre}')">Configuración</button>

@@ -43,15 +43,6 @@ class AplicacionCliente {
         save(failOnError: true)
     }
 
-    def agregarTema(tema) {
-        addToTemas(tema)
-        // informar para que se puedan recalcular las etiquetas
-    }
-
-    def removerTema(tema) {
-        removeFromTemas(tema)
-    }
-
     def recuperarPedidoSoporte(email) {
         def pedido
         pedidosSoporte.each {
@@ -114,6 +105,10 @@ class AplicacionCliente {
         ]
     }
 
+    def obtenerTemas() {
+        temas
+    }
+
     def actualizarConfigGeneral(config) {
         setAutoEtiquetar(config.autoEtiquetar)
         setAutoResponder(config.autoResponder)
@@ -143,5 +138,68 @@ class AplicacionCliente {
     def asignarPedidoSoporte(idPedidoSoporte, miembro) {
         PedidoSoporte pedido = obtenerPedidoSoporte(idPedidoSoporte)
         pedido.asignar(miembro)
+    }
+
+    def agregarTema(nombreTema) {
+        if (temas.any {
+            it.nombre == nombreTema
+        })
+            false
+        else {
+            Tema nuevoTema = new Tema()
+            nuevoTema.nombre = nombreTema
+            addToTemas(nuevoTema)
+            //save(failOnError: true)
+            true
+        }
+    }
+
+    def borrarTema(nombreTema) {
+        Tema tema = temas.find {
+            it.nombre == nombreTema
+        }
+        if (tema) {
+            removeFromTemas(tema)
+            tema.delete()
+            //save(failOnError: true)
+        }
+    }
+
+    def agregarRespuestaAutomatica(nombreTema, tituloRespuesta) {
+        Tema tema = temas.find {
+            it.nombre == nombreTema
+        }
+        if (tema)
+            tema.agregarRespuestaAutomatica(tituloRespuesta)
+        else
+            false
+    }
+
+    def borrarRespuestaAutomatica(nombreTema, tituloRespuesta) {
+        Tema tema = temas.find {
+            it.nombre == nombreTema
+        }
+        if (tema)
+            tema.borrarRespuestaAutomatica(tituloRespuesta)
+    }
+
+    def actualizarRespuestaAutomatica(nombreTema, tituloRespuesta, mensaje, palabrasClave) {
+        Tema tema = temas.find {
+            it.nombre == nombreTema
+        }
+        if (tema)
+            tema.actualizarRespuestaAutomatica(tituloRespuesta, mensaje, palabrasClave)
+        else
+            false
+    }
+
+    def actualizarPalabrasClave(nombreTema, palabrasClave) {
+        Tema tema = temas.find {
+            it.nombre == nombreTema
+        }
+        if (tema)
+            tema.actualizarPalabrasClave(palabrasClave)
+        else
+            false
     }
 }

@@ -6,7 +6,7 @@ class Tema {
 
     static belongsTo = [aplicacionCliente: AplicacionCliente]
 
-    static hasMany = [preguntasFrecuentes : PreguntaFrecuente]
+    static hasMany = [preguntasFrecuentes : PreguntaFrecuente, respuestasAutomaticas: RespuestaAutomatica]
 
     static constraints = {
     }
@@ -19,5 +19,64 @@ class Tema {
             ocurrencias += encontradas.size
         }
         ocurrencias
+    }
+
+    def obtenerRespuestaAutomatica(mensaje) {
+        def respuestaAutomatica
+        respuestasAutomaticas.each {
+            respuestaAutomatica = it.puedeResponderMensaje(mensaje)
+        }
+        respuestaAutomatica
+    }
+
+    def agregarRespuestaAutomatica(tituloRespuesta) {
+        if (respuestasAutomaticas.any {
+            it.titulo == tituloRespuesta
+        })
+            false
+        else {
+            RespuestaAutomatica nuevaRespuesta = new RespuestaAutomatica()
+            nuevaRespuesta.titulo = tituloRespuesta
+            addToRespuestasAutomaticas(nuevaRespuesta)
+        }
+    }
+
+    def borrarRespuestaAutomatica(tituloRespuesta) {
+        def respuesta = respuestasAutomaticas.find {
+            it.titulo == tituloRespuesta
+        }
+        if (respuesta) {
+            removeFromRespuestasAutomaticas(respuesta)
+            respuesta.delete()
+        }
+    }
+
+    def actualizarRespuestaAutomatica(tituloRespuesta, mensaje, palabrasClave) {
+        def respuesta = respuestasAutomaticas.find {
+            it.titulo == tituloRespuesta
+        }
+        if (respuesta)
+            respuesta.actualizar(mensaje, palabrasClave)
+        else
+            false
+    }
+
+    def obtenerListaPalabrasClave() {
+        def listaPalabrasClaves = ""
+        palabrasClave.each { palabra ->
+            listaPalabrasClaves += "[" + palabra + "]"
+        }
+        listaPalabrasClaves
+    }
+
+    def actualizarPalabrasClave(palabrasClave) {
+        def palabras = palabrasClave.split("]")
+        this.palabrasClave = []
+        palabras.each {
+            def palabra = it.replace("[", "")
+            if (!(palabra in this.palabrasClave))
+                addToPalabrasClave(palabra)
+        }
+        save(failOnError: true)
     }
 }

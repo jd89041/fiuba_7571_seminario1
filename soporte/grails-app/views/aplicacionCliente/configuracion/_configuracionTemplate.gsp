@@ -3,6 +3,7 @@
     <button type="button" class="btn btn-success" onclick="guardarConfiguracion('${nombreAplicacion}')">Guardar</button>
     <g:render template="/aplicacionCliente/configuracion/configGeneralTemplate" bean="${configGeneral}"/>
     <g:render template="/reglas/listaReglasTemplate" bean="${reglas}"/>
+    <g:render template="/aplicacionCliente/configuracion/configTemasTemplate" bean="${temas}"/>
     <g:javascript>
         function agregarReglasNumericas(reglas) {
             $.each($(".reglaNumerica"), function() {

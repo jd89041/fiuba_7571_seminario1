@@ -123,4 +123,34 @@ class Organizacion {
         AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
         aplicacion.asignarPedidoSoporte(idPedidoSoporte, miembro)
     }
+
+    def agregarTemaEnAplicacion(nombreTema, nombreAplicacion) {
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.agregarTema(nombreTema)
+    }
+
+    def borrarTemaDeAplicacion(nombreTema, nombreAplicacion) {
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.borrarTema(nombreTema)
+    }
+
+    def agregarRespuestaAutomatica(nombreAplicacion, nombreTema, tituloRespuesta) {
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.agregarRespuestaAutomatica(nombreTema, tituloRespuesta)
+    }
+
+    def borrarRespuestaAutomatica(nombreAplicacion, nombreTema, tituloRespuesta) {
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.borrarRespuestaAutomatica(nombreTema, tituloRespuesta)
+    }
+
+    def actualizarRespuestaAutomatica(nombreAplicacion, nombreTema, tituloRespuesta, mensaje, palabrasClave) {
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.actualizarRespuestaAutomatica(nombreTema, tituloRespuesta, mensaje, palabrasClave)
+    }
+
+    def actualizarPalabrasClave(nombreAplicacion, nombreTema, palabrasClave) {
+        AplicacionCliente aplicacion = obtenerAplicacion(nombreAplicacion)
+        aplicacion.actualizarPalabrasClave(nombreTema, palabrasClave)
+    }
 }

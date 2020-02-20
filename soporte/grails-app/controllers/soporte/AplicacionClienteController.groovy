@@ -100,10 +100,12 @@ class AplicacionClienteController {
         AplicacionCliente aplicacionCliente = organizacion.obtenerAplicacion(params.nombreAplicacion)
         def reglas = reglaService.obtenerTodasLasReglas(aplicacionCliente.reglas)
         def configGeneral = aplicacionCliente.obtenerConfigGeneral()
+        def temas = aplicacionCliente.obtenerTemas()
         def htmlConfiguracion = g.render(template: "configuracion/configuracionTemplate", model: [
             reglas: reglas,
             configGeneral: configGeneral,
-            nombreAplicacion: aplicacionCliente.nombre
+            nombreAplicacion: aplicacionCliente.nombre,
+            temas: temas
         ])
         respond ([html: htmlConfiguracion], status: 200, formats: ['json'])
     }
@@ -117,6 +119,57 @@ class AplicacionClienteController {
         reglaService.actualizarReglas(aplicacionCliente, configuracion.reglas)
         aplicacionCliente.actualizarConfigGeneral(configuracion.general)
         obtenerConfiguracion()
+    }
+
+    @Transactional
+    def agregarTema() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        if (organizacion.agregarTemaEnAplicacion(params.nombreTema, params.nombreAplicacion))
+            obtenerConfiguracion()
+        else
+            respond ([], status: 200, formats: ['json'])
+    }
+
+    @Transactional
+    def borrarTema() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        organizacion.borrarTemaDeAplicacion(params.nombreTema, params.nombreAplicacion)
+        obtenerConfiguracion()
+    }
+
+    @Transactional
+    def agregarRespuestaAutomatica() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        if (organizacion.agregarRespuestaAutomatica(params.nombreAplicacion, params.nombreTema, params.tituloRespuesta))
+            obtenerConfiguracion()
+        else
+            respond ([], status: 200, formats: ['json'])
+    }
+
+    @Transactional
+    def borrarRespuestaAutomatica() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        organizacion.borrarRespuestaAutomatica(params.nombreAplicacion, params.nombreTema, params.tituloRespuesta)
+        obtenerConfiguracion()
+    }
+
+    @Transactional
+    def actualizarRespuestaAutomatica() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        if (organizacion.actualizarRespuestaAutomatica(params.nombreAplicacion, params.nombreTema,
+                params.tituloRespuesta, params.mensaje, params.palabrasClave as String))
+            obtenerConfiguracion()
+        else
+            respond ([], status: 200, formats: ['json'])
+    }
+
+    @Transactional
+    def actualizarPalabrasClave() {
+        Organizacion organizacion = Organizacion.findByNombre(session.nombreOrganizacion)
+        if (organizacion.actualizarPalabrasClave(params.nombreAplicacion, params.nombreTema, params.palabrasClave as String))
+            obtenerConfiguracion()
+        else
+            respond ([], status: 200, formats: ['json'])
     }
 
     def mostrarMensaje(contenido) {

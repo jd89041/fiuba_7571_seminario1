@@ -115,11 +115,124 @@
                         },
                         function(respuesta) {
                             $("#contenidoPanelDerecho").html(respuesta.html);
-                            //mostrarPanelDerecho();
                         }
                     );
                 }
             }
+
+            function borrarTema(nombreAplicacion, nombreTema) {
+                if (confirm("Desea borrar el tema " + nombreTema + "?")) {
+                    ejecutarLlamada("borrarTema",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            nombreTema: nombreTema
+                        },
+                        function(respuesta) {
+                            if (respuesta.html)
+                                $("#contenidoPanelDerecho").html(respuesta.html);
+                            else
+                                alert("Hubo un error borrando el tema");
+                        }
+                    );
+                }
+            }
+
+            function agregarTema(nombreAplicacion) {
+                var nombreTema = prompt("Ingrese el nombre del nuevo tema");
+                if (nombreTema) {
+                    ejecutarLlamada("agregarTema",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            nombreTema: nombreTema
+                        },
+                        function(respuesta) {
+                            if (respuesta.html)
+                                $("#contenidoPanelDerecho").html(respuesta.html);
+                            else
+                                alert("Hubo un error agregando el tema");
+                        }
+                    );
+                }
+            }
+
+            function agregarRespuestaAutomatica(nombreAplicacion, nombreTema) {
+                var tituloRespuesta = prompt("Ingrese un titulo para una nueva respuesta automática");
+                if (tituloRespuesta) {
+                    ejecutarLlamada("agregarRespuestaAutomatica",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            nombreTema: nombreTema,
+                            tituloRespuesta: tituloRespuesta
+                        },
+                        function(respuesta) {
+                            if (respuesta.html)
+                                $("#contenidoPanelDerecho").html(respuesta.html);
+                            else
+                                alert("Hubo un error agregando la nueva respuesta automática");
+                        }
+                    );
+                }
+            }
+
+            function borrarRespuestaAutomatica(nombreAplicacion, nombreTema, tituloRespuesta) {
+                if (confirm("Desea borrar la respuesta '" + tituloRespuesta + "' del tema '" + nombreTema + "'?")) {
+                    ejecutarLlamada("borrarRespuestaAutomatica",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            nombreTema: nombreTema,
+                            tituloRespuesta: tituloRespuesta
+                        },
+                        function(respuesta) {
+                            if (respuesta.html)
+                                $("#contenidoPanelDerecho").html(respuesta.html);
+                            else
+                                alert("Hubo un error borrando la respuesta");
+                        }
+                    );
+                }
+            }
+
+            function guardarRespuestaAutomatica(nombreAplicacion, nombreTema, tituloRespuesta) {
+                if (confirm("Desea guardar el contenido de la respuesta '" + tituloRespuesta + "' del tema '" + nombreTema + "'?")) {
+                    var nuevoMensaje = $("#msg-ra-" + tituloRespuesta).val();
+                    var nuevasPalabrasClave = $("#pc-ra-" + tituloRespuesta).val();
+                    ejecutarLlamada("actualizarRespuestaAutomatica",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            nombreTema: nombreTema,
+                            tituloRespuesta: tituloRespuesta,
+                            mensaje: nuevoMensaje,
+                            palabrasClave: nuevasPalabrasClave
+                        },
+                        function(respuesta) {
+                            if (respuesta.html)
+                                $("#contenidoPanelDerecho").html(respuesta.html);
+                            else
+                                alert("Hubo un error borrando la respuesta");
+                        }
+                    );
+                }
+            }
+
+            function actualizarPalabrasClave(nombreAplicacion, nombreTema) {
+                if (confirm("Desea guardar las palabras clave del tema '" + nombreTema + "'?")) {
+                    var palabrasClave = $("#pc-" + nombreTema).val();
+                    ejecutarLlamada("actualizarPalabrasClave",
+                        {
+                            nombreAplicacion: nombreAplicacion,
+                            nombreTema: nombreTema,
+                            palabrasClave: palabrasClave
+                        },
+                        function(respuesta) {
+                            if (respuesta.html)
+                                $("#contenidoPanelDerecho").html(respuesta.html);
+                            else
+                                alert("Hubo un error actualizando las palabras clave");
+                        }
+                    );
+                }
+            }
+
         </g:javascript>
 	</content>
 	<content tag="panelDerecho">
