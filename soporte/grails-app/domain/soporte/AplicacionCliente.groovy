@@ -78,9 +78,16 @@ class AplicacionCliente {
         def respuesta
         if (autoResponder)
             respuesta = pedidoSoporte.responder(reglas.findAll { it.instanceOf(ReglaRespuesta) && it.activa })
-        if (!respuesta && !pedidoSoporte.estaAsignado()) {
-            if (autoAsignar)
-                pedidoSoporte.asignarConReglas(reglas.findAll {it.instanceOf(ReglaAsignacion) && it.activa }, reglas.find { it.instanceOf(ReglaOrdenamiento) })
+        if (respuesta) {
+            // generar respuesta y sumarla a la charla!
+            pedidoSoporte.agregarMensaje([nombreAutor: "Automatizado", contenido: respuesta], true)
+        } else {
+            if (!pedidoSoporte.estaAsignado()) {
+                if (autoAsignar)
+                    pedidoSoporte.asignarConReglas(reglas.findAll {
+                        it.instanceOf(ReglaAsignacion) && it.activa
+                    }, reglas.find { it.instanceOf(ReglaOrdenamiento) })
+            }
         }
         pedidoSoporte.save(failOnError: true)
         this.save(failOnError: true)

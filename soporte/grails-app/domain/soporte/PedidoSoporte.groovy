@@ -70,7 +70,8 @@ class PedidoSoporte {
             }
         }
         if (temasRespuesta.size() > 0)
-            temasRespuesta.preguntasFrecuentes[0][0].respuesta // procesar que no se devuelva repetido
+            temasRespuesta[0].obtenerRespuestaAutomatica(mensajes.last())
+            //temasRespuesta.preguntasFrecuentes[0][0].respuesta // procesar que no se devuelva repetido
         else
             null
     }
